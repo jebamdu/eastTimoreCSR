@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MainpageComponent } from '../components/mainpage/mainpage.component';
@@ -13,19 +11,13 @@ import { UserComponent } from '../components/switchingComponents/user/user.compo
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    MainpageComponent,
-    HeaderComponent,
-    SidebarComponent,
-    ContendPageComponent,
-     ],
+    UserComponent
+  ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+
 })
-export class AppModule { }
+export class mainModule { }

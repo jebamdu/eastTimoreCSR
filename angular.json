@@ -28,9 +28,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            
             ],
-            "scripts": []
+            "scripts": [
+          
+            ]
           },
           "configurations": {
             "production": {
@@ -103,5 +107,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "39f50a7b-7640-4086-8289-d4b5a982202e"
   }
 }

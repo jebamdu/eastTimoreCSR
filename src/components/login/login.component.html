@@ -1,0 +1,27 @@
+<div class="bgImage h-100 w-100">
+       <div class="loginHeight d-flex justify-content-center " >
+        <div class="pt-5 mt-3">
+            <img src="../../assets/loginbgimage.png" class="loginbgImage" alt="">
+
+           <form [formGroup]="LoginForm" (ngSubmit)="loginSubmit()">
+            <div class="form-group mb-2">
+                <label for="exampleInputEmail1 " class="heightText mariginText">User Name</label>
+                <input type="email"  formControlName="UserName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              
+            </div>
+
+            <div class="form-group mariginText ">
+                <label for="exampleInputPassword1 " class="heightText mariginText">Password</label>
+                <input type="password"  formControlName="Password"  class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+              <button class="btn btn-primary px-5" type="submit">
+                Sigh in
+              </button>
+            </div>
+           </form>
+        </div>
+
+    </div>
+</div>
+
