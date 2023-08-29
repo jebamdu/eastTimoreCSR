@@ -9,7 +9,9 @@ import { MainpageComponent } from '../components/mainpage/mainpage.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { SidebarComponent } from 'src/components/sidebar/sidebar.component';
 import { ContendPageComponent } from 'src/components/contend-page/contend-page.component';
-import { UserComponent } from '../components/switchingComponents/user/user.component';
+import { UserComponent } from '../components/switchingComponents/users/user/user.component';
+import { mainservice } from 'src/components/main.service';
+import { TrainingListComponent } from 'src/components/switchingComponents/chatbot/training-list/training-list.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +21,16 @@ import { UserComponent } from '../components/switchingComponents/user/user.compo
     HeaderComponent,
     SidebarComponent,
     ContendPageComponent,
+    TrainingListComponent
      ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    mainservice
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

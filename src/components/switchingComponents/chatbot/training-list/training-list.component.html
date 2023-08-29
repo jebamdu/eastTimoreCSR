@@ -1,0 +1,68 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+<div class="py-3 px-4 d-flex flex-row justify-content-between">
+  <h3>Trainings</h3>
+  <img type="button"
+    data-toggle="modal"
+    data-target="bd-example-modal-lg"
+    src="../../../../assets/addbtn.svg"
+    class="trainingImageSize"
+    alt="addbtnImage"
+  />
+</div>
+<div class="px-4">
+  <form class="form-group d-flex flex-row md-form form-sm">
+    <i
+      class="fa fa-search py-3"
+      style="
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.523);
+        display: inline;
+        width: 45px;
+      "
+    ></i>
+    <input type="text" placeholder="Search" class="inputsearch form-control" />
+  </form>
+</div>
+
+<div class="px-4">
+  <div
+    class="row bgcolorListData px-2 my-4 py-4"
+    *ngFor="let trainingData of TrainingListData"
+  >
+    <h5 class="col-12">{{ trainingData.name }}</h5>
+    <div class="col-12 py-1">
+      <B>Duration:</B
+      ><P class="d-inline px-1">{{
+        trainingData.startDate + " - " + trainingData.endDate
+      }}</P>
+    </div>
+    <p class="col-12">{{ trainingData.description }}</p>
+    <div class="col-12">
+      <B>Registration Link:</B
+      ><P class="d-inline px-1">{{ trainingData.registrationLink }}</P>
+    </div>
+
+    <div></div>
+  </div>
+</div>
+
+<div
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="container form-group">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content form-group">
+        <h5>Add Trainings</h5>
+
+        <input type="text" class="form-control" placeholder="Title" />
+      </div>
+    </div>
+  </div>
+</div>
