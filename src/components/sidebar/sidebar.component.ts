@@ -1,5 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { mainservice } from '../main.service';
+import { ListComponentComponent } from '../switchingComponents/chatbot/list-Component/list-component.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +11,20 @@ import { Router } from '@angular/router';
 
 export class SidebarComponent implements OnChanges,OnInit {
   @Input() headerTab:string | undefined 
-
+  @Output() newItemEvent = new EventEmitter<string>();
   public sidebarId:number=1
   public UsersSidebarData=[{id:1,values:'Reports',img:'',navigateValue:'user/reports'},{id:2,values:'User View',img:'',navigateValue:'user/userlist'}]
   public ChatBotSideBarData=[{id:1,values:'Training',img:'',navigateValue:'chatbot/traininglist'},{id:2,values:'Job Offers',img:'',navigateValue:''},{id:3,values:'Learnings - upskill',img:'',navigateValue:''},{id:4,values:'Help Line',img:'',navigateValue:''},{id:5,values:'Welcome Message',img:'',navigateValue:''},{id:6,values:'Template Message',img:'',navigateValue:''}]
   public FlowBuilderSideBarData=[{id:1,values:'Training',img:'',navigateValue:'flowbuilder/traininglist'},{id:2,values:'Job Offers',img:'',navigateValue:''},{id:3,values:'Learnings - upskill',img:'',navigateValue:''}]
   public sidebarRawData:any
-  constructor(public router:Router) { }
+  private mainserviceTab
+  private listService
+
+
+  constructor(public router:Router,Mainservice:mainservice,listService:ListComponentComponent) {
+    this.listService=listService
+    this.mainserviceTab=Mainservice
+   }
   ngOnChanges(changes: SimpleChanges) {
     this.sidebarId=1
    const headerTab = changes['headerTab'];
@@ -50,8 +59,16 @@ this.sidebarRawData=this.UsersSidebarData
 
     }
   }
-  navigateDataComponents(){
-    this.router.navigate(['MainComponent/user/userlist'])
-  }
+  navigateDataComponents(id:any,values:string){
+  const header=this.mainserviceTab.header
+  if(header=='chatbot'){
+    this.mainserviceTab.sidebardata={id:id,values:values}
+   
+          this.listService.setListDataRequest()
+       }
+
+       
+       
+}
 
 }

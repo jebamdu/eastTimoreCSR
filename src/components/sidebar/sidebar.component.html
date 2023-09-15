@@ -1,11 +1,6 @@
 <div class="Totalheight px-3 py-4">
     <div *ngFor="let rawSideBarData of  this.sidebarRawData" class="row d-flex justify-content-center">
-        <div (click)="navigateDataComponents()" [ngClass]="sideBarBtnColor(rawSideBarData.id)" > <img src="" alt=""> <h6 class="my-0"  (click)="sidebarActivate(rawSideBarData.id)">{{rawSideBarData.values}}</h6></div>
-        <!-- <div class="col-12 px-4 py-1">  <img src="" alt=""> <img src="" alt="">  <h5>Job offers</h5></div>
-        <div class="col-12 px-4 py-1">  <img src="" alt="">  <h5>Learnings - upskill</h5></div>
-        <div class="col-12 px-4 py-1">  <img src="" alt="">  <h5>HelpLine</h5></div>
-        <div class="col-12 px-4 py-1">  <img src="" alt="">  <h5>Welcome Message</h5></div>
-        <div class="col-12 px-4 py-1">  <img src="" alt="">  <h5>Template Messages</h5></div> -->
+        <div (click)="navigateDataComponents(rawSideBarData.id,rawSideBarData.values)" [ngClass]="sideBarBtnColor(rawSideBarData.id)" > <img src="" alt=""> <h6 class="my-0"  (click)="sidebarActivate(rawSideBarData.id)">{{rawSideBarData.values}}</h6></div>
 
     </div>
 </div>

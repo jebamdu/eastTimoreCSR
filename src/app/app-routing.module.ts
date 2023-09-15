@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from 'src/components/login/login.component';
-import { MainpageComponent } from 'src/components/mainpage/mainpage.component';
-import { TrainingListComponent } from 'src/components/switchingComponents/chatbot/training-list/training-list.component';
+import { MainpageComponent } from 'src/components/mainpage/mainpage.component';import { ListComponentComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-component.component';
 import { FlowbuilderTrainingListComponent } from 'src/components/switchingComponents/flowBuilder/flowbuilder/flowbuilder.component';
 import { ReportsComponent } from 'src/components/switchingComponents/users/reports/reports.component';
 import { UserComponent } from 'src/components/switchingComponents/users/user/user.component';
@@ -17,12 +16,12 @@ const routes: Routes = [
     ]  },
     {path:'chatbot',
     children:[
-      { path: 'traininglist', component : TrainingListComponent }
+      { path: 'traininglist', component : ListComponentComponent }
     ]},
     {
        path: 'flowbuilder',
        children:[
-        { path: 'traininglist', component : FlowbuilderTrainingListComponent }
+        { path: 'flowbuilder', component : FlowbuilderTrainingListComponent }
       ]
     }
 ]}

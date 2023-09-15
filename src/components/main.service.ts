@@ -5,4 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class mainservice{
    public header=''
+   public sidebardata={};
+   public setListData: any;
+   
+
+
 }

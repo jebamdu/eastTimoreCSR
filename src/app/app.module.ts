@@ -4,14 +4,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from '../components/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainpageComponent } from '../components/mainpage/mainpage.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { SidebarComponent } from 'src/components/sidebar/sidebar.component';
 import { ContendPageComponent } from 'src/components/contend-page/contend-page.component';
 import { UserComponent } from '../components/switchingComponents/users/user/user.component';
 import { mainservice } from 'src/components/main.service';
-import { TrainingListComponent } from 'src/components/switchingComponents/chatbot/training-list/training-list.component';
+import { CommonModule } from '@angular/common';
+import { ListComponentComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-component.component';
+import { ListDataComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-data/list-data.component';
+
+
 
 @NgModule({
   declarations: [
@@ -21,15 +25,21 @@ import { TrainingListComponent } from 'src/components/switchingComponents/chatbo
     HeaderComponent,
     SidebarComponent,
     ContendPageComponent,
-    TrainingListComponent
+    ListComponentComponent,
+    ListDataComponent
+    
      ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+
+
   ],
   providers: [
-    mainservice
+    mainservice,ListComponentComponent
   ],
   bootstrap: [AppComponent]
 })

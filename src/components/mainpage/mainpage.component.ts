@@ -16,5 +16,9 @@ export class MainpageComponent implements OnChanges {
  
   }
 
+  routingSidebarData(val:any){
+  
+  }
+
 
 }
