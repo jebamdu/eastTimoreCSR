@@ -1,0 +1,112 @@
+<div *ngIf="sidebardata1 == 'Training'" class="px-4">
+  <div
+    class="row bgcolorListData px-2 my-4 py-4"
+    *ngFor="let trainingData of setListData1"
+  >
+    <h5 class="col-12">{{ trainingData.name }}</h5>
+    <div class="col-12 py-1">
+      <B>Duration:</B
+      ><P class="d-inline px-1">{{
+        trainingData.startDate + " - " + trainingData.endDate
+      }}</P>
+    </div>
+    <p class="col-12">{{ trainingData.description }}</p>
+    <div class="col-12">
+      <B>Registration Link:</B
+      ><P class="d-inline px-1">{{ trainingData.registrationLink }}</P>
+    </div>
+
+    <div></div>
+  </div>
+</div>
+<div *ngIf="sidebardata1 == 'Learnings - upskill'" class="px-4">
+  <div
+    class="row bgcolorListData px-2 my-4 py-4"
+    *ngFor="let data of setListData1"
+  >
+    <h5 class="col-12">{{ data.name }}</h5>
+    <p class="col-12">{{ data.description }}</p>
+    <div class="col-12 mb-1">
+      <B>Resource:</B>
+
+      <p *ngFor="let resourceData of data.Resources" class="d-inline px-1">
+        {{ resourceData.name + ", " }}
+      </p>
+    </div>
+    <div class="col-12">
+      <div class="d-flex">
+        <B>Course Link:</B>
+        <div class="d-flex flex-column pl-1">
+          <ng-container *ngFor="let resourceLink of data.resourceLink">
+            <p class="m-0 px-1">{{ " " + resourceLink.link }}</p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div></div>
+  </div>
+</div>
+<div *ngIf="sidebardata1 == 'Job Offers'" class="px-4">
+  <div
+    class="row bgcolorListData px-2 my-4 py-4"
+    *ngFor="let data of setListData1"
+  >
+    <B class="col-12">{{ data.title }}</B>
+    <p class="col-12">{{ data.description }}</p>
+    <div class="col-12">
+      <B>Roles and Responsibility:</B
+      ><P class="d-inline px-1">{{ data.RolesandResponsibility }}</P>
+    </div>
+
+    <div class="col-12">
+        <B>Basic Requirements:</B
+        ><P class="d-inline px-1">{{ data.BasicRequirements }}</P>
+      </div>
+
+
+      <div class="col-12">
+        <div class="d-flex">
+          <B>Address :</B>
+          <div class="d-flex flex-column pl-1">
+            <ng-container *ngFor="let address of data.Address">
+              <p class="m-0 px-1">{{ " " + address.address }}</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      
+    <div class="col-12">
+        <B>Course Link :</B
+        ><P class="d-inline px-1">{{ data.linkToApply }}</P>
+      </div>
+
+    <div></div>
+  </div>
+</div>
+
+
+<div *ngIf="sidebardata1 == 'Help Line'" class="px-4">
+    <div
+    class="row bgcolorListData px-2 my-4 py-4"
+    *ngFor="let data of setListData1"
+  >
+    <B class="col-12">{{ data.title }}</B>
+    <p class="col-12">{{ data.description }}</p>
+
+
+
+      <div class="col-12">
+        <div class="d-flex">
+          <B>Contact Number :</B>
+          <div class="d-flex flex-column pl-1">
+            <ng-container *ngFor="let ContactNumber of data.ContactNumber">
+              <p class="m-0 px-1">{{ " " + ContactNumber.number }}</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    <div></div>
+  </div>
+</div>

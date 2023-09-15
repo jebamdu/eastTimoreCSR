@@ -1,0 +1,130 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+
+<div class="py-3 px-4 d-flex flex-row justify-content-between">
+  <h3>{{ this.Mainservice.sidebardata.values }}</h3>
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#exampleModalCenter"
+  >
+    Launch demo modal
+  </button>
+  <img
+    type="button"
+    data-toggle="modal"
+    data-target="bd-example-modal-lg"
+    src="../../../../assets/addbtn.svg"
+    class="trainingImageSize"
+    alt="addbtnImage"
+  />
+</div>
+<div class="px-4">
+  <form class="form-group d-flex flex-row md-form form-sm">
+    <i
+      class="fa fa-search py-3"
+      style="
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.523);
+        display: inline;
+        width: 45px;
+      "
+    ></i>
+    <input type="text" placeholder="Search" class="inputsearch form-control" />
+  </form>
+</div>
+
+<app-list-data
+  [sidebardata]="Mainservice.sidebardata.values"
+  [setListData]="Mainservice.setListData"
+>
+</app-list-data>
+
+<div
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="container form-group">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content form-group">
+        <h5>Add Trainings</h5>
+
+        <input type="text" class="form-control" placeholder="Title" />
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Add Training Details
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="trainingFrom">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="name" />
+            <textarea
+              class="form-control"
+              formControlName="description"
+            ></textarea>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="startDate"
+            />
+            <input type="date" class="form-control" formControlName="endDate" />
+            <textarea
+              type="text"
+              class="form-control"
+              formControlName="address"
+            ></textarea>
+
+            <!-- <ng-multiselect-dropdown
+              placeholder="custom placeholder"
+              [settings]="dropdownSettings"
+              [data]="dropdownList"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+            >
+            </ng-multiselect-dropdown> -->
+            <input
+              type="text"
+              class="form-control"
+              formControlName="registrationLink"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
