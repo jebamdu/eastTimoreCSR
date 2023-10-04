@@ -14,8 +14,7 @@ import { mainservice } from 'src/components/main.service';
 import { CommonModule } from '@angular/common';
 import { ListComponentComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-component.component';
 import { ListDataComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-data/list-data.component';
-
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -26,20 +25,26 @@ import { ListDataComponent } from 'src/components/switchingComponents/chatbot/li
     SidebarComponent,
     ContendPageComponent,
     ListComponentComponent,
-    ListDataComponent
+    ListDataComponent,
+    UserComponent
     
      ],
   imports: [
+    NgMultiSelectDropDownModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    
+     
+    
 
 
   ],
   providers: [
-    mainservice,ListComponentComponent
+    mainservice,ListComponentComponent,
+  
   ],
   bootstrap: [AppComponent]
 })

@@ -26,11 +26,14 @@ export class SidebarComponent implements OnChanges,OnInit {
     this.mainserviceTab=Mainservice
    }
   ngOnChanges(changes: SimpleChanges) {
+  
+    
     this.sidebarId=1
    const headerTab = changes['headerTab'];
+   console.log(headerTab.currentValue,"current value");
     if(headerTab.currentValue=='user'){
 this.sidebarRawData=this.UsersSidebarData
- this.router.navigate(['/MainComponent/user/userlist'])
+this.router.navigate(['/MainComponent/user/reports'])
     }
     else if(headerTab.currentValue=='chatbot'){
       console.log("routing yo trainiglist");
@@ -65,6 +68,16 @@ this.sidebarRawData=this.UsersSidebarData
     this.mainserviceTab.sidebardata={id:id,values:values}
    
           this.listService.setListDataRequest()
+       }
+       else if(header=='user'){
+        console.log(values,"values")
+        if(values=='User View'){
+          this.router.navigate(['/MainComponent/user/userlist'])
+        }
+        else if(values=='Reports'){
+          this.router.navigate(['/MainComponent/user/reports'])
+        }
+    
        }
 
        

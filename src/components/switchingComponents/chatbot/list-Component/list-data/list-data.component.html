@@ -1,8 +1,17 @@
 <div *ngIf="sidebardata1 == 'Training'" class="px-4">
   <div
     class="row bgcolorListData px-2 my-4 py-4"
-    *ngFor="let trainingData of setListData1"
+    *ngFor="let trainingData of setListData1; let i = index"
   >
+    <div class="d-flex justify-content-end">
+      <span  class="mr-3"
+      (click)="onEdit(sidebardata1, trainingData, i)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      </span> 
+      <span  (click)="onDelete(sidebardata1, i)">
+        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
+      </span>
+   
+    </div>
     <h5 class="col-12">{{ trainingData.name }}</h5>
     <div class="col-12 py-1">
       <B>Duration:</B
@@ -24,23 +33,39 @@
     class="row bgcolorListData px-2 my-4 py-4"
     *ngFor="let data of setListData1"
   >
-    <h5 class="col-12">{{ data.name }}</h5>
+    <div class="d-flex justify-content-end">
+      <span  class="mr-3"
+      (click)="onEdit(sidebardata1, data, i)">   <img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      </span> 
+      <span  (click)="onDelete(sidebardata1, i)">
+        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
+      </span>
+   
+    </div>
+    <h5 class="col-12">{{ data.courseName }}</h5>
     <p class="col-12">{{ data.description }}</p>
     <div class="col-12 mb-1">
       <B>Resource:</B>
 
-      <p *ngFor="let resourceData of data.Resources" class="d-inline px-1">
+      <p *ngFor="let resourceData of data.resources" class="d-inline px-1">
         {{ resourceData.name + ", " }}
       </p>
     </div>
     <div class="col-12">
       <div class="d-flex">
-        <B>Course Link:</B>
+        <B>Resources Link:</B>
         <div class="d-flex flex-column pl-1">
-          <ng-container *ngFor="let resourceLink of data.resourceLink">
-            <p class="m-0 px-1">{{ " " + resourceLink.link }}</p>
+          <ng-container *ngFor="let resourceLink of data.resources">
+            <p class="m-0 px-1">{{ " " + resourceLink.s3link }}</p>
           </ng-container>
         </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="d-flex">
+        <B>Course Link :</B>
+        <P class="d-inline px-1">{{ data.courseLink }}</P>
       </div>
     </div>
 
@@ -52,7 +77,16 @@
     class="row bgcolorListData px-2 my-4 py-4"
     *ngFor="let data of setListData1"
   >
-    <B class="col-12">{{ data.title }}</B>
+    <div class="d-flex justify-content-end">
+      <span  class="mr-3"
+      (click)="onEdit(sidebardata1, data, i)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      </span> 
+      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, i)">
+        <img src="../../../../../assets/Deleteicon.svg" alt="Delete "  >
+      </span>
+   
+    </div>
+    <h5 class="col-12">{{ data.title }}</h5>
     <p class="col-12">{{ data.description }}</p>
     <div class="col-12">
       <B>Roles and Responsibility:</B
@@ -60,53 +94,75 @@
     </div>
 
     <div class="col-12">
-        <B>Basic Requirements:</B
-        ><P class="d-inline px-1">{{ data.BasicRequirements }}</P>
-      </div>
+      <B>Basic Requirements:</B
+      ><P class="d-inline px-1">{{ data.BasicRequirements }}</P>
+    </div>
 
-
-      <div class="col-12">
-        <div class="d-flex">
-          <B>Address :</B>
-          <div class="d-flex flex-column pl-1">
-            <ng-container *ngFor="let address of data.Address">
-              <p class="m-0 px-1">{{ " " + address.address }}</p>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-
-      
     <div class="col-12">
-        <B>Course Link :</B
-        ><P class="d-inline px-1">{{ data.linkToApply }}</P>
+      <div class="d-flex">
+        <B>Address :</B>
+        <P class="d-inline px-1">{{ data.Address }}</P>
       </div>
+    </div>
+
+    <div class="col-12">
+      <B>Course Link :</B><P class="d-inline px-1">{{ data.linkToApply }}</P>
+    </div>
 
     <div></div>
   </div>
 </div>
 
-
 <div *ngIf="sidebardata1 == 'Help Line'" class="px-4">
-    <div
+  <div
     class="row bgcolorListData px-2 my-4 py-4"
     *ngFor="let data of setListData1"
   >
+    <div class="d-flex justify-content-end">
+    <span  class="mr-3"
+    (click)="onEdit(sidebardata1, data, i)"> 
+      <img src="../../../../../assets/updateIcon.svg"  alt="updateicon">
+    </span> 
+    <span type="button" data-toggle="modal" data-target="#exampleModal"   (click)="onDelete(sidebardata1, i)">
+      <img src="../../../../../assets/Deleteicon.svg"  alt="Delete "  >
+    </span>
+ 
+    </div>
     <B class="col-12">{{ data.title }}</B>
     <p class="col-12">{{ data.description }}</p>
 
-
-
-      <div class="col-12">
-        <div class="d-flex">
-          <B>Contact Number :</B>
-          <div class="d-flex flex-column pl-1">
-            <ng-container *ngFor="let ContactNumber of data.ContactNumber">
-              <p class="m-0 px-1">{{ " " + ContactNumber.number }}</p>
-            </ng-container>
-          </div>
+    <div class="col-12">
+      <div class="d-flex">
+        <B>Contact Number :</B>
+        <div class="d-flex flex-column pl-1">
+          <ng-container *ngFor="let ContactNumber of data.ContactNumber">
+            <p class="m-0 px-1">{{ " " + ContactNumber.number }}</p>
+          </ng-container>
         </div>
       </div>
+    </div>
     <div></div>
+  </div>
+</div>
+
+
+
+<!--Delete Modal -->
+
+<div class="modal fade" id="exampleModal" *ngIf="deleteBoolean" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{sidebardata1}}</h5>
+       
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="abortFun()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteFunCall()" class="btn btn-primary">Delete</button>
+      </div>
+    </div>
   </div>
 </div>

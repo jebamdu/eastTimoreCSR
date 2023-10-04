@@ -5,21 +5,22 @@
 
 <div class="py-3 px-4 d-flex flex-row justify-content-between">
   <h3>{{ this.Mainservice.sidebardata.values }}</h3>
-  <button
+  <!-- <button
     type="button"
     class="btn btn-primary"
     data-toggle="modal"
     data-target="#exampleModalCenter"
+
   >
     Launch demo modal
-  </button>
+  </button> -->
   <img
     type="button"
-    data-toggle="modal"
-    data-target="bd-example-modal-lg"
+ 
     src="../../../../assets/addbtn.svg"
     class="trainingImageSize"
     alt="addbtnImage"
+    (click)="openModal()"
   />
 </div>
 <div class="px-4">
@@ -40,29 +41,14 @@
 <app-list-data
   [sidebardata]="Mainservice.sidebardata.values"
   [setListData]="Mainservice.setListData"
+  (onDeleteData)="onDeleteData($event)"
+  (onEditData)="onEditData($event)"
 >
 </app-list-data>
 
 <div
-  class="modal fade bd-example-modal-lg"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="myLargeModalLabel"
-  aria-hidden="true"
->
-  <div class="container form-group">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content form-group">
-        <h5>Add Trainings</h5>
-
-        <input type="text" class="form-control" placeholder="Title" />
-      </div>
-    </div>
-  </div>
-</div>
-<div
   class="modal fade"
-  id="exampleModalCenter"
+  id="addPopUp"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalCenterTitle"
@@ -70,61 +56,326 @@
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header d-flex justify-content-center">
         <h5 class="modal-title" id="exampleModalLongTitle">
-          Add Training Details
+          {{ "Add " + this.Mainservice.sidebardata.values + " Details" }}
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="trainingFrom">
+      <!-- Training -->
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Training'"
+      >
+        <form [formGroup]="trainingFrom" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-            <input type="text" class="form-control" formControlName="name" />
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="name"
+              placeholder="Title"
+            />
             <textarea
-              class="form-control"
+              class="form-control mb-3"
               formControlName="description"
+              placeholder="Description"
             ></textarea>
+            <label for="startDate" class="mb-1"> Start Date </label>
             <input
               type="date"
-              class="form-control"
+              class="form-control mb-3"
               formControlName="startDate"
+              id="startDate"
             />
-            <input type="date" class="form-control" formControlName="endDate" />
+            <label for="endDate" class="mb-1"> End Date </label>
+            <input
+              type="date"
+              class="form-control mb-3"
+              formControlName="endDate"
+              id="endDate"
+            />
             <textarea
               type="text"
-              class="form-control"
+              class="form-control mb-3"
               formControlName="address"
+              placeholder="Address"
             ></textarea>
+            <div class="d-flex">
+              <input
+                type="radio"
+                class="custom-control custom-radio"
+                formControlName="trainingFrequency"
+                id="once"
+                value="true"
+              />
+              <label
+                for="once"
+                class="custom-control-label"
+                (click)="show()"
+                [ngClass]="{
+                  selected: trainingFrom.value.trainingFrequency === true
+                }"
+                >Once</label
+              >
+              <input
+                type="radio"
+                class="custom-control custom-radio"
+                formControlName="trainingFrequency"
+                id="repeat"
+                value="false"
+              />
+              <label
+                for="repeat"
+                class="custom-control-label"
+                (click)="show()"
+                [ngClass]="{
+                  selected: trainingFrom.value.trainingFrequency === false
+                }"
+                >Repeat</label
+              >
+            </div>
 
-            <!-- <ng-multiselect-dropdown
-              placeholder="custom placeholder"
-              [settings]="dropdownSettings"
-              [data]="dropdownList"
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select Municipality'"
+              [settings]="settings"
+              [data]="muncipality_data"
+              [formControl]="f.municipality"
+              [disabled]="false"
+              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
               (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
               (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+              class="mb-3"
             >
-            </ng-multiselect-dropdown> -->
+            </ng-multiselect-dropdown>
+
             <input
               type="text"
-              class="form-control"
-              formControlName="registrationLink"
+              class="form-control mb-3 mt-3"
+              formControlName="basic_requirement"
+              placeholder="Basic requirement (Optional)"
             />
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data"
+              [formControl]="f.sector"
+              [disabled]="false"
+              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="registrationLink"
+              placeholder="Registration Link"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <!-- Job offers -->
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Job Offers'"
+      >
+        <form [formGroup]="joboffersForm" (ngSubmit)="addSubmitForm()">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="title"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
+
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data"
+              [formControl]="f.sector"
+              [disabled]="false"
+              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="linkToApply"
+              placeholder="Link To Apply"
+            />
+
+            <textarea
+              type="text"
+              class="form-control mb-3"
+              formControlName="RolesandResponsibility"
+              placeholder="Roles and Responsibility"
+            ></textarea>
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="BasicRequirements"
+              placeholder="Basic requirement (Optional)"
+            />
+
+            <textarea
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="Address"
+              placeholder="Address"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
       </div>
+      <!-- Learnings - upskill -->
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Learnings - upskill'"
+      >
+        <form [formGroup]="learnAndUpskill" (ngSubmit)="addSubmitForm()">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="courseName"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
+
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data"
+              [formControl]="f.sector"
+              [disabled]="false"
+              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="courseLink"
+              placeholder="Course Link"
+            />
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="resources"
+              placeholder="Resources"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
+
+       <!-- Help Line -->
+       <div
+       class="modal-body"
+       *ngIf="this.Mainservice.sidebardata.values == 'Help Line'"
+     >
+       <form [formGroup]="helpLine" (ngSubmit)="addSubmitForm()">
+         <div class="form-group">
+           <input
+             type="text"
+             class="form-control mb-3"
+             formControlName="title"
+             placeholder="Title"
+           />
+           <textarea
+             class="form-control mb-3"
+             formControlName="description"
+             placeholder="Description"
+           ></textarea>
+
+           
+           <input
+             type="text"
+             class="form-control mb-3 mt-3"
+             formControlName="ContactNumber"
+             placeholder="ContactNumber"
+           />
+
+         </div>
+         <div class="modal-footer">
+           <button
+             type="button"
+             class="btn btn-secondary"
+             data-dismiss="modal"
+             (click)="abortaddFun()"
+           >
+             Close
+           </button>
+           <button type="submit" class="btn btn-primary">Save changes</button>
+         </div>
+       </form>
+     </div>
     </div>
   </div>
 </div>

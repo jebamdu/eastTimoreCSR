@@ -11,7 +11,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
-    UserComponent,
+    
     FlowbuilderTrainingListComponent,
     ReportsComponent,
     
