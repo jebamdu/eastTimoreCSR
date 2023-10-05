@@ -67,7 +67,7 @@ export class ListComponentComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     ContactNumber: new FormControl([], Validators.required),
-   
+
   })
 
   constructor(Mainservice: mainservice, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
@@ -173,7 +173,7 @@ export class ListComponentComponent implements OnInit {
 
 
   CourselListData: any[] = [
-   
+
     {
       id: 1,
       courseName: 'Mathematical Courses',
@@ -181,17 +181,17 @@ export class ListComponentComponent implements OnInit {
         'Maths course dumy can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking',
       courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
       Resources: [{ id: 1, name: 'Algeebra', s3link: '' }, { id: 2, name: 'Charts', s3link: '' }, { id: 3, name: 'statstics', s3link: '' }],
-      sector:{ id: 2, name: 'Maths' }
+      sector: { id: 2, name: 'Maths' }
     },
     {
       id: 2,
       courseName: 'Verbal Courses',
       description:
         'verbal dummy can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      courseLink:'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
+      courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
       Resources: [{ id: 1, name: '', s3link: '' }, { id: 3, name: '', s3link: '' },
-     ],
-     sector:{ id: 2, name: 'English' }
+      ],
+      sector: { id: 2, name: 'English' }
 
     },
     {
@@ -201,7 +201,7 @@ export class ListComponentComponent implements OnInit {
         'Logical thinking can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
       courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
       Resources: [{ id: 1, name: '', s3link: '' }, { id: 2, name: '', s3link: '' }, { id: 3, name: '', s3link: '' }],
-      sector:{ id: 2, name: 'Logical' }
+      sector: { id: 2, name: 'Logical' }
     },]
 
   JobOpportunityListData: any[] = [
@@ -214,7 +214,7 @@ export class ListComponentComponent implements OnInit {
       linkToApply: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
       RolesandResponsibility: 'Designing and maintaining software systems.',
       BasicRequirements: 'bachelor degree. Graduate college with an undergraduate degree in computer science',
-      Address: 'Nilampathinjamugal-Rajagiri Valley Road Near Infopark,Nilampathinjamugal Kakkanad, Kochi, Kerala 682039.' 
+      Address: 'Nilampathinjamugal-Rajagiri Valley Road Near Infopark,Nilampathinjamugal Kakkanad, Kochi, Kerala 682039.'
     },
 
     {
@@ -336,7 +336,7 @@ export class ListComponentComponent implements OnInit {
       }
       $("#addPopUp").modal('hide');
       this.Mainservice.setListData = this.TrainingListData;
-      console.log(this.Mainservice.setListData, 'uuu',this.Mainservice.sidebardata.values);
+      console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values);
     }
     else if (this.Mainservice.sidebardata.values == 'Job Offers') {
 
@@ -358,9 +358,9 @@ export class ListComponentComponent implements OnInit {
       }
       $("#addPopUp").modal('hide');
       this.Mainservice.setListData = this.JobOpportunityListData;
-      console.log(this.Mainservice.setListData, 'uuu',this.Mainservice.sidebardata.values)
+      console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
-    else if(this.Mainservice.sidebardata.values == 'Learnings - upskill'){
+    else if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
       let sector = this.learnAndUpskill.value.sector.map((data: any) => {
         return data.name;
       })
@@ -379,10 +379,10 @@ export class ListComponentComponent implements OnInit {
 
       $("#addPopUp").modal('hide');
       this.Mainservice.setListData = this.CourselListData;
-      console.log(this.Mainservice.setListData, 'uuu',this.Mainservice.sidebardata.values)
+      console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
-    else if(this.Mainservice.sidebardata.values == 'Help Line'){
-   
+    else if (this.Mainservice.sidebardata.values == 'Help Line') {
+
       if (this.editFlag) {
         let index = this.HelpLineListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
         if (index > -1) {
@@ -398,9 +398,10 @@ export class ListComponentComponent implements OnInit {
       $("#addPopUp").modal('hide');
       this.Mainservice.setListData = this.HelpLineListData;
     }
-  
+
 
   }
+
   openModal() {
     this.editFlag = false;
     $("#addPopUp").modal('show');
@@ -412,6 +413,7 @@ export class ListComponentComponent implements OnInit {
   onEditData(event: any) {
     this.editFlag = true;
     this.editDetails = event;
+    $("#addPopUp").modal('show');
     console.log(this.editDetails)
     if (event['type'] == 'Training') {
       this.trainingFrom.patchValue({
@@ -441,15 +443,15 @@ export class ListComponentComponent implements OnInit {
     else if (event['type'] == 'Learnings - upskill') {
 
       this.learnAndUpskill.patchValue({
-        courseName:event['data']['courseName'],
-    description:event['data']['description'],
-    resources:event['data']['resources'],
-    courseLink:event['data']['courseLink'],
-    sector:event['data']['sector'] ,
+        courseName: event['data']['courseName'],
+        description: event['data']['description'],
+        resources: event['data']['resources'],
+        courseLink: event['data']['courseLink'],
+        sector: event['data']['sector'],
       })
     }
 
-    
+
     else if (event['type'] == 'Help Line') {
 
       this.helpLine.patchValue({
@@ -464,27 +466,39 @@ export class ListComponentComponent implements OnInit {
 
   }
   onDeleteData(event: any) {
+    
     if (event['type'] == 'Training') {
-      this.TrainingListData.splice(event['index'], 1);
-      this.Mainservice.setListData = this.TrainingListData;
+      this.TrainingListData = this.TrainingListData.filter(data => {
+
+         return data.id != event.index
+      });
+  
+       this.Mainservice.setListData = this.TrainingListData;
 
     }
     else if (event['type'] == 'Job Offers') {
-      this.JobOpportunityListData.splice(event['index'], 1);
+      this.JobOpportunityListData = this.JobOpportunityListData.filter(data => {
+        return data.id != event.index
+      });
       this.Mainservice.setListData = this.JobOpportunityListData;
     }
     else if (event['type'] == 'Learnings - upskill') {
-      this.CourselListData.splice(event['index'], 1);
+      this.CourselListData = this.CourselListData.filter(data => {
+        return data.id != event.index
+      });
       this.Mainservice.setListData = this.CourselListData;
     }
     else if (event['type'] == 'Help Line') {
-      this.HelpLineListData.splice(event['index'], 1);
+
+      this.HelpLineListData = this.HelpLineListData.filter(data => {
+       return data.id != event.index
+      });
       this.Mainservice.setListData = this.HelpLineListData;
     }
 
   }
 
-  abortaddFun(){
+  abortaddFun() {
     $("#addPopUp").modal('hide');
   }
 }

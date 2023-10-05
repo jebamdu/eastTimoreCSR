@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { mainservice } from '../main.service';
-
+import {Router} from '@angular/router';
+declare var $: any;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,8 +10,9 @@ import { mainservice } from '../main.service';
 
 
 export class HeaderComponent implements OnInit {
+ 
 
-  constructor( public mainservice:mainservice ) { 
+  constructor( public mainservice:mainservice ,public router: Router) { 
 
   }
 
@@ -29,6 +31,19 @@ export class HeaderComponent implements OnInit {
       'Btn BtnPink marginBtn': this.mainservice.header === btnClasses,
       'Btn marginBtn': this.mainservice.header !== btnClasses
     };
+  }
+
+  logout(){
+    console.log("logout")
+    $('#LogoutModal').modal('show')
+  }
+  abortLogout(){
+
+    $('#LogoutModal').modal('hide')
+  }
+  LogoutActivate(){
+    $('#LogoutModal').modal('hide')
+    this.router.navigate(['/']);
   }
 
  

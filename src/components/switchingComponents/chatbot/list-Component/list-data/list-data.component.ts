@@ -41,6 +41,7 @@ deleteBoolean:Boolean | undefined;
   deleteFunCall(){
   this.onDeleteData.emit(this.deletedata)
   this.deleteBoolean=false
+  $('#exampleModal').modal('hide')
   }
 
   abortFun(){

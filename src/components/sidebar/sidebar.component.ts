@@ -56,11 +56,19 @@ this.router.navigate(['/MainComponent/user/reports'])
   }
 
   sideBarBtnColor(id:number){
+
     return{
       'sideBarBtnActivate col-12 px-4 py-3':this.sidebarId==id,
       'col-12 px-4 d-flex align-items-center py-3':this.sidebarId!=id
 
     }
+  }
+
+  fundisabled(id:any){
+    if(id==5||id==6){
+      return 'isDivDisabled'
+    }
+    return''
   }
   navigateDataComponents(id:any,values:string){
   const header=this.mainserviceTab.header

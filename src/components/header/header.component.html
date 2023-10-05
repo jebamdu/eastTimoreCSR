@@ -1,18 +1,18 @@
 <div class="row mx-0 px-0 borderHeader">
     <div class="col-2 py-2 bg-light d-flex justify-content-center align-items-center">
-       <h3 class="text-dark font-weight-bold">UNFPA Education</h3>
+       <P class="text-dark  fontsStyle">Information Sharing Portal</P>
     </div>
     <div class="col-10 bgcolorMain py-2 padding-x ">
         <div class="row d-flex flex-row  align-items-center px-4">
             <div class="col">
                 <button [ngClass]="getButtonClasses('user')" (click)="changeheader('user')">Users</button>
                 <button [ngClass]="getButtonClasses('chatbot')"  (click)="changeheader('chatbot')">Chatbot</button>
-                <button [ngClass]="getButtonClasses('flowbuiulder')"  (click)="changeheader('flowbuiulder')">Flow Builder</button>
+                <!-- <button [ngClass]="getButtonClasses('flowbuiulder')"  (click)="changeheader('flowbuiulder')">Flow Builder</button> -->
                 
               
             </div>
-            <div class="col-2  d-flex justify-content-center align-items-center">
-                <h5 class="txt-pink marginLogout col textright">Lougout</h5>
+            <div (click)="logout()" class="col-2  d-flex justify-content-center align-items-center">
+                <h5 class="txt-pink marginLogout col textright">Logout</h5>
                 <img src="../../assets/logoutimage.png" class="logoutimage " alt="logoutimage">
             </div>
       
@@ -21,3 +21,22 @@
      
     </div>
 </div>
+<!-- logoutPopup -->
+<div class="modal fade" id="LogoutModal" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Logout</h5>
+         
+        </div>
+        <div class="modal-body">
+          Are you sure you want to logout?
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="abortLogout()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="LogoutActivate()" data-dismiss="modal" class="btn btn-primary">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

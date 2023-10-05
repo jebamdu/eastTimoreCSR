@@ -5,9 +5,10 @@
   >
     <div class="d-flex justify-content-end">
       <span  class="mr-3"
-      (click)="onEdit(sidebardata1, trainingData, i)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      (click)="onEdit(sidebardata1, trainingData, trainingData.id)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
-      <span  (click)="onDelete(sidebardata1, i)">
+     
+      <span  (click)="onDelete(sidebardata1, trainingData.id)">
         <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
       </span>
    
@@ -35,9 +36,9 @@
   >
     <div class="d-flex justify-content-end">
       <span  class="mr-3"
-      (click)="onEdit(sidebardata1, data, i)">   <img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      (click)="onEdit(sidebardata1, data, data.id)">   <img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
-      <span  (click)="onDelete(sidebardata1, i)">
+      <span  (click)="onDelete(sidebardata1, data.id)">
         <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
       </span>
    
@@ -79,9 +80,9 @@
   >
     <div class="d-flex justify-content-end">
       <span  class="mr-3"
-      (click)="onEdit(sidebardata1, data, i)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      (click)="onEdit(sidebardata1, data, data.id)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
-      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, i)">
+      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, data.id)">
         <img src="../../../../../assets/Deleteicon.svg" alt="Delete "  >
       </span>
    
@@ -120,10 +121,10 @@
   >
     <div class="d-flex justify-content-end">
     <span  class="mr-3"
-    (click)="onEdit(sidebardata1, data, i)"> 
+    (click)="onEdit(sidebardata1, data, data.id)"> 
       <img src="../../../../../assets/updateIcon.svg"  alt="updateicon">
     </span> 
-    <span type="button" data-toggle="modal" data-target="#exampleModal"   (click)="onDelete(sidebardata1, i)">
+    <span type="button" data-toggle="modal" data-target="#exampleModal"   (click)="onDelete(sidebardata1, data.id)">
       <img src="../../../../../assets/Deleteicon.svg"  alt="Delete "  >
     </span>
  
@@ -161,7 +162,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" (click)="abortFun()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteFunCall()" class="btn btn-primary">Delete</button>
+        <button type="button" (click)="deleteFunCall()" data-dismiss="modal" class="btn btn-primary">Delete</button>
       </div>
     </div>
   </div>
