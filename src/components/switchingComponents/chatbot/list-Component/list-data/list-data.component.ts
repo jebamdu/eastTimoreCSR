@@ -17,17 +17,19 @@ setListData1: any;
 deletedata:any;
 deleteBoolean:Boolean | undefined;
 
-  constructor(Mainservice:mainservice) { 
+  constructor(public Mainservice:mainservice) { 
 
   }
 
   ngOnInit(): void {
    }
   ngOnChanges(changes:SimpleChange){
+    console.log(this.sidebardata1,"trainingData")
   this.sidebardata1 = this.sidebardata;
   this.setListData1 = this.setListData;
   }
   onEdit(type: any, data: any, index: number){
+    console.log(index,"index")
     this.onEditData.emit({type: type, data: data, index: index })
   }
 

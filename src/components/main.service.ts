@@ -7,6 +7,8 @@ export class mainservice{
    public header=''
    public sidebardata={};
    public setListData: any;
+   public pageloaderMainservice:boolean=false;
+   public errorPopup:boolean=false
    
 
 

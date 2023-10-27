@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-user',
@@ -7,8 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
   userData:any
+  errorPopup:boolean=false
+  pageloadder:boolean=false;
   ngOnInit(): void {
     this.userData=[
       {id:1,name:'Arockia',PhoneNumber:'6383800823',lastActive:'22/07/23',municipality:'Dili',age:26 },
@@ -19,6 +24,26 @@ export class UserComponent implements OnInit {
       {id:1,name:'Sarath',PhoneNumber:'98765778899',lastActive:'20/07/23',municipality:'DilAinaroi',age:23 },
       {id:1,name:'Vetri',PhoneNumber:'9844445567',lastActive:'16/07/23',municipality:'Ainaro',age:18 }
     ]
+    this.pageloadder=true
+    this.http.get('http://localhost:3000/getData?headers=Users').toPromise().then((data)=>{
+      this.userData=data
+    console.log(data,"data")
+    this.pageloadder=false
+    }).catch((data)=>{
+      this.errorPopup=true
+      console.log(data,"arockia error")
+      this.pageloadder=false    
+     
+    });
+  }
+  transormDate(dateString: string): Date|null{
+ // Assuming dateString is in the format YY/MM/DD
+ const [year, month, day] = dateString.split('/').map(part => parseInt(part, 10) + 2000); // Add 2000 to the year
+ return new Date(year, month - 1, day); // Months are zero-based in JavaScript
+
+  }
+  errorPopupClose(){
+    this.errorPopup=false
   }
 
 }

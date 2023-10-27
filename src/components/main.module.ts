@@ -8,14 +8,11 @@ import { FlowbuilderTrainingListComponent } from './switchingComponents/flowBuil
 import { ReportsComponent } from './switchingComponents/users/reports/reports.component';
 import { CommonModule } from '@angular/common';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ErrorpopupComponent } from './errorpopup/errorpopup.component';
 
 @NgModule({
   declarations: [
-    
-    FlowbuilderTrainingListComponent,
-    ReportsComponent,
-    
-    
+
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,8 @@
+
+<app-pageloader *ngIf="pageloadder==true" ></app-pageloader>
+<app-errorpopup *ngIf="errorPopup==true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
 <div class="py-4 px-4">
-    <B class="d-inline px-3">Total </B> <P class="d-inline">258</P>
+    <B class="d-inline px-3">Total </B> <P class="d-inline">{{userData.length}}</P>
 
 </div>
 <div class="px-4 pb-4">
@@ -17,17 +20,18 @@
             <th scope="col">Name</th>
             <th scope="col">Phone Number</th>
             <th scope="col">Last Active on</th>
-            <th scope="col">Age</th>
+            <th scope="col">Year Of Birth</th>
             <th scope="col">Option</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of userData, index as ind">
-            <th scope="row"><P>{{ind}}</P></th>
+            <th scope="row"><P>{{ind+1}}</P></th>
             <td><B>{{data.name}}</B>
-            <td>{{data.PhoneNumber}}</td>
-            <td>{{data.lastActive}}</td>
-            <td>{{data.age}}</td>
+            <td>{{data.phno}}</td>
+            <td>{{data.lastActive }}</td>
+            <!-- <td>{{transormDate(data.lastActive)| date:'dd-MM-yyyy'}}</td> -->
+            <td>{{data.yob}}</td>
             <td><img src="../../../../assets/updaeOptionIcon.svg" alt="updateoption"></td>
           </tr>
         

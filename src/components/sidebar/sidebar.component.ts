@@ -75,7 +75,7 @@ this.router.navigate(['/MainComponent/user/reports'])
   if(header=='chatbot'){
     this.mainserviceTab.sidebardata={id:id,values:values}
    
-          this.listService.setListDataRequest()
+          this.listService.SetDataListRequestPopup()
        }
        else if(header=='user'){
         console.log(values,"values")

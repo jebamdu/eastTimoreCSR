@@ -1,0 +1,21 @@
+
+
+<div class="modal" id="errorModal" (click)="closebutton()" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color: red;">Error!</h5>
+
+        </div>
+        <div class="modal-body">
+          <p *ngIf="this.errmsg!=''">{{errmsg}}</p>
+          <p *ngIf="this.errmsg==''||this.errmsg==undefined">Something went wrong</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closebutton()" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

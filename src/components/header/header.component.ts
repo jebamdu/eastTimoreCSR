@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
     $('#LogoutModal').modal('hide')
   }
   LogoutActivate(){
+    localStorage.removeItem('jwtToken')
     $('#LogoutModal').modal('hide')
     this.router.navigate(['/']);
   }

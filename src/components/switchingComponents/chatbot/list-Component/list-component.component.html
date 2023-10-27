@@ -1,3 +1,11 @@
+<div class="loading" *ngIf="this.Mainservice.pageloaderMainservice == true">
+  Loading&#8230;
+</div>
+
+<app-errorpopup
+  *ngIf="errorPopup == true"
+  (errorPopupFun)="errorPopupClose()"
+></app-errorpopup>
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -16,7 +24,6 @@
   </button> -->
   <img
     type="button"
- 
     src="../../../../assets/addbtn.svg"
     class="trainingImageSize"
     alt="addbtnImage"
@@ -71,7 +78,7 @@
             <input
               type="text"
               class="form-control mb-3"
-              formControlName="name"
+              formControlName="title"
               placeholder="Title"
             />
             <textarea
@@ -79,18 +86,18 @@
               formControlName="description"
               placeholder="Description"
             ></textarea>
-            <label for="startDate" class="mb-1"> Start Date </label>
+            <label for="startdate" class="mb-1"> Start Date </label>
             <input
               type="date"
               class="form-control mb-3"
-              formControlName="startDate"
+              formControlName="startdate"
               id="startDate"
             />
             <label for="endDate" class="mb-1"> End Date </label>
             <input
               type="date"
               class="form-control mb-3"
-              formControlName="endDate"
+              formControlName="enddate"
               id="endDate"
             />
             <textarea
@@ -99,13 +106,13 @@
               formControlName="address"
               placeholder="Address"
             ></textarea>
-            <div class="d-flex">
+            <!-- <div class="d-flex">
               <input
                 type="radio"
                 class="custom-control custom-radio"
                 formControlName="trainingFrequency"
                 id="once"
-                value="true"
+                value=""
               />
               <label
                 for="once"
@@ -132,7 +139,7 @@
                 }"
                 >Repeat</label
               >
-            </div>
+            </div> -->
 
             <ng-multiselect-dropdown
               #multiSelect
@@ -240,21 +247,21 @@
             <textarea
               type="text"
               class="form-control mb-3"
-              formControlName="RolesandResponsibility"
+              formControlName="rolesAndResponsibility"
               placeholder="Roles and Responsibility"
             ></textarea>
 
             <input
               type="text"
               class="form-control mb-3 mt-3"
-              formControlName="BasicRequirements"
+              formControlName="basicRequirements"
               placeholder="Basic requirement (Optional)"
             />
 
             <textarea
               type="text"
               class="form-control mb-3 mt-3"
-              formControlName="Address"
+              formControlName="address"
               placeholder="Address"
             ></textarea>
           </div>
@@ -313,13 +320,34 @@
               formControlName="courseLink"
               placeholder="Course Link"
             />
+            <!-- --------------------- -->
 
-            <input
-              type="text"
-              class="form-control mb-3 mt-3"
-              formControlName="resources"
-              placeholder="Resources"
-            />
+            <!-- --------------------- -->
+            <label for="formFile" class="form-label">Resource</label>
+            <ng-container formArrayName="resourceslink" >
+              <div class="row mb-4" *ngFor="
+                  let resourcelink of learnAndUpskill.get('resourceslink').controls;
+                  let i = index
+                "
+                [formGroupName]="i" 
+              >
+               
+                  <div class="inputWrapper col-2" style="margin-left: 15px;">
+                    <input class="fileInput" style="width: 60px;" type="file" placeholder="Browse"  (change)="setfile(i, $event)" name="file1" />
+                    <span class="appendInpText">Browse</span>
+                  </div>
+                  <div class="col-8 pl-0" style="padding-left: 0px !important;">
+                  <input type="text"   class="form-control" formControlName="resourceName"  [placeholder]="'choose Document'" />
+
+                  </div>
+                  <div class="col-2 d-flex   align-items-center" >
+                    <img class="deletebtnStyle mb-2 px-0" src="../../../../assets/Deleteicon.svg"  (click)="deleteResource(i)" alt="deleteicon"/>
+                    <img class="mb-1 deletebtnStyle px-0" *ngIf="i == getResource(i)" (click)="addresource()" src="../../../../assets//addbtnfilebutton.svg" alt="addbtnsvg"/>
+                  </div>
+                <!-- </div> -->
+                
+              </div>
+            </ng-container>
           </div>
           <div class="modal-footer">
             <button
@@ -335,47 +363,45 @@
         </form>
       </div>
 
-       <!-- Help Line -->
-       <div
-       class="modal-body"
-       *ngIf="this.Mainservice.sidebardata.values == 'Help Line'"
-     >
-       <form [formGroup]="helpLine" (ngSubmit)="addSubmitForm()">
-         <div class="form-group">
-           <input
-             type="text"
-             class="form-control mb-3"
-             formControlName="title"
-             placeholder="Title"
-           />
-           <textarea
-             class="form-control mb-3"
-             formControlName="description"
-             placeholder="Description"
-           ></textarea>
+      <!-- Help Line -->
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Help Line'"
+      >
+        <form [formGroup]="helpLine" (ngSubmit)="addSubmitForm()">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="title"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
 
-           
-           <input
-             type="text"
-             class="form-control mb-3 mt-3"
-             formControlName="ContactNumber"
-             placeholder="ContactNumber"
-           />
-
-         </div>
-         <div class="modal-footer">
-           <button
-             type="button"
-             class="btn btn-secondary"
-             data-dismiss="modal"
-             (click)="abortaddFun()"
-           >
-             Close
-           </button>
-           <button type="submit" class="btn btn-primary">Save changes</button>
-         </div>
-       </form>
-     </div>
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="ContactNumber"
+              placeholder="ContactNumber"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

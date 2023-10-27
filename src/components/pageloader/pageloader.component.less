@@ -1,78 +1,7 @@
-.trainingImageSize{
-    height: 40px;
-    width: 40px;
-}
-
-.inputsearch{
-    border-bottom-width: 2px;
-    /* border: none; */
-    border-top-width: 0px;
-    border-right-width: 0px;
-    border-left-width: 0px;
-    width: 250px !important;
-    background-color: transparent !important;
-}
-
-.bgcolorListData{
-    background-color: #EFF0F6;
-}
-
-
-.pageCenter{
-    height: 100%;
-    width: 100%;
-    z-index: 3;
-    background-color: #00000030;
-    position: fixed;
-    overflow: hidden;
-}
-.inputWrapper {
-  height: 37px;
-  width: 64px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  /*Using a background color, but you can use a background image to represent a button*/
-  background-color: #DDF;
-}
-.fileInput {
-  cursor: pointer;
-  height: 100%;
-  width: 30px;
-  // position:absolute;
-  top: 0;
-  right: 0;
-  z-index: 99;
-  /*This makes the button huge. If you want a bigger button, increase the font size*/
-  font-size:50px;
-  /*Opacity settings for all browsers*/
-  opacity: 0;
-  -moz-opacity: 0;
-  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
-}
-.deletebtnStyle{
-  height: 30px;
-  width: 30px;
-}
-.container{
-    background-color: white;
-    border-radius: 20px;
-}
-.custom-control-label{
-    padding: 8px;
-    border-radius: 8px;
-    color: #424242;
-    &:active{
-        background-color: #1B59F8;
-        color: #FFFFFF;
-    }
-
-}
-
 /* Absolute Center Spinner */
 .loading {
     position: fixed;
-    z-index: 1500;
+    z-index: 999;
     height: 2em;
     width: 2em;
     overflow: show;
@@ -188,19 +117,10 @@
       -o-transform: rotate(360deg);
       transform: rotate(360deg);
     }
-    
   }
 
-
-
-
-// Search bar code
-
-
-.appendInpText{
-  position: absolute;
-  left: 6px;
-  top: 5px;
-  color: red;
-
-}
+  .container{
+    background-color: white;
+    height: 300px;
+    width: 500px;
+  }

@@ -11,11 +11,16 @@ import { SidebarComponent } from 'src/components/sidebar/sidebar.component';
 import { ContendPageComponent } from 'src/components/contend-page/contend-page.component';
 import { UserComponent } from '../components/switchingComponents/users/user/user.component';
 import { mainservice } from 'src/components/main.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ListComponentComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-component.component';
 import { ListDataComponent } from 'src/components/switchingComponents/chatbot/list-Component/list-data/list-data.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { PageloaderComponent } from '../components/pageloader/pageloader.component';
+import { FlowbuilderTrainingListComponent } from 'src/components/switchingComponents/flowBuilder/flowbuilder/flowbuilder.component';
+import { ReportsComponent } from 'src/components/switchingComponents/users/reports/reports.component';
+import { ErrorpopupComponent } from 'src/components/errorpopup/errorpopup.component';
+import { AuthInterceptorService } from 'src/interseptors/auth-interceptor.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +31,11 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ContendPageComponent,
     ListComponentComponent,
     ListDataComponent,
-    UserComponent
+    UserComponent,
+    PageloaderComponent,
+    FlowbuilderTrainingListComponent,
+    ReportsComponent,
+    ErrorpopupComponent
     
      ],
   imports: [
@@ -36,14 +45,16 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
-    
-     
-    
-
-
+    HttpClientModule
   ],
   providers: [
-    mainservice,ListComponentComponent,
+    mainservice,ListComponentComponent,DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+    
   
   ],
   bootstrap: [AppComponent]

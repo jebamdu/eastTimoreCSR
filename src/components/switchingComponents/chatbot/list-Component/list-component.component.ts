@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, DoCheck, NgZone, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Injectable, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { mainservice } from 'src/components/main.service';
 declare var $: any;
@@ -9,16 +10,19 @@ declare var $: any;
   templateUrl: './list-component.component.html',
   styleUrls: ['./list-component.component.less'],
 })
+@Injectable()
 export class ListComponentComponent implements OnInit {
   @ViewChild('multiSelect') multiSelect: any;
-
+  @Output() errorPopupFun = new EventEmitter<string>();
+  @Input() dummydivfromsidebar:boolean|undefined
   public loadContent: boolean = false;
   public name = 'Cricketers';
   public muncipality_data: any = [];
   public sector_data: any = [];
   public settings = {};
   public sector_settings = {};
-
+  public errorPopup:boolean=false
+  public pageloadder:boolean=false;
   public selectedItems = [];
 
 
@@ -28,37 +32,86 @@ export class ListComponentComponent implements OnInit {
   public setListData: any = [];
   editFlag: boolean = false;
   editDetails: any = '';
+  EditDatauuid:any
 
 
   joboffersForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     linkToApply: new FormControl(''),
-    Address: new FormControl('', Validators.required),
-    RolesandResponsibility: new FormControl(''),
-    BasicRequirements: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
+    rolesAndResponsibility: new FormControl(''),
+    basicRequirements: new FormControl('', Validators.required),
     sector: new FormControl(this.sector_data, Validators.required),
     // trainingFrequency: new FormControl('',Validators.required),
   })
 
 
   trainingFrom = new FormGroup({
-    name: new FormControl('', Validators.required),
+    title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     registrationLink: new FormControl(''),
-    startDate: new FormControl('', Validators.required),
-    endDate: new FormControl('', Validators.required),
+    startdate: new FormControl('', Validators.required),
+    enddate: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
     basic_requirement: new FormControl(''),
     municipality: new FormControl(this.muncipality_data, Validators.required),
     sector: new FormControl(this.sector_data, Validators.required),
-    trainingFrequency: new FormControl('', Validators.required),
+    frequencyIntervel: new FormControl(2, Validators.required),
   })
 
+  resourcearray(){
+    return new FormGroup({
+      resourcelink:new FormControl('',Validators.required),
+      resourceName:new FormControl('',Validators.required)
+    })
+  }
+  addresource(){
+ 
+    let resourcearray=this.learnAndUpskill.get('resourceslink')as FormArray
+    resourcearray.push(this.resourcearray())
+  }
+  getResource(index:any){
+    let resourcearray= this.learnAndUpskill.get('resourceslink')as FormArray
+    return resourcearray.length-1
+  }
+  deleteResource(index:number){
+    let resourcearray=this.learnAndUpskill.get('resourceslink')as FormArray
+    if(index==0){
+      resourcearray.controls[index].get('resourcelink')?.setValue('')
+      resourcearray.controls[index].get('resourceName')?.setValue('')
+    }else{
+      resourcearray.removeAt(index)
+    }
+   
+  }
+  setfile(index:number,event:any){
+    console.log("coming here")
+    this.Mainservice.pageloaderMainservice=true
+    let resourcearray=this.learnAndUpskill.get('resourceslink')as FormArray
+    let selectfile= event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', selectfile);
+
+    // Make a POST request to your API endpoint
+    this.http.post('http://localhost:3000/uploadfiles', formData).toPromise().then(
+      (response:any) => {
+        console.log(response,"response")
+      //  let resp= resourcearray.at(index)
+     
+     resourcearray.controls[index].get('resourcelink')?.setValue(response.data.Location)
+     resourcearray.controls[index].get('resourceName')?.setValue(response.data.key)
+        this.Mainservice.pageloaderMainservice=false
+      } ).catch((error)=>{
+        console.error('Error uploading file', error);
+        this.Mainservice.pageloaderMainservice=false
+      });
+  }
   learnAndUpskill = new FormGroup({
     courseName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    resources: new FormControl([], Validators.required),
+    // resourceslink: new FormControl([{data:'https:1234'}], Validators.required),
+    resourceslink:this.fb.array([ this.resourcearray()]),
     courseLink: new FormControl(''),
     sector: new FormControl(this.sector_data, Validators.required),
   })
@@ -70,7 +123,7 @@ export class ListComponentComponent implements OnInit {
 
   })
 
-  constructor(Mainservice: mainservice, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder,Mainservice: mainservice, private ngZone: NgZone, private cdr: ChangeDetectorRef,private http: HttpClient) {
     this.Mainservice = Mainservice;
 
 
@@ -82,8 +135,9 @@ export class ListComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.muncipality_data = [{ id: 1, name: 'Lautem' }, { id: 2, name: "Dili" }, { id: 3, name: "Aileu" }];
-    this.sector_data = [{ id: 1, name: 'Engineering' }, { id: 2, name: "Electronics" }, { id: 3, name: "Automobiles" }]
+    this.pageloadder=true
+    this.muncipality_data = [ 'Lautem',  "Dili",   "Aileu" ];
+    this.sector_data = [ 'Engineering' ,  "Electronics" ,  "Automobiles" ]
 
 
     // setting and support i18n
@@ -115,6 +169,9 @@ export class ListComponentComponent implements OnInit {
 
   }
 
+  errorPopupClose(){
+    this.Mainservice.errorPopup=false
+  }
   //--------------------------------------------
 
   TrainingListData: any[] = [
@@ -241,22 +298,36 @@ export class ListComponentComponent implements OnInit {
     description: 'The police are a constituted body of persons empowered by a state, with the aim to enforce the law, to ensure the safety, health, and possessions', ContactNumber: [{ id: 2, number: '108' }]
   }]
 
+  SetDataListRequestPopup(){
+       console.log("as esxpected Arockia") 
+    this.pageloadder=true
+      setTimeout(()=>{  
+        this.setListDataRequest()
+      },0)
+  
+  }
   setListDataRequest() {
     console.log("coming here...", this.Mainservice.header, this.Mainservice.sidebardata);
+    console.log( this.pageloadder,"must false")
 
+    this.pageloadder=true
+    let headerVal=''
     if (this.Mainservice.header == 'chatbot') {
       //makeHttpRequest
       if (this.Mainservice.sidebardata.values == 'Training') {
+        headerVal='Trainings'
         this.setListData = this.TrainingListData;
         this.Mainservice.setListData = this.TrainingListData
       }
       if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
+        headerVal='Learnings'
         this.setListData = this.CourselListData;
         this.Mainservice.setListData = this.CourselListData
 
 
       }
       if (this.Mainservice.sidebardata.values == 'Job Offers') {
+        headerVal='Jobs'
         this.setListData = this.JobOpportunityListData;
         this.Mainservice.setListData = this.JobOpportunityListData
 
@@ -268,10 +339,18 @@ export class ListComponentComponent implements OnInit {
       }
 
       this.cdr.markForCheck();
-
-      console.log(this.Mainservice.sidebardata, 'expected');
-
-
+      this.Mainservice.pageloaderMainservice=true
+      this.http.get('http://localhost:3000/getData?headers='+headerVal).toPromise()
+      .then((data:any)=>{
+        console.log(data,"data")
+        this.Mainservice.pageloaderMainservice=false
+        this.Mainservice.setListData=data
+      }).catch((data)=>{
+        this.Mainservice.errorPopup=true
+        this.Mainservice.pageloaderMainservice=false
+        console.log(  this.pageloadder,"task completed Arockia")
+      });
+   
     }
 
 
@@ -315,70 +394,50 @@ export class ListComponentComponent implements OnInit {
 
   addSubmitForm() {
     //need change here
+    this.Mainservice.pageloaderMainservice=true
+    let headerdata=''
+    let behaviour='insertTableData'
+    let formData={}
     if (this.Mainservice.sidebardata.values == 'Training') {
-      let muncipality = this.trainingFrom.value.municipality.map((data: any) => {
-        return data.name;
-      })
-      let sector = this.trainingFrom.value.sector.map((data: any) => {
-        return data.name;
-      })
+      headerdata='Trainings'
+      
+      
       if (this.editFlag) {
-        let index = this.TrainingListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
-        if (index > -1) {
-          this.TrainingListData[index] = this.trainingFrom.value;
-        }
+        behaviour='ModifyTableData'
+        formData=this.trainingFrom.value
       }
       else {
-        this.TrainingListData.push(this.trainingFrom.value);
-        this.TrainingListData[this.TrainingListData.length - 1]['municipality'] = muncipality;
-        this.TrainingListData[this.TrainingListData.length - 1]['sector'] = sector;
-
+        formData=this.trainingFrom.value
       }
       $("#addPopUp").modal('hide');
-      this.Mainservice.setListData = this.TrainingListData;
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values);
     }
     else if (this.Mainservice.sidebardata.values == 'Job Offers') {
-
-      let sector = this.joboffersForm.value.sector.map((data: any) => {
-        return data.name;
-      })
+      headerdata='Jobs'
+   
 
       if (this.editFlag) {
-        let index = this.JobOpportunityListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
-        if (index > -1) {
-          this.JobOpportunityListData[index] = this.joboffersForm.value;
-        }
-      }
+        behaviour='ModifyTableData'
+        formData=this.joboffersForm.value
+       }
       else {
-        this.JobOpportunityListData.push(this.joboffersForm.value);
-        this.JobOpportunityListData[this.JobOpportunityListData.length - 1]['sector'] = sector;
-        this.JobOpportunityListData[this.JobOpportunityListData.length - 1]['id'] = this.JobOpportunityListData.length;
-
+       formData=this.joboffersForm.value
       }
       $("#addPopUp").modal('hide');
-      this.Mainservice.setListData = this.JobOpportunityListData;
-      console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
+       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
     else if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
-      let sector = this.learnAndUpskill.value.sector.map((data: any) => {
-        return data.name;
-      })
+      headerdata='Learnings'
       if (this.editFlag) {
-        let index = this.CourselListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
-        if (index > -1) {
-          this.CourselListData[index] = this.learnAndUpskill.value;
-        }
+        behaviour='ModifyTableData'
+        formData=this.learnAndUpskill.value
       }
       else {
+        formData=this.learnAndUpskill.value
         this.CourselListData.push(this.learnAndUpskill.value);
-        this.CourselListData[this.CourselListData.length - 1]['sector'] = sector;
-        this.CourselListData[this.CourselListData.length - 1]['id'] = this.CourselListData.length;
-
-      }
+       }
 
       $("#addPopUp").modal('hide');
-      this.Mainservice.setListData = this.CourselListData;
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
     else if (this.Mainservice.sidebardata.values == 'Help Line') {
@@ -395,14 +454,44 @@ export class ListComponentComponent implements OnInit {
 
       }
 
+   
+
       $("#addPopUp").modal('hide');
       this.Mainservice.setListData = this.HelpLineListData;
     }
 
+    let bodyparams={}
+    if(behaviour=='insertTableData'){
+      bodyparams={TableName:headerdata,TableData:formData}
+    }else{
+      bodyparams={TableName:headerdata,TableData:formData,id:this.editDetails.data.uuid}
+    }
+    this.http.post('http://localhost:3000/'+behaviour,bodyparams).toPromise()
+    .then((data:any)=>{
+      console.log(data,"data")
+      this.Mainservice.pageloaderMainservice=false
+      // this.Mainservice.setListData=data
+      if(behaviour=='insertTableData'){
+        console.log(this.Mainservice.setListData,"this.Mainservice.setListData")
+      this.Mainservice.setListData.push(data)
+      }else{
+        let index = this.Mainservice.setListData.findIndex((data: any) => data['uuid'] === this.editDetails['data']['uuid']);
+       console.log(index)
+        if (index > -1) {
+          this.Mainservice.setListData[index] = formData;
+        }
+      }
+    }).catch((data)=>{
+      this.Mainservice.errorPopup=true
+      this.Mainservice.pageloaderMainservice=false
+     });
 
   }
 
   openModal() {
+    this.trainingFrom.reset()
+    this.joboffersForm.reset()
+    this.learnAndUpskill.reset()
     this.editFlag = false;
     $("#addPopUp").modal('show');
   }
@@ -417,25 +506,26 @@ export class ListComponentComponent implements OnInit {
     console.log(this.editDetails)
     if (event['type'] == 'Training') {
       this.trainingFrom.patchValue({
-        name: event['data']['name'],
+        title: event['data']['title'],
         description: event['data']['description'],
         registrationLink: event['data']['registrationLink'],
-        startDate: event['data']['startDate'],
-        endDate: event['data']['namendDatee'],
+        startdate: event['data']['startdate'],
+        enddate: event['data']['enddate'],
         address: event['data']['address'],
         basic_requirement: event['data']['basic_requirement'],
         municipality: event['data']['municipality'],
         sector: event['data']['sector'],
       })
+      console.log(this.trainingFrom.value,"training form value")
     }
     else if (event['type'] == 'Job Offers') {
       this.joboffersForm.patchValue({
         title: event['data']['title'],
         description: event['data']['description'],
         linkToApply: event['data']['linkToApply'],
-        RolesandResponsibility: event['data']['RolesandResponsibility'],
-        BasicRequirements: event['data']['BasicRequirements'],
-        Address: event['data']['Address'],
+        rolesAndResponsibility: event['data']['rolesAndResponsibility'],
+        basicRequirements: event['data']['basicRequirements'],
+        address: event['data']['address'],
         sector: event['data']['sector'],
       })
     }
@@ -445,7 +535,7 @@ export class ListComponentComponent implements OnInit {
       this.learnAndUpskill.patchValue({
         courseName: event['data']['courseName'],
         description: event['data']['description'],
-        resources: event['data']['resources'],
+        resourceslink: event['data']['resourceslink'],
         courseLink: event['data']['courseLink'],
         sector: event['data']['sector'],
       })
@@ -466,35 +556,55 @@ export class ListComponentComponent implements OnInit {
 
   }
   onDeleteData(event: any) {
-    
+    let headerdata=''
     if (event['type'] == 'Training') {
-      this.TrainingListData = this.TrainingListData.filter(data => {
-
-         return data.id != event.index
-      });
-  
-       this.Mainservice.setListData = this.TrainingListData;
-
+      headerdata='Trainings'
     }
     else if (event['type'] == 'Job Offers') {
-      this.JobOpportunityListData = this.JobOpportunityListData.filter(data => {
-        return data.id != event.index
-      });
-      this.Mainservice.setListData = this.JobOpportunityListData;
+      headerdata='Jobs'
     }
     else if (event['type'] == 'Learnings - upskill') {
-      this.CourselListData = this.CourselListData.filter(data => {
-        return data.id != event.index
-      });
-      this.Mainservice.setListData = this.CourselListData;
+      headerdata='Learnings'
     }
     else if (event['type'] == 'Help Line') {
-
-      this.HelpLineListData = this.HelpLineListData.filter(data => {
-       return data.id != event.index
-      });
-      this.Mainservice.setListData = this.HelpLineListData;
+      headerdata='helpline'
     }
+    this.Mainservice.pageloaderMainservice=true
+    this.http.post('http://localhost:3000/deleteTableData',{TableName:headerdata,id:event.index}).toPromise()
+    .then((data:any)=>{
+      if (event['type'] == 'Training') {
+        this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
+  
+           return data.uuid != event.index
+        });
+        console.log( this.Mainservice.setListData,"this.TrainingListData")
+        this.Mainservice.setListData=  this.Mainservice.setListData;
+  
+      }
+      else if (event['type'] == 'Job Offers') {
+         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
+          return data.uuid != event.index
+        });
+
+      }
+      else if (event['type'] == 'Learnings - upskill') {
+         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
+          return data.uuid != event.index
+        });
+           }
+      else if (event['type'] == 'Help Line') {
+  
+         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
+         return data.uuid != event.index
+        });
+        
+      }
+      this.Mainservice.pageloaderMainservice=false
+       }).catch((data)=>{
+      this.Mainservice.errorPopup=true
+      this.Mainservice.pageloaderMainservice=false
+    })
+  
 
   }
 

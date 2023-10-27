@@ -1,5 +1,12 @@
-
+<app-pageloader *ngIf="pageloadder==true" ></app-pageloader>
+<app-errorpopup *ngIf="errorPopup==true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
 <div style="display: block">
   <div class="chart-container">
     <canvas  id="MyChart" >{{ chart }}</canvas>
+</div>
+
+<div *ngIf="" class="div align-items-center">
+  <div class="justify-content-center">
+    <P class="text-danger">Something went wrong</P>
+  </div>
 </div>

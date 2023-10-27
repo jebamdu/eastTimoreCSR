@@ -1,3 +1,7 @@
+<div class="loading" *ngIf="this.Mainservice.pageloaderMainservice==true"  >;
+
+</div>
+
 <div *ngIf="sidebardata1 == 'Training'" class="px-4">
   <div
     class="row bgcolorListData px-2 my-4 py-4"
@@ -5,19 +9,19 @@
   >
     <div class="d-flex justify-content-end">
       <span  class="mr-3"
-      (click)="onEdit(sidebardata1, trainingData, trainingData.id)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      (click)="onEdit(sidebardata1, trainingData, trainingData.uuid)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
      
-      <span  (click)="onDelete(sidebardata1, trainingData.id)">
+      <span  (click)="onDelete(sidebardata1, trainingData.uuid)">
         <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
       </span>
    
     </div>
-    <h5 class="col-12">{{ trainingData.name }}</h5>
+    <h5 class="col-12">{{ trainingData.title}}</h5>
     <div class="col-12 py-1">
       <B>Duration:</B
       ><P class="d-inline px-1">{{
-        trainingData.startDate + " - " + trainingData.endDate
+        trainingData.startdate + " - " + trainingData.enddate
       }}</P>
     </div>
     <p class="col-12">{{ trainingData.description }}</p>
@@ -38,7 +42,7 @@
       <span  class="mr-3"
       (click)="onEdit(sidebardata1, data, data.id)">   <img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
-      <span  (click)="onDelete(sidebardata1, data.id)">
+      <span  (click)="onDelete(sidebardata1, data.uuid)">
         <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
       </span>
    
@@ -48,20 +52,11 @@
     <div class="col-12 mb-1">
       <B>Resource:</B>
 
-      <p *ngFor="let resourceData of data.resources" class="d-inline px-1">
-        {{ resourceData.name + ", " }}
+      <p *ngFor="let resourceData of data.resourceslink" class="d-inline px-1">
+       <a [href]="resourceData.resourceslink" [download]="resourceData.resourceName">{{ resourceData.resourceName+", " }}</a> 
       </p>
     </div>
-    <div class="col-12">
-      <div class="d-flex">
-        <B>Resources Link:</B>
-        <div class="d-flex flex-column pl-1">
-          <ng-container *ngFor="let resourceLink of data.resources">
-            <p class="m-0 px-1">{{ " " + resourceLink.s3link }}</p>
-          </ng-container>
-        </div>
-      </div>
-    </div>
+  
 
     <div class="col-12">
       <div class="d-flex">
@@ -80,9 +75,9 @@
   >
     <div class="d-flex justify-content-end">
       <span  class="mr-3"
-      (click)="onEdit(sidebardata1, data, data.id)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
+      (click)="onEdit(sidebardata1, data, data.uuid)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span> 
-      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, data.id)">
+      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, data.uuid)">
         <img src="../../../../../assets/Deleteicon.svg" alt="Delete "  >
       </span>
    
@@ -91,18 +86,18 @@
     <p class="col-12">{{ data.description }}</p>
     <div class="col-12">
       <B>Roles and Responsibility:</B
-      ><P class="d-inline px-1">{{ data.RolesandResponsibility }}</P>
+      ><P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
     </div>
 
     <div class="col-12">
       <B>Basic Requirements:</B
-      ><P class="d-inline px-1">{{ data.BasicRequirements }}</P>
+      ><P class="d-inline px-1">{{ data.basicRequirements }}</P>
     </div>
 
     <div class="col-12">
       <div class="d-flex">
         <B>Address :</B>
-        <P class="d-inline px-1">{{ data.Address }}</P>
+        <P class="d-inline px-1">{{ data.address }}</P>
       </div>
     </div>
 
