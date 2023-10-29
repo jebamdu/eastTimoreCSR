@@ -1,6 +1,7 @@
 <div class="Totalheight px-3 py-4">
     <div *ngFor="let rawSideBarData of  this.sidebarRawData" class="row d-flex justify-content-center">
-        <div    [class.disabled]="fundisabled(rawSideBarData.id)" (click)="navigateDataComponents(rawSideBarData.id,rawSideBarData.values)" [ngClass]="sideBarBtnColor(rawSideBarData.id)" > <img src="" alt=""> <h6 class="my-0"  (click)="sidebarActivate(rawSideBarData.id)">{{rawSideBarData.values}}</h6></div>
+        <div    [class.disabled]="fundisabled(rawSideBarData.id)" (click)="navigateDataComponents(rawSideBarData.id,rawSideBarData.values)" [ngClass]="sideBarBtnColor(rawSideBarData.id)" >
+             <img src="" alt=""> <h6 class="my-0 pe-none"  (click)="sidebarActivate(rawSideBarData.id)">{{rawSideBarData.values}}</h6></div>
 
     </div>
 </div>

@@ -5,33 +5,37 @@
     <B class="d-inline px-3">Total </B> <P class="d-inline">{{userData.length}}</P>
 
 </div>
+<div  class=" px-4 py-4 form-group formwidth d-flex flex-row md-form form-sm">
+  <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:13px" width="16" top="10" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+    </svg>
+  <input type="text" placeholder="Search" [(ngModel)]="search_str" (ngModelChange)="searchstring($event)" class="inputsearch mx-3 form-control" />
+</div>
 <div class="px-4 pb-4">
-    <table class="table table-striped">
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">
-                <form class="form-group formwidth d-flex flex-row md-form form-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:13px" width="16" top="10" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-                      </svg>
-                    <input type="text" placeholder="Search" class="inputsearch form-control" />
-                  </form>
+            <th scope="col">S.No         
             </th>
             <th scope="col">Name</th>
             <th scope="col">Phone Number</th>
             <th scope="col">Last Active on</th>
             <th scope="col">Year Of Birth</th>
+            <th scope="col">Municipality</th>
+            <th scope="col">Educational Qualification</th>
             <th scope="col">Option</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of userData, index as ind">
+          <tr *ngFor="let data of userDataDisplay, index as ind">
             <th scope="row"><P>{{ind+1}}</P></th>
             <td><B>{{data.name}}</B>
             <td>{{data.phno}}</td>
-            <td>{{data.lastActive }}</td>
+            <td>{{data.lastActive |date }}</td>
             <!-- <td>{{transormDate(data.lastActive)| date:'dd-MM-yyyy'}}</td> -->
             <td>{{data.yob}}</td>
+            <td>{{data.municipality}}</td>
+            <td>{{data.majorSubject}}</td>
             <td><img src="../../../../assets/updaeOptionIcon.svg" alt="updateoption"></td>
           </tr>
         

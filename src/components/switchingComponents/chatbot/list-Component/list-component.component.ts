@@ -24,9 +24,9 @@ export class ListComponentComponent implements OnInit {
   public errorPopup:boolean=false
   public pageloadder:boolean=false;
   public selectedItems = [];
-
-
-  //
+  public originalData=[]
+  public searchSring:any=''
+  userDataDisplay:any=[]
   listData: any[] = [];
   Mainservice: any;
   public setListData: any = [];
@@ -117,9 +117,10 @@ export class ListComponentComponent implements OnInit {
   })
 
   helpLine = new FormGroup({
-    title: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    ContactNumber: new FormControl([], Validators.required),
+   data: new FormControl('', Validators.required),
+   key:new FormControl( 'helplineMSG'),
+   id:new FormControl(1)
+   
 
   })
 
@@ -287,16 +288,7 @@ export class ListComponentComponent implements OnInit {
     },
   ]
 
-  HelpLineListData: any[] = [{
-    id: 1,
-    title: 'Police',
-    description: 'The police are a constituted body of persons empowered by a state, with the aim to enforce the law, to ensure the safety, health, and possessions', ContactNumber: [{ id: 1, number: '100' }]
-  },
-  {
-    id: 2,
-    title: 'Ambulance',
-    description: 'The police are a constituted body of persons empowered by a state, with the aim to enforce the law, to ensure the safety, health, and possessions', ContactNumber: [{ id: 2, number: '108' }]
-  }]
+  HelpLineListData: any[] = []
 
   SetDataListRequestPopup(){
        console.log("as esxpected Arockia") 
@@ -333,6 +325,7 @@ export class ListComponentComponent implements OnInit {
 
       }
       if (this.Mainservice.sidebardata.values == 'Help Line') {
+        headerVal='HelpLine'
         this.setListData = this.HelpLineListData;
         this.Mainservice.setListData = this.HelpLineListData
 
@@ -345,6 +338,7 @@ export class ListComponentComponent implements OnInit {
         console.log(data,"data")
         this.Mainservice.pageloaderMainservice=false
         this.Mainservice.setListData=data
+        
       }).catch((data)=>{
         this.Mainservice.errorPopup=true
         this.Mainservice.pageloaderMainservice=false
@@ -441,30 +435,23 @@ export class ListComponentComponent implements OnInit {
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
     else if (this.Mainservice.sidebardata.values == 'Help Line') {
-
-      if (this.editFlag) {
-        let index = this.HelpLineListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
-        if (index > -1) {
-          this.HelpLineListData[index] = this.helpLine.value;
-        }
-      }
-      else {
-        this.HelpLineListData.push(this.helpLine.value);
-        this.HelpLineListData[this.HelpLineListData.length - 1]['id'] = this.HelpLineListData.length;
-
-      }
+      headerdata='Help Line'
+      formData=this.helpLine.value
+      behaviour='ModifyTableData'
+   
+   
 
    
 
       $("#addPopUp").modal('hide');
-      this.Mainservice.setListData = this.HelpLineListData;
+      // this.Mainservice.setListData = this.HelpLineListData;
     }
 
     let bodyparams={}
     if(behaviour=='insertTableData'){
       bodyparams={TableName:headerdata,TableData:formData}
     }else{
-      bodyparams={TableName:headerdata,TableData:formData,id:this.editDetails.data.uuid}
+      bodyparams={TableName:headerdata,TableData:formData,id:headerdata=='Help Line'?this.editDetails.data.id:this.editDetails.data.uuid}
     }
     this.http.post('http://localhost:3000/'+behaviour,bodyparams).toPromise()
     .then((data:any)=>{
@@ -475,11 +462,35 @@ export class ListComponentComponent implements OnInit {
         console.log(this.Mainservice.setListData,"this.Mainservice.setListData")
       this.Mainservice.setListData.push(data)
       }else{
-        let index = this.Mainservice.setListData.findIndex((data: any) => data['uuid'] === this.editDetails['data']['uuid']);
-       console.log(index)
-        if (index > -1) {
-          this.Mainservice.setListData[index] = formData;
-        }
+        if(this.searchSring!=''){
+          let index = this.userDataDisplay.findIndex((data: any) => data['uuid'] === this.editDetails['data']['uuid']);
+          console.log(index)
+           if (index > -1) {
+             this.userDataDisplay[index] = formData;
+           }
+          let mainindex = this.Mainservice.setListData.findIndex((data: any) => data['uuid'] === this.editDetails['data']['uuid']);
+            if (index > -1) {
+              this.Mainservice.setListData[mainindex] = formData;
+            }
+        }else{
+          console.log( "coming here help line", this.Mainservice.setListData)
+          if(headerdata=='Help Line'){
+            let index = this.Mainservice.setListData.findIndex((data: any) => data['id'] === this.editDetails['data']['id']);
+            console.log(index,formData)
+             if (index > -1) {
+               this.Mainservice.setListData[0] = formData;
+             }
+          }else{
+            let index = this.Mainservice.setListData.findIndex((data: any) => data['uuid'] === this.editDetails['data']['uuid']);
+            console.log(index)
+             if (index > -1) {
+               this.Mainservice.setListData[index] = formData;
+             }
+          }
+          }
+
+      
+      
       }
     }).catch((data)=>{
       this.Mainservice.errorPopup=true
@@ -500,6 +511,7 @@ export class ListComponentComponent implements OnInit {
 
   }
   onEditData(event: any) {
+    console.log(event,"event update")
     this.editFlag = true;
     this.editDetails = event;
     $("#addPopUp").modal('show');
@@ -545,12 +557,12 @@ export class ListComponentComponent implements OnInit {
     else if (event['type'] == 'Help Line') {
 
       this.helpLine.patchValue({
-        title: event['data']['title'],
-        description: event['data']['description'],
-        ContactNumber: event['data']['ContactNumber'],
-      })
+        data: event['data']['data'],
+        key:'helplineMSG',
+        id:1
+          })
     }
-
+    console.log(event['type'],"help lne")
     $("#exampleModalCenter").modal('show');
 
 
@@ -572,33 +584,20 @@ export class ListComponentComponent implements OnInit {
     this.Mainservice.pageloaderMainservice=true
     this.http.post('http://localhost:3000/deleteTableData',{TableName:headerdata,id:event.index}).toPromise()
     .then((data:any)=>{
-      if (event['type'] == 'Training') {
+   
         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
   
            return data.uuid != event.index
         });
+
+        this.userDataDisplay =  this.userDataDisplay.filter((data:any) => {
+  
+          return data.uuid != event.index
+       });
+
         console.log( this.Mainservice.setListData,"this.TrainingListData")
         this.Mainservice.setListData=  this.Mainservice.setListData;
-  
-      }
-      else if (event['type'] == 'Job Offers') {
-         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
-          return data.uuid != event.index
-        });
 
-      }
-      else if (event['type'] == 'Learnings - upskill') {
-         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
-          return data.uuid != event.index
-        });
-           }
-      else if (event['type'] == 'Help Line') {
-  
-         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {
-         return data.uuid != event.index
-        });
-        
-      }
       this.Mainservice.pageloaderMainservice=false
        }).catch((data)=>{
       this.Mainservice.errorPopup=true
@@ -611,4 +610,36 @@ export class ListComponentComponent implements OnInit {
   abortaddFun() {
     $("#addPopUp").modal('hide');
   }
+
+  changeEventCall(event:any){
+
+    
+    event=event.toLowerCase()
+    if(event!=''){
+      let tempArray: any[]=[]
+      this.Mainservice.setListData.forEach((elementData:any) => {
+       let index=false
+       Object.values(elementData).some((item:any)=>{
+        if(item){
+          if(item.toString().toLowerCase().indexOf(event)>-1){
+            return(index=true)
+          }
+          else{return }
+        }else{
+          return 
+        }
+       })
+       if(index){
+        tempArray.push(elementData)
+       }
+      });
+      this.userDataDisplay=[...tempArray]
+    }else{
+      this.userDataDisplay=[...this.Mainservice.setListData]
+    }
+
+
+  
+  }
 }
+

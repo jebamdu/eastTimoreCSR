@@ -88,7 +88,7 @@ this.router.navigate(['/MainComponent/user/reports'])
     
        }
 
-       
+       this.sidebarActivate(id) 
        
 }
 

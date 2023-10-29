@@ -53,7 +53,7 @@
       <B>Resource:</B>
 
       <p *ngFor="let resourceData of data.resourceslink" class="d-inline px-1">
-       <a [href]="resourceData.resourceslink" [download]="resourceData.resourceName">{{ resourceData.resourceName+", " }}</a> 
+       <a [href]="resourceData.resourcelink" [download]="resourceData.resourceName">{{ resourceData.resourceName+", "}}</a> 
       </p>
     </div>
   
@@ -119,24 +119,12 @@
     (click)="onEdit(sidebardata1, data, data.id)"> 
       <img src="../../../../../assets/updateIcon.svg"  alt="updateicon">
     </span> 
-    <span type="button" data-toggle="modal" data-target="#exampleModal"   (click)="onDelete(sidebardata1, data.id)">
-      <img src="../../../../../assets/Deleteicon.svg"  alt="Delete "  >
-    </span>
- 
-    </div>
-    <B class="col-12">{{ data.title }}</B>
-    <p class="col-12">{{ data.description }}</p>
 
-    <div class="col-12">
-      <div class="d-flex">
-        <B>Contact Number :</B>
-        <div class="d-flex flex-column pl-1">
-          <ng-container *ngFor="let ContactNumber of data.ContactNumber">
-            <p class="m-0 px-1">{{ " " + ContactNumber.number }}</p>
-          </ng-container>
-        </div>
-      </div>
     </div>
+    
+    <p class="col-12">{{ data.data }}</p>
+
+  
     <div></div>
   </div>
 </div>
