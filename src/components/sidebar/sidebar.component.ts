@@ -58,8 +58,8 @@ this.router.navigate(['/MainComponent/user/reports'])
   sideBarBtnColor(id:number){
 
     return{
-      'sideBarBtnActivate col-12 px-4 py-3':this.sidebarId==id,
-      'col-12 px-4 d-flex align-items-center py-3':this.sidebarId!=id
+      'sideBarBtnActivate  col-12 px-4 py-3':this.sidebarId==id,
+      'col-12 px-4 d-flex  align-items-center py-3':this.sidebarId!=id
 
     }
   }

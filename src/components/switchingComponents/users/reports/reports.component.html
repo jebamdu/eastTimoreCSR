@@ -1,9 +1,30 @@
 <app-pageloader *ngIf="pageloadder==true" ></app-pageloader>
 <app-errorpopup *ngIf="errorPopup==true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
-<div style="display: block">
+<p class="px-4 pt-4" >UserDetails by Municipality</p>
+<form [formGroup]="seleteddate" (ngSubmit)="dateWiseFilter()" type="submit" class="row px-4 pt-4"  >
+  <div class="form-group col-3" >
+    <label for="exampleInputEmail1"  class="mb-1" >Start Date</label>
+    <input formControlName="startDate" type="date" class="form-control" aria-describedby="emailHelp" placeholder="Enter Date">
+    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+  </div>
+  <div class="form-group col-3">
+    <label for="exampleInputPassword1" class="mb-1">End Date</label>
+    <input formControlName="endDate" type="date" class="form-control"  placeholder="Enter Date">
+  </div>
+  <div class="form-group col-3">
+    <label for="exampleInputPassword1"> </label>
+   <button type="submit" class=" btn btn-primary mt-4">Submit</button>
+  </div>
+</form>
+<div class="container">
+  <div  *ngIf="reporsData.length==0">
+    <P>No data found !</P>
+  </div>
   <div class="chart-container">
-    <canvas  id="MyChart" >{{ chart }}</canvas>
+    <canvas style="display: block;box-sizing: border-box; height: 348px !important;width: 860px !important;"   id="MyChart" >{{ chart }}</canvas>
 </div>
+
+
 
 <div *ngIf="" class="div align-items-center">
   <div class="justify-content-center">
