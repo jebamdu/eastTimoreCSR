@@ -176,117 +176,14 @@ export class ListComponentComponent implements OnInit {
   //--------------------------------------------
 
   TrainingListData: any[] = [
-    {
-      id: 1,
-      name: 'Logical Thinking',
-      description:
-        'Logical thinking can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      registrationLink:
-        'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link',
-      startDate: '2022-02-10',
-      endDate: '2022-03-09',
-      address: '7/1,soosai nagar3rd street,vilangudi,Madurai-18',
-      municipality: [{ id: 1, name: 'Lautem' }],
-      sector: [
-        { id: 1, name: 'computer science' },
-        { id: 2, name: 'Maths' },
-      ],
-      trainingFrequency: 'once',
-    },
-    {
-      id: 2,
-      name: 'Design Thinking',
-      description:
-        'Logical thinking can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      registrationLink:
-        'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link',
-      startDate: '2022-02-10',
-      endDate: '2022-03-09',
-      address: '7/1,soosai nagar3rd street,vilangudi,Madurai-18',
-      municipality: [{ id: 1, name: 'Lautem' }],
-      sector: [
-        { id: 1, name: 'computer science' },
-        { id: 2, name: 'Maths' },
-      ],
-      trainingFrequency: 'once',
-    },
-    {
-      id: 3,
-      name: 'ComputerTrainings',
-      description:
-        'Logical thinking can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      registrationLink:
-        'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link',
-      startDate: '2022-02-10',
-      endDate: '2022-03-09',
-      address: '7/1,soosai nagar3rd street,vilangudi,Madurai-18',
-      municipality: '',
-      sector: [
-        { id: 1, name: 'computer science' },
-        { id: 2, name: 'Maths' },
-      ],
-      trainingFrequency: 'once',
-    },
   ];
 
 
   CourselListData: any[] = [
 
-    {
-      id: 1,
-      courseName: 'Mathematical Courses',
-      description:
-        'Maths course dumy can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking',
-      courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
-      Resources: [{ id: 1, name: 'Algeebra', s3link: '' }, { id: 2, name: 'Charts', s3link: '' }, { id: 3, name: 'statstics', s3link: '' }],
-      sector: { id: 2, name: 'Maths' }
-    },
-    {
-      id: 2,
-      courseName: 'Verbal Courses',
-      description:
-        'verbal dummy can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
-      Resources: [{ id: 1, name: '', s3link: '' }, { id: 3, name: '', s3link: '' },
-      ],
-      sector: { id: 2, name: 'English' }
-
-    },
-    {
-      id: 3,
-      courseName: 'Logical Courses',
-      description:
-        'Logical thinking can also be defined as the act of analysing a situation and coming up with a sensible solution. It is similar to critical thinking. Logical thinking uses reasoning skills to objectively study any problem, which helps make a rational conclusion about how to proceed.',
-      courseLink: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
-      Resources: [{ id: 1, name: '', s3link: '' }, { id: 2, name: '', s3link: '' }, { id: 3, name: '', s3link: '' }],
-      sector: { id: 2, name: 'Logical' }
-    },]
-
-  JobOpportunityListData: any[] = [
-    {
-      id: 1,
-      title: 'SoftWare Engineer',
-      description:
-        'Software Engineer responsibilities include: · Executing full lifecycle software development · Programming well-designed, testable, efficient code · Producing',
-      sector: [{ id: 1, sector: 'Engineering' },],
-      linkToApply: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
-      RolesandResponsibility: 'Designing and maintaining software systems.',
-      BasicRequirements: 'bachelor degree. Graduate college with an undergraduate degree in computer science',
-      Address: 'Nilampathinjamugal-Rajagiri Valley Road Near Infopark,Nilampathinjamugal Kakkanad, Kochi, Kerala 682039.'
-    },
-
-    {
-      id: 2,
-      title: 'Medical Representative',
-      description:
-        'Medical Representative responsibilities include: · Executing full lifecycle software development · Programming well-designed, testable, efficient code · Producing.',
-      sector: [{ id: 5, sector: 'Pharma' },],
-      linkToApply: 'īhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link.',
-      RolesandResponsibility: 'Hospital and mainteinence.',
-      BasicRequirements: 'bachelor degree. Graduate college with an undergraduate degree in medical',
-      Address: 'Nilampathinjamugal-Rajagiri Valley Road Near Infopark,Nilampathinjamugal Kakkanad, Kochi, Kerala 682039.'
-    },
   ]
+
+  JobOpportunityListData: any[] = []
 
   HelpLineListData: any[] = []
 
@@ -333,17 +230,20 @@ export class ListComponentComponent implements OnInit {
 
       this.cdr.markForCheck();
       this.Mainservice.pageloaderMainservice=true
-      this.http.get('http://localhost:3000/getData?headers='+headerVal).toPromise()
-      .then((data:any)=>{
-        console.log(data,"data")
-        this.Mainservice.pageloaderMainservice=false
-        this.Mainservice.setListData=data
-        
-      }).catch((data)=>{
-        this.Mainservice.errorPopup=true
-        this.Mainservice.pageloaderMainservice=false
-        console.log(  this.pageloadder,"task completed Arockia")
-      });
+      if(this.Mainservice.sidebardata.values != 'Configuration'){
+        this.http.get('http://localhost:3000/getData?headers='+headerVal).toPromise()
+        .then((data:any)=>{
+          console.log(data,"data")
+          this.Mainservice.pageloaderMainservice=false
+          this.Mainservice.setListData=data
+          
+        }).catch((data)=>{
+          this.Mainservice.errorPopup=true
+          this.Mainservice.pageloaderMainservice=false
+          console.log(  this.pageloadder,"task completed Arockia")
+        });
+      }
+
    
     }
 

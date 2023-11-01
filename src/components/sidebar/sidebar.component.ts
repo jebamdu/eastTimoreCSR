@@ -14,7 +14,7 @@ export class SidebarComponent implements OnChanges,OnInit {
   @Output() newItemEvent = new EventEmitter<string>();
   public sidebarId:number=1
   public UsersSidebarData=[{id:1,values:'Reports',img:'',navigateValue:'user/reports'},{id:2,values:'User View',img:'',navigateValue:'user/userlist'}]
-  public ChatBotSideBarData=[{id:1,values:'Training',img:'',navigateValue:'chatbot/traininglist'},{id:2,values:'Job Offers',img:'',navigateValue:''},{id:3,values:'Learnings - upskill',img:'',navigateValue:''},{id:4,values:'Help Line',img:'',navigateValue:''},{id:5,values:'Welcome Message',img:'',navigateValue:''},{id:6,values:'Template Message',img:'',navigateValue:''}]
+  public ChatBotSideBarData=[{id:1,values:'Training',img:'',navigateValue:'chatbot/traininglist'},{id:2,values:'Job Offers',img:'',navigateValue:''},{id:3,values:'Learnings - upskill',img:'',navigateValue:''},{id:4,values:'Help Line',img:'',navigateValue:''},{id:5,values:'Configuration',img:'',navigateValue:''},{id:6,values:'Template Message',img:'',navigateValue:''}]
   public FlowBuilderSideBarData=[{id:1,values:'Training',img:'',navigateValue:'flowbuilder/traininglist'},{id:2,values:'Job Offers',img:'',navigateValue:''},{id:3,values:'Learnings - upskill',img:'',navigateValue:''}]
   public sidebarRawData:any
   private mainserviceTab
@@ -65,7 +65,7 @@ this.router.navigate(['/MainComponent/user/reports'])
   }
 
   fundisabled(id:any){
-    if(id==5||id==6){
+    if(id==6){
       return 'isDivDisabled'
     }
     return''

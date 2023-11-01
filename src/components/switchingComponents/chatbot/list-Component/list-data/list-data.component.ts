@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
 import { mainservice } from 'src/components/main.service';
 declare var $: any;
@@ -16,21 +17,104 @@ sidebardata1: any;
 setListData1: any;
 deletedata:any;
 deleteBoolean:Boolean | undefined;
+beforeRegistration:string | undefined
+beforeRegistrationRaw:string|undefined
+mainMenu:string | undefined
+mainMenuRaw:string|undefined
+showAdvertisement : any
+showAdvertisementRaw  : undefined |boolean
+advertisementMessage:string |undefined
+advertisementMessageRaw  : undefined |string
 
-  constructor(public Mainservice:mainservice) { 
+  constructor(public Mainservice:mainservice,private http: HttpClient) { 
 
   }
 
   ngOnInit(): void {
+console.log("data when click")
    }
   ngOnChanges(changes:SimpleChange){
-    console.log(this.sidebardata1,"trainingData")
   this.sidebardata1 = this.sidebardata;
   this.setListData1 = this.setListData;
+ console.log("printing ")
+ if(this.sidebardata1 == 'Configuration'){
+  this.http.post('http://localhost:3000/Configuration',{}).toPromise()
+    .then((data:any)=>{
+      console.log(data,"data")
+      this.Mainservice.pageloaderMainservice=false
+      data.forEach((elementData:any)=>{
+        if(elementData.key=='showAdvertisement'){
+        
+          this.showAdvertisement=elementData.data=='true'?true:false
+          this.showAdvertisementRaw=elementData.data=='true'?true:false
+        
+      
+        }else if(elementData.key=='advertisementMessage'){
+          this.advertisementMessage=elementData.data
+          this.advertisementMessageRaw=elementData.data
+          console.log(elementData.data)
+        }
+        else if(elementData.key=='mainMenu'){
+          this.mainMenu=elementData.data
+          this.mainMenuRaw=elementData.data
+          console.log(elementData.data)
+        }
+        else if(elementData.key=='beforeRegistration'){
+          this.beforeRegistration=elementData.data
+          this.beforeRegistrationRaw=elementData.data
+          console.log(elementData.data)
+        }
+      })
+     
+      
+      
+    }).catch((data)=>{
+      this.Mainservice.errorPopup=true
+      this.Mainservice.pageloaderMainservice=false
+
+    });
+}
   }
   onEdit(type: any, data: any, index: number){
     console.log(index,"index")
     this.onEditData.emit({type: type, data: data, index: index })
+  }
+
+  showchange(inputData:any){
+    this.Mainservice.pageloaderMainservice=true
+    let passingdata
+    console.log("showchange",inputData)
+    if(inputData=='showAdvertisement'){
+        
+     passingdata= {showAdvertisement:!this.showAdvertisement}
+    
+  
+    }else if(inputData=='advertisementMessage'){
+      passingdata= {advertisementMessage:this.advertisementMessage}
+    }
+    else if(inputData=='mainMenu'){
+      passingdata= {mainMenu:this.mainMenu}
+    }
+    else if(inputData=='beforeRegistration'){
+      console.log("coming here",this.beforeRegistration)
+      passingdata= {beforeRegistration:this.beforeRegistration}
+    }
+    this.http.post('http://localhost:3000/Configuration',passingdata).toPromise().then((data:any)=>{
+      console.log(data,"data")
+      this.Mainservice.pageloaderMainservice=false
+    
+      this.showAdvertisementRaw=this.showAdvertisement
+      this.beforeRegistrationRaw=this.beforeRegistration
+      this.mainMenuRaw=this.mainMenu
+      this.advertisementMessageRaw=this.advertisementMessage
+      
+      
+      
+    }).catch((data)=>{
+      this.Mainservice.errorPopup=true
+      this.Mainservice.pageloaderMainservice=false
+
+    });
   }
 
 
@@ -51,5 +135,9 @@ deleteBoolean:Boolean | undefined;
     this.deletedata={}
     this.deleteBoolean=false
   
+  }
+
+  showcheckChange(data:any){
+    this.showchange('showAdvertisement')
   }
 }
