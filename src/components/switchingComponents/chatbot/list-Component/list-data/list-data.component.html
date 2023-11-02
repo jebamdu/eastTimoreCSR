@@ -1,51 +1,45 @@
-<div class="loading" *ngIf="this.Mainservice.pageloaderMainservice==true"  >;
+<div class="loading" *ngIf="this.Mainservice.pageloaderMainservice==true">;
 
 </div>
 
 <div *ngIf="sidebardata1 == 'Training'" class="px-4">
-  <div
-    class="row bgcolorListData px-2 my-4 py-4"
-    *ngFor="let trainingData of setListData1; let i = index"
-  >
+  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let trainingData of setListData1; let i = index">
     <div class="d-flex justify-content-end">
-      <span  class="mr-3"
-      (click)="onEdit(sidebardata1, trainingData, trainingData.uuid)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
-      </span> 
-     
-      <span  (click)="onDelete(sidebardata1, trainingData.uuid)">
-        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
+      <span class="mr-3" (click)="onEdit(sidebardata1, trainingData, trainingData.uuid)"><img
+          src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
       </span>
-   
+
+      <span (click)="onDelete(sidebardata1, trainingData.uuid)">
+        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete ">
+      </span>
+
     </div>
     <h5 class="col-12">{{ trainingData.title}}</h5>
     <div class="col-12 py-1">
-      <B>Duration:</B
-      ><P class="d-inline px-1">{{
+      <B>Duration:</B>
+      <P class="d-inline px-1">{{
         trainingData.startdate + " - " + trainingData.enddate
-      }}</P>
+        }}</P>
     </div>
     <p class="col-12">{{ trainingData.description }}</p>
     <div class="col-12">
-      <B>Registration Link:</B
-      ><P class="d-inline px-1">{{ trainingData.registrationLink }}</P>
+      <B>Registration Link:</B>
+      <P class="d-inline px-1">{{ trainingData.registrationLink }}</P>
     </div>
 
     <div></div>
   </div>
 </div>
 <div *ngIf="sidebardata1 == 'Learnings - upskill'" class="px-4">
-  <div
-    class="row bgcolorListData px-2 my-4 py-4"
-    *ngFor="let data of setListData1"
-  >
+  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
-      <span  class="mr-3"
-      (click)="onEdit(sidebardata1, data, data.id)">   <img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
-      </span> 
-      <span  (click)="onDelete(sidebardata1, data.uuid)">
-        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete "  >
+      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
+          class=" " alt="updateicon">
       </span>
-   
+      <span (click)="onDelete(sidebardata1, data.uuid)">
+        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete ">
+      </span>
+
     </div>
     <h5 class="col-12">{{ data.courseName }}</h5>
     <p class="col-12">{{ data.description }}</p>
@@ -53,10 +47,11 @@
       <B>Resource:</B>
 
       <p *ngFor="let resourceData of data.resourceslink" class="d-inline px-1">
-       <a [href]="resourceData.resourcelink" [download]="resourceData.resourceName">{{ resourceData.resourceName+", "}}</a> 
+        <a [href]="resourceData.resourcelink" [download]="resourceData.resourceName">{{ resourceData.resourceName+",
+          "}}</a>
       </p>
     </div>
-  
+
 
     <div class="col-12">
       <div class="d-flex">
@@ -69,29 +64,26 @@
   </div>
 </div>
 <div *ngIf="sidebardata1 == 'Job Offers'" class="px-4">
-  <div
-    class="row bgcolorListData px-2 my-4 py-4"
-    *ngFor="let data of setListData1"
-  >
+  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
-      <span  class="mr-3"
-      (click)="onEdit(sidebardata1, data, data.uuid)"><img src="../../../../../assets/updateIcon.svg" class=" " alt="updateicon">
-      </span> 
-      <span  data-toggle="modal" data-target="#exampleModal"  (click)="onDelete(sidebardata1, data.uuid)">
-        <img src="../../../../../assets/Deleteicon.svg" alt="Delete "  >
+      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.uuid)"><img src="../../../../../assets/updateIcon.svg"
+          class=" " alt="updateicon">
       </span>
-   
+      <span data-toggle="modal" data-target="#exampleModal" (click)="onDelete(sidebardata1, data.uuid)">
+        <img src="../../../../../assets/Deleteicon.svg" alt="Delete ">
+      </span>
+
     </div>
     <h5 class="col-12">{{ data.title }}</h5>
     <p class="col-12">{{ data.description }}</p>
     <div class="col-12">
-      <B>Roles and Responsibility:</B
-      ><P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
+      <B>Roles and Responsibility:</B>
+      <P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
     </div>
 
     <div class="col-12">
-      <B>Basic Requirements:</B
-      ><P class="d-inline px-1">{{ data.basicRequirements }}</P>
+      <B>Basic Requirements:</B>
+      <P class="d-inline px-1">{{ data.basicRequirements }}</P>
     </div>
 
     <div class="col-12">
@@ -102,7 +94,8 @@
     </div>
 
     <div class="col-12">
-      <B>Course Link :</B><P class="d-inline px-1">{{ data.linkToApply }}</P>
+      <B>Course Link :</B>
+      <P class="d-inline px-1">{{ data.linkToApply }}</P>
     </div>
 
     <div></div>
@@ -110,65 +103,70 @@
 </div>
 
 <div *ngIf="sidebardata1 == 'Help Line'" class="px-4">
-  <div
-    class="row bgcolorListData px-2 my-4 py-4"
-    *ngFor="let data of setListData1"
-  >
+  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
-    <span  class="mr-3"
-    (click)="onEdit(sidebardata1, data, data.id)"> 
-      <img src="../../../../../assets/updateIcon.svg"  alt="updateicon">
-    </span> 
+      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)">
+        <img src="../../../../../assets/updateIcon.svg" alt="updateicon">
+      </span>
 
     </div>
-    
-    <p class="col-12">{{ data.data }}</p>
 
-  
+    <p class="col-12 helpLinePreformat">{{ data.data }}</p>
+
+
     <div></div>
   </div>
 </div>
 
 
-<div *ngIf="sidebardata1 == 'Configuration'" class="px-4">
-<div class="row mt-5">
-<div class="form-group col-7 mb-4">
-<label for="exampleInputEmail1 mb-3">Before Registration</label>
- <textarea class="form-control mt-3" [(ngModel)]="beforeRegistration"  placeholder="message"></textarea> 
- <button class="btn btn-primary mt-3 floatbtn" (click)="showchange('beforeRegistration')" *ngIf="beforeRegistration!==beforeRegistrationRaw">Update</button>
-</div>
-
-<div class="form-group col-7 mb-4">
-  <label for="exampleInputEmail1 mb-3">Main menu</label>
-   <textarea class="form-control mt-3" [(ngModel)]="mainMenu"  placeholder="message"></textarea> 
-   <button *ngIf="mainMenu!==mainMenuRaw" (click)="showchange('mainMenu')" class="btn btn-primary mt-3 floatbtn">Update</button>
-</div>
-
-<div class="form-group col-7">
-  <div class="row d-flex justify-content-center mb-3">
-    <div class="div col">
-      <label for="exampleInputEmail1 float-left ">Advertisement Message</label>  
-    </div><div class="div col">
-      <label for="exampleInputEmail1  " class="mr-3">Show Advertisement</label>
-      <input type="checkbox"  data-toggle="toggle" (click)="showchange('showAdvertisement')" ng-checked="showAdvertisement" id="showadverisementtoggle" [(ngModel)]="showAdvertisement" class="togglebtn">
+<div *ngIf="sidebardata1 == 'Configuration'" style="margin-top: -50px;" class="mx-auto">
+  <div class="row mt-5 mx-auto">
+    <div class="form-group col-7 mb-4 mx-auto">
+      <label class="fs-4 fw-bold" for="exampleInputEmail1 mb-3">Registration welcome message</label>
+      <textarea cols="50" rows="4" class="form-control mt-3" [(ngModel)]="beforeRegistration"
+        placeholder="message"></textarea>
+      <button class="btn btn-primary mt-3 floatbtn" (click)="showchange('beforeRegistration')"
+        *ngIf="beforeRegistration!==beforeRegistrationRaw">Update</button>
     </div>
-   
+
+    <div class="form-group col-7 mb-4 mx-auto">
+      <div class="row d-flex justify-content-center mb-3">
+        <div class="div col">
+          <label class="fs-4 fw-bold" for="exampleInputEmail1 float-left ">Advertisement Message</label>
+        </div>
+        <div class="div col">
+          <label for="exampleInputEmail1  " class="mr-3">Show Advertisement</label>
+          <input type="checkbox" data-toggle="toggle" (click)="showchange('showAdvertisement')"
+            ng-checked="showAdvertisement" id="showadverisementtoggle" [(ngModel)]="showAdvertisement"
+            class="togglebtn">
+        </div>
+
+      </div>
+
+      <textarea cols="50" rows="4" class="form-control mt-3" [(ngModel)]="advertisementMessage"
+        placeholder="message"></textarea>
+      <button *ngIf="advertisementMessage!==advertisementMessageRaw" (click)="showchange('advertisementMessage')"
+        class="btn btn-primary mt-3 floatbtn">Update</button>
+    </div>
+
+    <div class="form-group col-7 mx-auto">
+      <label class="fs-4 fw-bold" for="exampleInputEmail1 mb-3">Main menu</label>
+      <textarea cols="50" rows="4" class="form-control mt-3" [(ngModel)]="mainMenu" placeholder="message"></textarea>
+      <button *ngIf="mainMenu!==mainMenuRaw" (click)="showchange('mainMenu')"
+        class="btn btn-primary mt-3 floatbtn">Update</button>
+    </div>
+
   </div>
- 
-   <textarea class="form-control mt-3" [(ngModel)]="advertisementMessage"  placeholder="message"></textarea>
-   <button *ngIf="advertisementMessage!==advertisementMessageRaw" (click)="showchange('advertisementMessage')" class="btn btn-primary mt-3 floatbtn">Update</button>
-</div>
-</div>
 </div>
 
 <!--Delete Modal -->
 
-<div class="modal fade" id="exampleModal"  >
+<div class="modal fade" id="exampleModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">{{sidebardata1}}</h5>
-       
+
       </div>
       <div class="modal-body">
         Are you sure you want to delete?

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
 import { mainservice } from 'src/components/main.service';
+import { environment } from 'src/environments/environment';
 declare var $: any;
 @Component({
   selector: 'app-list-data',
@@ -38,7 +39,7 @@ console.log("data when click")
   this.setListData1 = this.setListData;
  console.log("printing ")
  if(this.sidebardata1 == 'Configuration'){
-  this.http.post('http://localhost:3000/Configuration',{}).toPromise()
+  this.http.post(`${environment.baseURL}/Configuration`,{}).toPromise()
     .then((data:any)=>{
       console.log(data,"data")
       this.Mainservice.pageloaderMainservice=false
@@ -99,7 +100,7 @@ console.log("data when click")
       console.log("coming here",this.beforeRegistration)
       passingdata= {beforeRegistration:this.beforeRegistration}
     }
-    this.http.post('http://localhost:3000/Configuration',passingdata).toPromise().then((data:any)=>{
+    this.http.post(`${environment.baseURL}/Configuration`,passingdata).toPromise().then((data:any)=>{
       console.log(data,"data")
       this.Mainservice.pageloaderMainservice=false
     

@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Injectable, Input,
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { mainservice } from 'src/components/main.service';
+import { environment } from 'src/environments/environment';
 declare var $: any;
 @Component({
   selector: 'app-list-component',
@@ -94,7 +95,7 @@ export class ListComponentComponent implements OnInit {
     formData.append('file', selectfile);
 
     // Make a POST request to your API endpoint
-    this.http.post('http://localhost:3000/uploadfiles', formData).toPromise().then(
+    this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(
       (response:any) => {
         console.log(response,"response")
       //  let resp= resourcearray.at(index)
@@ -231,7 +232,7 @@ export class ListComponentComponent implements OnInit {
       this.cdr.markForCheck();
       this.Mainservice.pageloaderMainservice=true
       if(this.Mainservice.sidebardata.values != 'Configuration'){
-        this.http.get('http://localhost:3000/getData?headers='+headerVal).toPromise()
+        this.http.get(`${environment.baseURL}/getData?headers=`+headerVal).toPromise()
         .then((data:any)=>{
           console.log(data,"data")
           this.Mainservice.pageloaderMainservice=false
@@ -353,7 +354,7 @@ export class ListComponentComponent implements OnInit {
     }else{
       bodyparams={TableName:headerdata,TableData:formData,id:headerdata=='Help Line'?this.editDetails.data.id:this.editDetails.data.uuid}
     }
-    this.http.post('http://localhost:3000/'+behaviour,bodyparams).toPromise()
+    this.http.post(`${environment.baseURL}/`+behaviour,bodyparams).toPromise()
     .then((data:any)=>{
       console.log(data,"data")
       this.Mainservice.pageloaderMainservice=false
@@ -482,7 +483,7 @@ export class ListComponentComponent implements OnInit {
       headerdata='helpline'
     }
     this.Mainservice.pageloaderMainservice=true
-    this.http.post('http://localhost:3000/deleteTableData',{TableName:headerdata,id:event.index}).toPromise()
+    this.http.post(`${environment.baseURL}/deleteTableData`,{TableName:headerdata,id:event.index}).toPromise()
     .then((data:any)=>{
    
         this.Mainservice.setListData =  this.Mainservice.setListData.filter((data:any) => {

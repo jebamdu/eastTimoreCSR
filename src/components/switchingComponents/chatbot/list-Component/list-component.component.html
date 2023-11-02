@@ -23,7 +23,7 @@
     Launch demo modal
   </button> -->
   <img
-  *ngIf="this.Mainservice.sidebardata.values!='Help Line'"
+  *ngIf="!['Help Line','Configuration'].includes(this.Mainservice.sidebardata.values)"
     type="button"
     src="../../../../assets/addbtn.svg"
     class="trainingImageSize"
@@ -31,7 +31,7 @@
     (click)="openModal()"
   />
 </div>
-<div class="px-4">
+<div *ngIf="!['Help Line','Configuration'].includes(this.Mainservice.sidebardata.values)" class="px-4">
   <div class="form-group d-flex flex-row md-form form-sm">
     <i
       class="fa fa-search py-3"
@@ -374,6 +374,8 @@
           
             <textarea
               class="form-control mb-3"
+              rows="10"
+              cols="30"
               formControlName="data"
               placeholder="Help Line message"
             ></textarea>
