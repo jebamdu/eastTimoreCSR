@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseURL:"http://localhost:3000"
+  baseURL:"http://localhost:3000",
+  systemConfigUpdationURL:"https://172.190.115.164/updateInfo"
 };
 
 /*
