@@ -24,6 +24,7 @@ export class ListComponentComponent implements OnInit {
   public sector_data_skills: string[] = [];
   public ebooks_resource_language: string[] = [];
   public settings = {};
+  public settings_ebook = {};
   public sector_settings = {};
   public errorPopup: boolean = false
   public pageloadder: boolean = false;
@@ -70,13 +71,30 @@ export class ListComponentComponent implements OnInit {
       resourceName: new FormControl('', Validators.required)
     })
   }
+  ebookresourcearray() {
+    return new FormGroup({
+      link: new FormControl('', Validators.required),
+      title: new FormControl('', Validators.required),
+      noPages: new FormControl('', Validators.required),
+      publisherName: new FormControl('', Validators.required)
+    })
+  }
   addresource() {
 
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
     resourcearray.push(this.resourcearray())
   }
+  addresourceebook() {
+
+    let resourcearray = this.ebooks.get('resourceslink') as FormArray
+    resourcearray.push(this.ebookresourcearray())
+  }
   getResource(index: any) {
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
+    return resourcearray.length - 1
+  }
+  getResourceebook(index: any) {
+    let resourcearray = this.ebooks.get('resourceslink') as FormArray
     return resourcearray.length - 1
   }
   deleteResource(index: number) {
@@ -84,6 +102,18 @@ export class ListComponentComponent implements OnInit {
     if (index == 0) {
       resourcearray.controls[index].get('resourcelink')?.setValue('')
       resourcearray.controls[index].get('resourceName')?.setValue('')
+    } else {
+      resourcearray.removeAt(index)
+    }
+
+  }
+  deleteResourceebook(index: number) {
+    let resourcearray = this.ebooks.get('resourceslink') as FormArray
+    if (index == 0) {
+      resourcearray.controls[index].get('title')?.setValue('')
+      resourcearray.controls[index].get('link')?.setValue('')
+      resourcearray.controls[index].get('noPages')?.setValue('')
+      resourcearray.controls[index].get('publisherName')?.setValue('')
     } else {
       resourcearray.removeAt(index)
     }
@@ -111,6 +141,40 @@ export class ListComponentComponent implements OnInit {
         this.Mainservice.pageloaderMainservice = false
       });
   }
+  setfileebook(index: number, event: any) {
+    console.log("coming here")
+    this.Mainservice.pageloaderMainservice = true
+    let resourcearray = this.ebooks.get('resourceslink') as FormArray
+    let selectfile = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', selectfile);
+
+    // Make a POST request to your API endpoint
+    this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(
+      (response: any) => {
+        console.log(response, "response")
+        //  let resp= resourcearray.at(index)
+
+        resourcearray.controls[index].get('link')?.setValue(response.data.Location)
+        resourcearray.controls[index].get('title')?.setValue(response.data.key)
+        resourcearray.controls[index].get('noPages')?.setValue('4')
+        resourcearray.controls[index].get('publisherName')?.setValue('dummy')
+        this.Mainservice.pageloaderMainservice = false
+      }).catch((error) => {
+        console.error('Error uploading file', error);
+        this.Mainservice.pageloaderMainservice = false
+      });
+  }
+  ebooks = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    downloadLink: new FormControl(''),
+    // noPages: new FormControl(''),
+    // publisherName: new FormControl(''),
+    resourceslink: this.fb.array([this.ebookresourcearray()]),
+    language: new FormControl(this.ebooks_resource_language, Validators.required),
+    // resourceslink: new FormControl([{data:'https:1234'}], Validators.required),
+  })
   learnAndUpskill = new FormGroup({
     courseName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
@@ -213,6 +277,24 @@ export class ListComponentComponent implements OnInit {
       "Korean"
     ];
 
+    this.settings_ebook = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      enableCheckAll: false,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Deselect',
+      allowSearchFilter: false,
+      limitSelection: 1,
+      clearSearchFilter: true,
+      maxHeight: 197,
+      itemsShowLimit: 3,
+      searchPlaceholderText: 'search',
+      noDataAvailablePlaceholderText: 'No data',
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
 
     // setting and support i18n
     this.settings = {
@@ -252,6 +334,7 @@ export class ListComponentComponent implements OnInit {
   ];
 
 
+  EbooksListData: any[] = []
   CourselListData: any[] = [
 
   ]
@@ -294,6 +377,12 @@ export class ListComponentComponent implements OnInit {
         this.Mainservice.setListData = this.JobOpportunityListData
 
       }
+      if (this.Mainservice.sidebardata.values == 'EBooks') {
+        headerVal = 'EBooks'
+        this.setListData = this.EbooksListData;
+        this.Mainservice.setListData = this.EbooksListData
+
+      }
       if (this.Mainservice.sidebardata.values == 'Help Line') {
         headerVal = 'HelpLine'
         this.setListData = this.HelpLineListData;
@@ -333,6 +422,9 @@ export class ListComponentComponent implements OnInit {
     }
     else if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
       return this.learnAndUpskill.controls;
+    }
+    else if (this.Mainservice.sidebardata.values == 'EBook') {
+      return this.ebooks.controls;
     }
     return
 
@@ -407,6 +499,20 @@ export class ListComponentComponent implements OnInit {
       $("#addPopUp").modal('hide');
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
+    else if (this.Mainservice.sidebardata.values == 'EBooks') {
+      headerdata = 'EBooks'
+      if (this.editFlag) {
+        behaviour = 'ModifyTableData'
+        formData = this.ebooks.value
+      }
+      else {
+        formData = this.ebooks.value
+        this.CourselListData.push(this.ebooks.value);
+      }
+
+      $("#addPopUp").modal('hide');
+      console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
+    }
     else if (this.Mainservice.sidebardata.values == 'Help Line') {
       headerdata = 'Help Line'
       formData = this.helpLine.value
@@ -476,6 +582,7 @@ export class ListComponentComponent implements OnInit {
     this.trainingFrom.reset()
     this.joboffersForm.reset()
     this.learnAndUpskill.reset()
+    this.ebooks.reset()
     this.editFlag = false;
     $("#addPopUp").modal('show');
   }
@@ -525,6 +632,16 @@ export class ListComponentComponent implements OnInit {
         sector: event['data']['sector'],
       })
     }
+    else if (event['type'] == 'EBooks') {
+
+      this.ebooks.patchValue({
+        title: event['data']['title'],
+        description: event['data']['description'],
+        resourceslink: event['data']['resourceslink'],
+        downloadLink: event['data']['downloadLink'],
+        language: event['data']['language'],
+      })
+    }
 
 
     else if (event['type'] == 'Help Line') {
@@ -550,6 +667,9 @@ export class ListComponentComponent implements OnInit {
     }
     else if (event['type'] == 'Learnings - upskill') {
       headerdata = 'Learnings'
+    }
+    else if (event['type'] == 'EBooks') {
+      headerdata = 'EBooks'
     }
     else if (event['type'] == 'Help Line') {
       headerdata = 'helpline'

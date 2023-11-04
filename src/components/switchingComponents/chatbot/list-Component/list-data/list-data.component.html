@@ -63,6 +63,57 @@
     <div></div>
   </div>
 </div>
+
+<div *ngIf="sidebardata1 == 'EBooks'" class="px-4">
+
+  <div class="bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
+    <!-- [{id:1,uuid:'uasd-asdas-dad',title:'Tourism',description:'desc tour',downloadLink:'http://example.com/download',resourceslink:['http://example.com/download1','http://example.com/download2'],language:'Tetum',noPages:50,publisherName:'new publisher'}] -->
+    <div class="d-flex justify-content-end">
+      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
+          class=" " alt="updateicon">
+      </span>
+      <span (click)="onDelete(sidebardata1, data.uuid)">
+        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete ">
+      </span>
+
+    </div>
+    <h5 class="col-12">{{ data.title }}</h5>
+    <p class="col-12">{{ data.description }}</p>
+    <p class="col-12"><b>Language: </b>{{ data.language?.[0] }}</p>
+    
+    <div class="col-12">
+      <div class="d-flex">
+        <B>Download Link :</B>
+        <a [href]="data.downloadLink" target="_blank">{{ data.downloadLink }}</a>
+      </div>
+    </div>
+
+    <div></div>
+
+    <div *ngIf="data.resourceslink.length>0" class="col-12 mb-1">
+      <B>Resource:</B>
+      <div *ngFor="let res of data.resourceslink" class="d-inline px-1">
+        <div style="display: flex;justify-content: space-between;">
+          <a [href]="res.link" [download]="res.title">{{ res.title+"," }}</a>
+          <span class="">
+            <b>Language:</b>
+            {{ res.language }}
+          </span>
+          <span class="">
+            <b>No of pages:</b>
+            {{ res.noPages }}
+          </span>
+          <span class="">
+            <b>Publisher name:</b>
+            {{ res.publisherName }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div *ngIf="sidebardata1 == 'Job Offers'" class="px-4">
   <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
