@@ -642,13 +642,15 @@ export class ListComponentComponent implements OnInit {
   }
   onEditData(event: any) {
     console.log("coming here")
+    
     console.log(event, "event update")
     this.editFlag = true;
     this.editDetails = event;
     $("#addPopUp").modal('show');
     console.log(this.editDetails)
     if (event['type'] == 'Training') {
-      this.trainingFrom.patchValue({
+      const Lastdate = new Date(event['data']['lastDateToApply']).toISOString().split('T')[0];
+       this.trainingFrom.patchValue({
         title: event['data']['title'],
         description: event['data']['description'],
         registrationLink: event['data']['registrationLink'],
@@ -661,7 +663,7 @@ export class ListComponentComponent implements OnInit {
         organizedBy: event['data']['organizedBy'],
         mapLink: event['data']['mapLink'],
         feeRegistration: event['data']['feeRegistration'],
-        lastDateToApply:event['data']['lastDateToApply'],
+        lastDateToApply:Lastdate,
       otherInfo: event['data']['otherInfo'],
       howToRegister: event['data']['howToRegister']
     

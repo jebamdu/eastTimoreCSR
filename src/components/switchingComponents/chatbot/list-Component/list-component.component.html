@@ -578,21 +578,23 @@
             </ng-multiselect-dropdown>
             <input
               type="text"
-              class="form-control"
+              class="form-control mt-3"
               formControlName="noPages"
               placeholder="No of pages"
             />
             <input
               type="text"
-              class="form-control"
+              class="form-control my-3"
               formControlName="publisherName"
               placeholder="Publisher name"
             />
-            <label for="formFile" class="form-label">Resource</label>
-            <ng-container>
-              <div class="row mb-4" formGroupName="resourceslink">
+            <label for="formFile" class="form-label mt-3  mb-2">Resource</label>
+            <ng-container class="px-2 mb-3">
+              <div class="row px-2 mb-4" formGroupName="resourceslink">
                 <input
-                class="fileInput col-8"
+                type="file"
+                id="EbooksResource"
+                class="fileInput  col-10"
                 style="display: none"
                 placeholder="Browse"
                 name="file1"
@@ -600,7 +602,7 @@
                 class="fileInput col-10"
                 />
                 <label
-                [for]="'learnAndUpskillresource'"
+                for="EbooksResource"
                 class="inputWrapper col-2"
                 >
                   <span class="appendInpText">Browse</span>
