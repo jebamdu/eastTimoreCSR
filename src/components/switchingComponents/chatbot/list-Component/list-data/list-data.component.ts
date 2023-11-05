@@ -144,4 +144,6 @@ export class ListDataComponent implements OnInit {
   showcheckChange(data: any) {
     this.showchange('showAdvertisement')
   }
+
+ 
 }

@@ -246,7 +246,7 @@
           <textarea
             class="form-control mb-3"
             formControlName="otherInfo"
-            placeholder="Any othe info?"
+            placeholder="Any other info?"
           ></textarea>
           <div class="modal-footer">
             <button
@@ -257,7 +257,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="submit"
+              [disabled]="!this.trainingFrom.valid"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </form>
       </div>
@@ -346,11 +352,12 @@
               placeholder="Address"
             ></textarea>
 
-            <label for="">Job description resource</label>
+            <label for="">Job description</label>
             <!--  -->
 
             <!--  -->
             <div
+              class="mt-2"
               style="display: flex; margin-bottom: 30px; flex-direction: row"
               formGroupName="jobDescriptionPDFLink"
             >
@@ -372,11 +379,21 @@
               </label>
               <div class="col-8 pl-0" style="padding-left: 0px !important">
                 <input
+                  disabled
                   type="text"
                   class="form-control"
                   formControlName="title"
                   [placeholder]="'choose Document'"
                 />
+              </div>
+              <div>
+                <img
+                  class="deletebtnStyle mb-2 px-0"
+                  src="../../../../assets/Deleteicon.svg"
+                  (click)="deletejobDescriptionPDFLink()"
+                  alt="deleteicon"
+                />
+               
               </div>
             </div>
           </div>
@@ -389,7 +406,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              [disabled]="!this.joboffersForm.valid"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </form>
       </div>
@@ -398,7 +421,9 @@
         class="modal-body"
         *ngIf="this.Mainservice.sidebardata.values == 'Learnings - upskill'"
       >
-        <form [formGroup]="learnAndUpskill" (ngSubmit)="addSubmitForm()">
+        <form [formGroup]="learnAndUpskill" 
+        >
+        <!-- (ngSubmit)="addSubmitForm()" -->
           <div class="form-group">
             <input
               type="text"
@@ -428,6 +453,67 @@
               (onDeSelectAll)="onDeSelectAll($event)"
             >
             </ng-multiselect-dropdown>
+
+            <input
+              type="text"
+              class="form-control my-3"
+              formControlName="moduleName"
+              placeholder="Module Name"
+            />
+            <label for="formFile" class="form-label">Resource</label>
+            <ng-container formArrayName="resourceslink">
+              <div
+                class="row mb-4"
+                *ngFor="
+                  let resourcelink of learnAndUpskill.get('resourceslink')
+                    .controls;
+                  let i = index
+                "
+                [formGroupName]="i"
+              >
+                <input
+                  [id]="'change' + i"
+                  class="fileInput col-8"
+                  style="display: none"
+                  type="file"
+                  placeholder="Browse"
+                  (change)="setfile(i, $event)"
+                  name="file1"
+                />
+                <label
+                  [for]="'learnAndUpskillresource' + i"
+                  class="inputWrapper col-2"
+                  style="margin-left: 15px"
+                >
+                  <span class="appendInpText">Browse</span>
+                </label>
+                <div class="col-10 pl-0" style="padding-left: 0px !important">
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled
+                    formControlName="resourceName"
+                    [placeholder]="'choose Document'"
+                  />
+                </div>
+                <!-- <div class="col-2 d-flex align-items-center">
+                  <img
+                    class="deletebtnStyle mb-2 px-0"
+                    src="../../../../assets/Deleteicon.svg"
+                    (click)="deleteResource(i)"
+                    alt="deleteicon"
+                  />
+                  <img
+                    class="mb-1 deletebtnStyle px-0"
+                    *ngIf="i == getResource(i)"
+                    (click)="addresource()"
+                    src="../../../../assets//addbtnfilebutton.svg"
+                    alt="addbtnsvg"
+                  />
+                </div> -->
+                <!-- </div> -->
+              </div>
+            </ng-container>
 
             <!--  -->
             <div class="my-3" formArrayName="courseLink">
@@ -467,65 +553,6 @@
               </div>
             </div>
             <!--  -->
-            <input
-              type="text"
-              class="form-control mb-3"
-              formControlName="moduleName"
-              placeholder="Add Module"
-            />
-            <label for="formFile" class="form-label">Resource</label>
-            <ng-container formArrayName="resourceslink">
-              <div
-                class="row mb-4"
-                *ngFor="
-                  let resourcelink of learnAndUpskill.get('resourceslink')
-                    .controls;
-                  let i = index
-                "
-                [formGroupName]="i"
-              >
-                <input
-                  [id]="'learnAndUpskillresource' + i"
-                  class="fileInput col-8"
-                  style="display: none"
-                  type="file"
-                  placeholder="Browse"
-                  (change)="setfile(i, $event)"
-                  name="file1"
-                />
-                <label
-                  [for]="'learnAndUpskillresource' + i"
-                  class="inputWrapper col-2"
-                  style="margin-left: 15px"
-                >
-                  <span class="appendInpText">Browse</span>
-                </label>
-                <div class="col-8 pl-0" style="padding-left: 0px !important">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="resourceName"
-                    [placeholder]="'choose Document'"
-                  />
-                </div>
-                <div class="col-2 d-flex align-items-center">
-                  <img
-                    class="deletebtnStyle mb-2 px-0"
-                    src="../../../../assets/Deleteicon.svg"
-                    (click)="deleteResource(i)"
-                    alt="deleteicon"
-                  />
-                  <img
-                    class="mb-1 deletebtnStyle px-0"
-                    *ngIf="i == getResource(i)"
-                    (click)="addresource()"
-                    src="../../../../assets//addbtnfilebutton.svg"
-                    alt="addbtnsvg"
-                  />
-                </div>
-                <!-- </div> -->
-              </div>
-            </ng-container>
           </div>
           <div class="modal-footer">
             <button
@@ -536,7 +563,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="submit"
+              [disabled]="!this.learnAndUpskill.valid"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </form>
       </div>
@@ -588,36 +621,43 @@
               formControlName="publisherName"
               placeholder="Publisher name"
             />
-            <label for="formFile" class="form-label mt-3  mb-2">Resource</label>
+            <label for="formFile" class="form-label mt-3 mb-2">Resource</label>
             <ng-container class="px-2 mb-3">
               <div class="row px-2 mb-4" formGroupName="resourceslink">
                 <input
-                type="file"
-                id="EbooksResource"
-                class="fileInput  col-10"
-                style="display: none"
-                placeholder="Browse"
-                name="file1"
-                (change)="setfileebook($event)"
-                class="fileInput col-10"
+                  type="file"
+                  id="EbooksResource"
+                  class="fileInput col-10"
+                  style="display: none"
+                  placeholder="Browse"
+                  name="file1"
+                  (change)="setfileebook($event)"
+                  class="fileInput col-10"
                 />
-                <label
-                for="EbooksResource"
-                class="inputWrapper col-2"
-                >
+                <label for="EbooksResource" class="inputWrapper col-2">
                   <span class="appendInpText">Browse</span>
                 </label>
                 <div class="col-8 pl-0" style="padding-left: 0px !important">
                   <input
                     type="text"
-                    
                     class="form-control"
                     formControlName="title"
                     [placeholder]="'choose Document'"
                   />
                 </div>
+                <div class="col">
+                  <img
+                    class="deletebtnStyle mb-2 px-0"
+                    src="../../../../assets/Deleteicon.svg"
+                    (click)="deleteResourceLinkEbook()"
+                    alt="deleteicon"
+                  />
+                 
+                </div>
               </div>
+              
             </ng-container>
+           
           </div>
           <div class="modal-footer">
             <button
@@ -628,7 +668,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="submit"
+              [disabled]="!this.ebooks.valid"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </form>
       </div>

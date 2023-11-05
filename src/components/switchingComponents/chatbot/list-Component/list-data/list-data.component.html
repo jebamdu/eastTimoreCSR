@@ -18,16 +18,64 @@
     <div class="col-12 py-1">
       <B>Duration:</B>
       <P class="d-inline px-1">{{
-        trainingData.startdate + " - " + trainingData.enddate
+        (trainingData.startdate |date)+ " - " + (trainingData.enddate|date)
         }}</P>
     </div>
     <p class="col-12">{{ trainingData.description }}</p>
-    <div class="col-12">
+    <div class="mb-2 col-12">
       <B>Registration Link:</B>
       <P class="d-inline px-1">{{ trainingData.registrationLink }}</P>
     </div>
 
-    <div></div>
+    <div class="mb-2 col-4">
+      <B>organized By: </B>
+      <P class="d-inline px-1">{{ trainingData.organizedBy }}</P>
+    </div>
+    <div class="mb-2 col-4">
+      <B>municipality : </B>
+      <P *ngFor="let municipality of trainingData.municipality" class="d-inline px-1">{{ municipality+"," }}</P>
+    </div>
+    <div class="mb-2 col-4">
+      <B>sector : </B>
+      <P *ngFor="let sector of trainingData.sector" class="d-inline px-1">{{ sector+"," }}</P>
+    </div>
+
+    
+    <div class="mb-2 col-4">
+      <B>Registration fee : </B>
+      <P  class="d-inline px-1">{{ trainingData.feeRegistration?trainingData.feeRegistration:'Nil' }}</P>
+    </div>
+
+    <div class="mb-2 col-4">
+      <B>Last date to apply : </B>
+      <P  class="d-inline px-1">{{ trainingData.lastDateToApply?(trainingData.lastDateToApply|date):'Nil' }}</P>
+    </div>
+
+
+    <div class="mb-2 col-12">
+      <B>Address : </B>
+      <P  class="d-inline px-1">{{ trainingData.address }}</P>
+    </div>
+
+    <div class="mb-2 col-12">
+      <B>Basic Requirements : </B>
+      <P  class="d-inline px-1">{{ trainingData.basic_requirement?trainingData.basic_requirement:'Nil' }}</P>
+    </div>
+
+    <div class="mb-2 col-12">
+      <B>Location Link : </B>
+      <P  class="d-inline px-1">{{ trainingData.mapLink?trainingData.mapLink:'Nil' }}</P>
+    </div>
+
+    <div class="mb-2 col-12">
+      <B>How to register : </B>
+      <P  class="d-inline px-1">{{ trainingData.howToRegister?trainingData.howToRegister:'Nil' }}</P>
+    </div>
+
+    <div class="mb-2 col-12">
+      <B>Other information : </B>
+      <P  class="d-inline px-1">{{ trainingData.otherInfo?trainingData.otherInfo:'Nil' }}</P>
+    </div>
   </div>
 </div>
 <div *ngIf="sidebardata1 == 'Learnings - upskill'" class="px-4">
@@ -54,15 +102,31 @@
     </div>
 
 
-    <div class="col-12">
-      <div class="d-flex ">
+    <div class="col-12 mb-2">
+      <div class="d-flex " *ngIf="data &&data.courseLink&&data?.courseLink.length>0">
         <B class="mr-2 ">Course Link :</B>
-        <p *ngFor="let resourceData of data.courseLink" class="d-inline px-1 ">
+        <p *ngFor="let resourceData of data?.courseLink" class="d-inline px-1 ">
           {{ resourceData.link+", "}}
         </p>
         
       </div>
      
+    </div>
+
+    <div class="col-4 mb-2">
+      <B class="">Sector:</B>
+
+      <p *ngFor="let sector of data.sector" class="d-inline px-1">
+        {{sector+"," }}
+      </p>
+    </div>
+
+    <div class="col-4 mb-2">
+      <B class="">Module:</B>
+
+      <p  class="d-inline px-1">
+        {{data.moduleName }}
+      </p>
     </div>
 
     <div></div>
@@ -71,7 +135,7 @@
 
 <div *ngIf="sidebardata1 == 'EBooks'" class="px-4">
 
-  <div class="bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
+  <div class="bgcolorListData px-4 my-4 py-4 row" *ngFor="let data of setListData1">
     <!-- [{id:1,uuid:'uasd-asdas-dad',title:'Tourism',description:'desc tour',downloadLink:'http://example.com/download',resourceslink:['http://example.com/download1','http://example.com/download2'],language:'Tetum',noPages:50,publisherName:'new publisher'}] -->
     <div class="d-flex justify-content-end">
       <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
@@ -82,27 +146,37 @@
       </span>
 
     </div>
-    <h5 class="col-12">{{ data.title }}</h5>
-    <p class="col-12">{{ data.description }}</p>
-    <p class="col-12"><b>Language: </b>{{ data.language?.[0] }}</p>
+    <h5 class="col-12 mb-2">{{ data.title }}</h5>
+    <p class="col-12 mb-2">{{ data.description }}</p>
+    <p class="col-12 mb-2"><b>Language: </b>{{ data.language?.[0] }}</p>
     
-    <div class="col-12">
+    <div class="col-12 mb-2">
       <div class="d-flex">
         <B>Download Link :</B>
         <a [href]="data.downloadLink" target="_blank">{{ data.downloadLink }}</a>
       </div>
     </div>
 
+    <div class="col-4 mb-2">
+        <B>No of page :</B>
+        <p  class="d-inline px-1">{{data.noPages}}</p>
+    </div>
+
+    <div class="col-8 mb-2">
+      <B>Publisher Name :</B>
+      <p  class="d-inline px-1">{{data.publisherName}}</p>
+  </div>
+
     <div></div>
 
     <div *ngIf="data.resourceslink" class="col-12 mb-1">
       <B>Resource:</B>
-      <div  class="d-inline px-1">
-        <div style="display: flex;justify-content: space-between;">
+     
+        <P class="d-inline px-1">
           <a [href]="data.resourceslink.link" [download]="data.resourceslink?.link">{{ data.resourceslink.title+"," }}</a>
+        </P>
+        
     
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -119,30 +193,55 @@
       </span>
 
     </div>
-    <h5 class="col-12">{{ data.title }}</h5>
-    <p class="col-12">{{ data.description }}</p>
-    <div class="col-12">
+    <h5 class="col-12 mb-2">{{ data.title }}</h5>
+    <p class="col-12 mb-2">{{ data.description }}</p>
+    <div class="col-12 mb-2">
       <B>Roles and Responsibility:</B>
       <P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 mb-2">
       <B>Basic Requirements:</B>
       <P class="d-inline px-1">{{ data.basicRequirements }}</P>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 mb-2">
       <div class="d-flex">
         <B>Address :</B>
         <P class="d-inline px-1">{{ data.address }}</P>
       </div>
     </div>
 
-    <div class="col-12">
-      <B>Course Link :</B>
+    <div class="col-12 mb-2">
+      <B>Link to apply :</B>
       <P class="d-inline px-1">{{ data.linkToApply }}</P>
     </div>
 
+    <div class="col-4 mb-2">
+      <B>Country :</B>
+      <P class="d-inline px-1">{{ data.jobCountry }}</P>
+    </div>
+
+    <div class="col-4 mb-2">
+      <B>Last date to apply :</B>
+      <P class="d-inline px-1">{{ data.lastDatetoApply|date }}</P>
+    </div>
+
+   
+      <div class="mb-2 col-4">
+        <B>sector : </B>
+        <P *ngFor="let sector of data.sector" class="d-inline px-1">{{ sector+"," }}</P>
+      </div>
+    
+      <div class="col-4 mb-2">
+        <B>How to apply :</B>
+        <P class="d-inline px-1">{{ data.howToApply }}</P>
+      </div>
+
+      <div class="col-12 mb-2">
+        <B>Resource :</B>
+        <a [href]="data.jobDescriptionPDFLink?.link" [download]="data.jobDescriptionPDFLink?.link" class="d-inline px-1">{{ data.jobDescriptionPDFLink?.title }}</a>
+      </div>
     <div></div>
   </div>
 </div>
@@ -223,3 +322,4 @@
     </div>
   </div>
 </div>
+

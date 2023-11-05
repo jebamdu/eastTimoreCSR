@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Injectable, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { mainservice } from 'src/components/main.service';
@@ -38,22 +38,23 @@ export class ListComponentComponent implements OnInit {
   editFlag: boolean = false;
   editDetails: any = '';
   EditDatauuid: any
+  validationPopup = false
 
 
   joboffersForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    linkToApply: new FormControl(''),
-    address: new FormControl('', Validators.required),
-    rolesAndResponsibility: new FormControl(''),
-    basicRequirements: new FormControl('', Validators.required),
+    linkToApply: new FormControl('', Validators.required),
+    address: new FormControl(''),
+    rolesAndResponsibility: new FormControl('', Validators.required),
+    basicRequirements: new FormControl(''),
     jobCountry: new FormControl('', Validators.required),
-    lastDatetoApply: new FormControl('', Validators.required),
+    lastDatetoApply: new FormControl('', [Validators.required,dateValidator]),
     sector: new FormControl(this.sector_data_jobs, Validators.required),
     howToApply: new FormControl('', Validators.required),
     jobDescriptionPDFLink:this.fb.group({
-      link:new FormControl('', Validators.required),
-      title:new FormControl('', Validators.required),
+      link:new FormControl('', ),
+      title:new FormControl('',),
     }),
     // trainingFrequency: new FormControl('',Validators.required),
   })
@@ -62,32 +63,32 @@ export class ListComponentComponent implements OnInit {
   trainingFrom = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    registrationLink: new FormControl(''),
-    startdate: new FormControl('', Validators.required),
-    enddate: new FormControl('', Validators.required),
+    registrationLink: new FormControl('',Validators.required),
+    startdate: new FormControl('', [Validators.required,dateValidator]),
+    enddate: new FormControl('', [Validators.required,dateValidator]),
     address: new FormControl('', Validators.required),
     basic_requirement: new FormControl(''),
     municipality: new FormControl(this.muncipality_data, Validators.required),
     sector: new FormControl(this.sector_data_trainings, Validators.required),
-    frequencyIntervel: new FormControl(2, Validators.required),
+    frequencyIntervel: new FormControl(2,),
     organizedBy: new FormControl('', Validators.required),
     mapLink: new FormControl(''),
     feeRegistration: new FormControl(''),
-    lastDateToApply:new FormControl('', Validators.required),
-  otherInfo: new FormControl('', Validators.required),
-  howToRegister: new FormControl('', Validators.required)
+    lastDateToApply:new FormControl('',[ Validators.required,dateValidator]),
+  otherInfo: new FormControl('', ),
+  howToRegister: new FormControl('', )
 
   })
 
   resourcearray() {
     return new FormGroup({
-      resourcelink: new FormControl('', Validators.required),
-      resourceName: new FormControl('', Validators.required)
+      resourcelink: new FormControl('', ),
+      resourceName: new FormControl('', )
     })
   }
   courselinkarray() {
     return new FormGroup({
-      link: new FormControl('', Validators.required),
+      link: new FormControl('',Validators.required ),
     })
   }
 
@@ -119,6 +120,7 @@ export class ListComponentComponent implements OnInit {
   }
 
   deleteResource(index: number) {
+    console.log("delete resource check")
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
       if (index == 0 && resourcearray.value.length==1) {
       resourcearray.controls[index].get('resourcelink')?.setValue('')
@@ -156,6 +158,8 @@ export class ListComponentComponent implements OnInit {
 
         resourcearray.controls[index].get('resourcelink')?.setValue(response.data.Location)
         resourcearray.controls[index].get('resourceName')?.setValue(response.data.key)
+        console.log(this.learnAndUpskill,
+          "this.learnAndUpskill")
         this.Mainservice.pageloaderMainservice = false
       }).catch((error) => {
         console.error('Error uploading file', error);
@@ -213,12 +217,12 @@ export class ListComponentComponent implements OnInit {
   ebooks = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    downloadLink: new FormControl(''),
+    downloadLink: new FormControl('',Validators.required),
     noPages: new FormControl('', Validators.required),
     publisherName: new FormControl('', Validators.required),
     resourceslink:this.fb.group({
-      link:new FormControl('', Validators.required),
-      title:new FormControl('', Validators.required),
+      link:new FormControl('', ),
+      title:new FormControl('', ),
     }),
     language: new FormControl(this.ebooks_resource_language, Validators.required),
    
@@ -506,44 +510,58 @@ export class ListComponentComponent implements OnInit {
     this.Mainservice.pageloaderMainservice = true
     let headerdata = ''
     let behaviour = 'insertTableData'
-    let formData = {}
+    let formData :any = {}
     if (this.Mainservice.sidebardata.values == 'Training') {
       headerdata = 'Trainings'
 
-
+     
       if (this.editFlag) {
         behaviour = 'ModifyTableData'
         formData = this.trainingFrom.value
       }
       else {
         formData = this.trainingFrom.value
+        
+   
       }
       $("#addPopUp").modal('hide');
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values);
     }
     else if (this.Mainservice.sidebardata.values == 'Job Offers') {
       headerdata = 'Jobs'
-
-
       if (this.editFlag) {
         behaviour = 'ModifyTableData'
         formData = this.joboffersForm.value
+        if(formData?.jobDescriptionPDFLink?.title == '' ||  formData?.jobDescriptionPDFLink?.title == null){
+          formData.jobDescriptionPDFLink={}
+        }
       }
       else {
         formData = this.joboffersForm.value
+        if(formData?.jobDescriptionPDFLink?.title == '' || formData?.jobDescriptionPDFLink?.title == null){
+          formData.jobDescriptionPDFLink={}
+        }
+       
       }
       $("#addPopUp").modal('hide');
       console.log(this.Mainservice.setListData, 'uuu', this.Mainservice.sidebardata.values)
     }
     else if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
+      console.log(this.learnAndUpskill.value)
       headerdata = 'Learnings'
       if (this.editFlag) {
         behaviour = 'ModifyTableData'
         formData = this.learnAndUpskill.value
+        if(formData?.resourceslink[0]?.resourceslink == '' || formData?.resourceslink[0]?.resourceslink == null){
+          formData.resourceslink=[]
+        }
       }
       else {
         formData = this.learnAndUpskill.value
         this.CourselListData.push(this.learnAndUpskill.value);
+        if(formData?.resourceslink[0]?.resourceslink == '' || formData?.resourceslink[0]?.resourceslink == null){
+          formData.resourceslink=[]
+        }
       }
 
       $("#addPopUp").modal('hide');
@@ -554,10 +572,16 @@ export class ListComponentComponent implements OnInit {
       if (this.editFlag) {
         behaviour = 'ModifyTableData'
         formData = this.ebooks.value
+        if(formData?.resourceslink?.title == '' ||  formData?.resourceslink?.title == null){
+          formData.resourceslink={}
+        }
       }
       else {
         formData = this.ebooks.value
         this.CourselListData.push(this.ebooks.value);
+        if(formData?.resourceslink?.title == '' ||  formData?.resourceslink?.title == null){
+          formData.resourceslink={}
+        }
       }
 
       $("#addPopUp").modal('hide');
@@ -626,6 +650,8 @@ export class ListComponentComponent implements OnInit {
         this.Mainservice.pageloaderMainservice = false
       });
 
+      return
+
   }
 
   openModal() {
@@ -690,17 +716,28 @@ export class ListComponentComponent implements OnInit {
     }
 
     else if (event['type'] == 'Learnings - upskill') {
+      this.learnAndUpskill.reset()
       console.log(event,"values")
-      for (let index = 1; index < event['data']['courseLink'].length; index++) {
+      for (let index = 1; index < event['data']['courseLink'].length-1; index++) {
         this.addCourselink() 
       }
-      for (let index = 1; index < event['data']['resourceslink'].length; index++) {
+    
+      for (let index = 1; index < event['data']['resourceslink'].length-1; index++) {
         this.addresource() 
       }
+      
+      let resourcelink:any
+      if(event['data']['resourceslink'].length==0){
+        console.log("comming here arockia")
+         resourcelink=[{resourceName:'', resourcelink:''}]
+      }else{
+        resourcelink=event['data']['resourceslink']
+      }
+      console.log("resource link",resourcelink)
       this.learnAndUpskill.patchValue({
         courseName: event['data']['courseName'],
         description: event['data']['description'],
-        resourceslink: event['data']['resourceslink'],
+        resourceslink:resourcelink ,
         courseLink: event['data']['courseLink'],
         sector: event['data']['sector'],
         moduleName:event['data']['moduleName']
@@ -782,7 +819,7 @@ export class ListComponentComponent implements OnInit {
   }
 
   abortaddFun() {
-    $("#addPopUp").modal('hide');
+     $("#addPopUp").modal('hide');
   }
 
   changeEventCall(event: any) {
@@ -815,5 +852,24 @@ export class ListComponentComponent implements OnInit {
 
 
   }
+
+  deletejobDescriptionPDFLink(){
+    this.joboffersForm.get('jobDescriptionPDFLink')?.get('title')?.setValue('')
+    this.joboffersForm.get('jobDescriptionPDFLink')?.get('link')?.setValue('')
+  }
+
+  deleteResourceLinkEbook(){
+    this.ebooks.get('resourceslink')?.get('title')?.setValue('')
+    this.ebooks.get('resourceslink')?.get('link')?.setValue('')
+  }
+
+  
 }
 
+export function dateValidator(control: AbstractControl): ValidationErrors | null {
+  const date = new Date(control.value);
+  if (isNaN(date.getTime())) {
+    return { invalidDate: true };
+  }
+  return null;
+}
