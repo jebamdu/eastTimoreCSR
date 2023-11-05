@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   loginSubmit(){
     this.pageloadder=true
-    this.http.post('http://localhost:3000/login',this.LoginForm.value).toPromise().then((data:any)=>{
+    this.http.post(`${environment.baseURL}/login`,this.LoginForm.value).toPromise().then((data:any)=>{
      console.log(data)
      this.pageloadder=false
      if(data&&data.access_token){

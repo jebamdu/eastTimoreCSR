@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 declare var $: any;
 @Component({
   selector: 'app-reports',
@@ -60,7 +61,7 @@ export class ReportsComponent implements OnInit,OnDestroy {
 
   dateWiseFilter(){
     this.pageloadder=true
-    this.http.post('http://localhost:3000/Reports',this.seleteddate.value).toPromise().then((data:any)=>{
+    this.http.post(`${environment.baseURL}/Reports`,this.seleteddate.value).toPromise().then((data:any)=>{
     console.log(data,"data")
     this.pageloadder=false
     this.errorPopup=false

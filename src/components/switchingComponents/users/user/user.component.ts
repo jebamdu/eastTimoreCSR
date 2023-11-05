@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class UserComponent implements OnInit {
       {id:1,name:'Vetri',PhoneNumber:'9844445567',lastActive:'16/07/23',municipality:'Ainaro',age:18 }
     ]
     this.pageloadder=true
-    this.http.get('http://localhost:3000/getData?headers=Users').toPromise().then((data:any)=>{
+    this.http.get(`${environment.baseURL}/getData?headers=Users`).toPromise().then((data:any)=>{
       data.forEach((element:any) => {
         let dateOfBirth = new Date(element.yob.toString())
         element.yob=this.yobFun(dateOfBirth)

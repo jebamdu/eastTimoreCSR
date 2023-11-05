@@ -1,6 +1,6 @@
 <app-pageloader *ngIf="pageloadder==true" ></app-pageloader>
 <app-errorpopup *ngIf="errorPopup==true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
-<p class="px-4 pt-4" >UserDetails by Municipality</p>
+<p class="px-4 pt-4" >Municipality wise users</p>
 <form [formGroup]="seleteddate" (ngSubmit)="dateWiseFilter()" type="submit" class="row px-4 pt-4"  >
   <div class="form-group col-3" >
     <label for="exampleInputEmail1"  class="mb-1" >Start Date</label>
