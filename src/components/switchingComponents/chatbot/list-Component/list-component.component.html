@@ -2,8 +2,14 @@
   Loading&#8230;
 </div>
 
-<app-errorpopup *ngIf="errorPopup == true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<app-errorpopup
+  *ngIf="errorPopup == true"
+  (errorPopupFun)="errorPopupClose()"
+></app-errorpopup>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
 
 <div class="py-3 px-4 d-flex flex-row justify-content-between">
   <h3>{{ this.Mainservice.sidebardata.values }}</h3>
@@ -16,48 +22,112 @@
   >
     Launch demo modal
   </button> -->
-  <img *ngIf="!['Help Line','Configuration'].includes(this.Mainservice.sidebardata.values)" type="button"
-    src="../../../../assets/addbtn.svg" class="trainingImageSize" alt="addbtnImage" (click)="openModal()" />
+  <img
+    *ngIf="
+      !['Help Line', 'Configuration'].includes(
+        this.Mainservice.sidebardata.values
+      )
+    "
+    type="button"
+    src="../../../../assets/addbtn.svg"
+    class="trainingImageSize"
+    alt="addbtnImage"
+    (click)="openModal()"
+  />
 </div>
-<div *ngIf="!['Help Line','Configuration'].includes(this.Mainservice.sidebardata.values)" class="px-4">
+<div
+  *ngIf="
+    !['Help Line', 'Configuration'].includes(
+      this.Mainservice.sidebardata.values
+    )
+  "
+  class="px-4"
+>
   <div class="form-group d-flex flex-row md-form form-sm">
-    <i class="fa fa-search py-3" style="
+    <i
+      class="fa fa-search py-3"
+      style="
         font-size: 15px;
         color: rgba(0, 0, 0, 0.523);
         display: inline;
         width: 30px;
-      "></i>
-    <input type="text" placeholder="Search" (ngModelChange)="changeEventCall($event)" [(ngModel)]="searchSring"
-      class="inputsearch form-control" />
+      "
+    ></i>
+    <input
+      type="text"
+      placeholder="Search"
+      (ngModelChange)="changeEventCall($event)"
+      [(ngModel)]="searchSring"
+      class="inputsearch form-control"
+    />
   </div>
 </div>
 
-<app-list-data [sidebardata]="Mainservice.sidebardata.values"
-  [setListData]="searchSring==''?Mainservice.setListData:userDataDisplay" (onDeleteData)="onDeleteData($event)"
-  (onEditData)="onEditData($event)">
+<app-list-data
+  [sidebardata]="Mainservice.sidebardata.values"
+  [setListData]="searchSring == '' ? Mainservice.setListData : userDataDisplay"
+  (onDeleteData)="onDeleteData($event)"
+  (onEditData)="onEditData($event)"
+>
 </app-list-data>
 
-<div class="modal fade" id="addPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="addPopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-center">
         <h5 class="modal-title" id="exampleModalLongTitle">
-          {{this.editFlag? 'Update '+ this.Mainservice.sidebardata.values + " Details":"Add " +
-          this.Mainservice.sidebardata.values + " Details" }}
+          {{
+            this.editFlag
+              ? "Update " + this.Mainservice.sidebardata.values + " Details"
+              : "Add " + this.Mainservice.sidebardata.values + " Details"
+          }}
         </h5>
       </div>
       <!-- Training -->
-      <div class="modal-body" *ngIf="this.Mainservice.sidebardata.values == 'Training'">
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Training'"
+      >
         <form [formGroup]="trainingFrom" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-            <input type="text" class="form-control mb-3" formControlName="title" placeholder="Title" />
-            <textarea class="form-control mb-3" formControlName="description" placeholder="Description"></textarea>
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="title"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
             <label for="startdate" class="mb-1"> Start Date </label>
-            <input type="date" class="form-control mb-3" formControlName="startdate" id="startDate" />
+            <input
+              type="date"
+              class="form-control mb-3"
+              formControlName="startdate"
+              id="startDate"
+            />
             <label for="endDate" class="mb-1"> End Date </label>
-            <input type="date" class="form-control mb-3" formControlName="enddate" id="endDate" />
-            <textarea type="text" class="form-control mb-3" formControlName="address" placeholder="Address"></textarea>
+            <input
+              type="date"
+              class="form-control mb-3"
+              formControlName="enddate"
+              id="endDate"
+            />
+            <textarea
+              type="text"
+              class="form-control mb-3"
+              formControlName="address"
+              placeholder="Address"
+            ></textarea>
             <!-- <div class="d-flex">
               <input
                 type="radio"
@@ -93,28 +163,98 @@
               >
             </div> -->
 
-            <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Municipality'" [settings]="settings"
-              [data]="muncipality_data" [formControl]="f.municipality" [disabled]="false"
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select Municipality'"
+              [settings]="settings"
+              [data]="muncipality_data"
+              [formControl]="f.municipality"
+              [disabled]="false"
               [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
-              (onFilterChange)="onFilterChange($event)" (onDropDownClose)="onDropDownClose($event)"
-              (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-              (onDeSelectAll)="onDeSelectAll($event)" class="mb-3">
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+              class="mb-3"
+            >
             </ng-multiselect-dropdown>
 
-            <input type="text" class="form-control mb-3 mt-3" formControlName="basic_requirement"
-              placeholder="Basic requirement (Optional)" />
-            <ng-multiselect-dropdown #multiSelect [placeholder]="'Select sector'" [settings]="settings"
-              [data]="sector_data_trainings" [formControl]="f.sector" [disabled]="false"
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="basic_requirement"
+              placeholder="Basic requirement (Optional)"
+            />
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data_trainings"
+              [formControl]="f.sector"
+              [disabled]="false"
               [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
-              (onFilterChange)="onFilterChange($event)" (onDropDownClose)="onDropDownClose($event)"
-              (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-              (onDeSelectAll)="onDeSelectAll($event)">
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
             </ng-multiselect-dropdown>
-            <input type="text" class="form-control mb-3 mt-3" formControlName="registrationLink"
-              placeholder="Registration Link" />
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="registrationLink"
+              placeholder="Registration Link"
+            />
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="organizedBy"
+              placeholder="Organized by"
+            />
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="mapLink"
+              placeholder="Location"
+            />
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="feeRegistration"
+              placeholder="Fees Registration"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="howToRegister"
+              placeholder="How to register"
+            ></textarea>
           </div>
+
+          <label class="mt-3"> Last date to apply</label>
+
+          <input
+            type="date"
+            class="form-control mb-3 mt-1"
+            formControlName="lastDateToApply"
+            placeholder="Fees Registration"
+          />
+          <textarea
+            class="form-control mb-3"
+            formControlName="otherInfo"
+            placeholder="Any othe info?"
+          ></textarea>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="abortaddFun()">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -122,34 +262,131 @@
         </form>
       </div>
       <!-- Job offers -->
-      <div class="modal-body" *ngIf="this.Mainservice.sidebardata.values == 'Job Offers'">
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Job Offers'"
+      >
         <form [formGroup]="joboffersForm" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-            <input type="text" class="form-control mb-3" formControlName="title" placeholder="Title" />
-            <textarea class="form-control mb-3" formControlName="description" placeholder="Description"></textarea>
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="title"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
 
-            <ng-multiselect-dropdown #multiSelect [placeholder]="'Select sector'" [settings]="settings"
-              [data]="sector_data_jobs" [formControl]="f.sector" [disabled]="false"
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data_jobs"
+              [formControl]="f.sector"
+              [disabled]="false"
               [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
-              (onFilterChange)="onFilterChange($event)" (onDropDownClose)="onDropDownClose($event)"
-              (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-              (onDeSelectAll)="onDeSelectAll($event)">
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
             </ng-multiselect-dropdown>
 
-            <input type="text" class="form-control mb-3 mt-3" formControlName="linkToApply"
-              placeholder="Link To Apply" />
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="linkToApply"
+              placeholder="Link To Apply"
+            />
 
-            <textarea type="text" class="form-control mb-3" formControlName="rolesAndResponsibility"
-              placeholder="Roles and Responsibility"></textarea>
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="jobCountry"
+              placeholder="Country"
+            />
+            <label for="">Last date to apply: </label>
+            <input
+              type="date"
+              class="form-control mb-3 mt-3"
+              formControlName="lastDatetoApply"
+              placeholder="Last date to apply"
+            />
 
-            <input type="text" class="form-control mb-3 mt-3" formControlName="basicRequirements"
-              placeholder="Basic requirement (Optional)" />
+            <textarea
+              type="text"
+              class="form-control mb-3"
+              formControlName="howToApply"
+              placeholder="How to apply"
+            ></textarea>
 
-            <textarea type="text" class="form-control mb-3 mt-3" formControlName="address"
-              placeholder="Address"></textarea>
+            <textarea
+              type="text"
+              class="form-control mb-3"
+              formControlName="rolesAndResponsibility"
+              placeholder="Roles and Responsibility"
+            ></textarea>
+
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="basicRequirements"
+              placeholder="Basic requirement (Optional)"
+            />
+
+            <textarea
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="address"
+              placeholder="Address"
+            ></textarea>
+
+            <label for="">Job description resource</label>
+            <!--  -->
+
+            <!--  -->
+            <div
+              style="display: flex; margin-bottom: 30px; flex-direction: row"
+              formGroupName="jobDescriptionPDFLink"
+            >
+              <input
+                type="file"
+                [id]="'learnAndUpskillresource'"
+                class="fileInput col-8"
+                style="display: none"
+                placeholder="Browse"
+                name="file1"
+                (change)="setfileJobs($event)"
+                class="fileInput col-10"
+              />
+              <label
+                [for]="'learnAndUpskillresource'"
+                class="inputWrapper col-2"
+              >
+                <span class="appendInpText">Browse</span>
+              </label>
+              <div class="col-8 pl-0" style="padding-left: 0px !important">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="title"
+                  [placeholder]="'choose Document'"
+                />
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="abortaddFun()">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -157,54 +394,146 @@
         </form>
       </div>
       <!-- Learnings - upskill -->
-      <div class="modal-body" *ngIf="this.Mainservice.sidebardata.values == 'Learnings - upskill'">
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Learnings - upskill'"
+      >
         <form [formGroup]="learnAndUpskill" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-            <input type="text" class="form-control mb-3" formControlName="courseName" placeholder="Title" />
-            <textarea class="form-control mb-3" formControlName="description" placeholder="Description"></textarea>
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="courseName"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
 
-            <ng-multiselect-dropdown #multiSelect [placeholder]="'Select sector'" [settings]="settings"
-              [data]="sector_data_skills" [formControl]="f.sector" [disabled]="false"
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select sector'"
+              [settings]="settings"
+              [data]="sector_data_skills"
+              [formControl]="f.sector"
+              [disabled]="false"
               [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
-              (onFilterChange)="onFilterChange($event)" (onDropDownClose)="onDropDownClose($event)"
-              (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-              (onDeSelectAll)="onDeSelectAll($event)">
+              (onFilterChange)="onFilterChange($event)"
+              (onDropDownClose)="onDropDownClose($event)"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
             </ng-multiselect-dropdown>
 
-            <input type="text" class="form-control mb-3 mt-3" formControlName="courseLink" placeholder="Course Link" />
-            <!-- --------------------- -->
-
-            <!-- --------------------- -->
-            <label for="formFile" class="form-label">Resource</label>
-            <ng-container formArrayName="resourceslink">
-              <div class="row mb-4" *ngFor="
-                  let resourcelink of learnAndUpskill.get('resourceslink').controls;
+            <!--  -->
+            <div class="my-3" formArrayName="courseLink">
+              <div
+                class="row px-3 mb-4"
+                *ngFor="
+                  let resourcelink of learnAndUpskill.get('courseLink')
+                    .controls;
                   let i = index
-                " [formGroupName]="i">
-
-                <input [id]="'learnAndUpskillresource'+i" class="fileInput" style="display: none;" type="file"
-                  placeholder="Browse" (change)="setfile(i, $event)" name="file1" />
-                <label [for]="'learnAndUpskillresource'+i" class="inputWrapper col-2" style="margin-left: 15px;">
-                  <span class="appendInpText">Browse</span>
-                </label>
-                <div class="col-8 pl-0" style="padding-left: 0px !important;">
-                  <input type="text" class="form-control" formControlName="resourceName"
-                    [placeholder]="'choose Document'" />
-
+                "
+                [formGroupName]="i"
+              >
+                <div class="col-10 pl-0" style="padding-left: 0px !important">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="link"
+                    [placeholder]="'Course Link'"
+                  />
                 </div>
-                <div class="col-2 d-flex   align-items-center">
-                  <img class="deletebtnStyle mb-2 px-0" src="../../../../assets/Deleteicon.svg"
-                    (click)="deleteResource(i)" alt="deleteicon" />
-                  <img class="mb-1 deletebtnStyle px-0" *ngIf="i == getResource(i)" (click)="addresource()"
-                    src="../../../../assets//addbtnfilebutton.svg" alt="addbtnsvg" />
+                <div class="col-2 d-flex align-items-center">
+                  <img
+                    class="deletebtnStyle mb-2 px-0"
+                    src="../../../../assets/Deleteicon.svg"
+                    (click)="deleteCourseLink(i)"
+                    alt="deleteicon"
+                  />
+                  <img
+                    class="mb-1 deletebtnStyle px-0"
+                    *ngIf="i == getCourseLink(i)"
+                    (click)="addCourselink()"
+                    src="../../../../assets//addbtnfilebutton.svg"
+                    alt="addbtnsvg"
+                  />
                 </div>
                 <!-- </div> -->
-
+              </div>
+            </div>
+            <!--  -->
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="moduleName"
+              placeholder="Add Module"
+            />
+            <label for="formFile" class="form-label">Resource</label>
+            <ng-container formArrayName="resourceslink">
+              <div
+                class="row mb-4"
+                *ngFor="
+                  let resourcelink of learnAndUpskill.get('resourceslink')
+                    .controls;
+                  let i = index
+                "
+                [formGroupName]="i"
+              >
+                <input
+                  [id]="'learnAndUpskillresource' + i"
+                  class="fileInput col-8"
+                  style="display: none"
+                  type="file"
+                  placeholder="Browse"
+                  (change)="setfile(i, $event)"
+                  name="file1"
+                />
+                <label
+                  [for]="'learnAndUpskillresource' + i"
+                  class="inputWrapper col-2"
+                  style="margin-left: 15px"
+                >
+                  <span class="appendInpText">Browse</span>
+                </label>
+                <div class="col-8 pl-0" style="padding-left: 0px !important">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="resourceName"
+                    [placeholder]="'choose Document'"
+                  />
+                </div>
+                <div class="col-2 d-flex align-items-center">
+                  <img
+                    class="deletebtnStyle mb-2 px-0"
+                    src="../../../../assets/Deleteicon.svg"
+                    (click)="deleteResource(i)"
+                    alt="deleteicon"
+                  />
+                  <img
+                    class="mb-1 deletebtnStyle px-0"
+                    *ngIf="i == getResource(i)"
+                    (click)="addresource()"
+                    src="../../../../assets//addbtnfilebutton.svg"
+                    alt="addbtnsvg"
+                  />
+                </div>
+                <!-- </div> -->
               </div>
             </ng-container>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="abortaddFun()">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -212,65 +541,89 @@
         </form>
       </div>
       <!-- EBooks -->
-      <div class="modal-body" *ngIf="this.Mainservice.sidebardata.values == 'EBooks'">
-
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'EBooks'"
+      >
         <form [formGroup]="ebooks" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-            <input type="text" class="form-control mb-3" formControlName="title" placeholder="Title" />
-            <textarea class="form-control mb-3" formControlName="description" placeholder="Description"></textarea>
+            <input
+              type="text"
+              class="form-control mb-3"
+              formControlName="title"
+              placeholder="Title"
+            />
+            <textarea
+              class="form-control mb-3"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
 
-            <input type="text" class="form-control mb-3 mt-3" formControlName="downloadLink"
-              placeholder="Download Link" />
+            <input
+              type="text"
+              class="form-control mb-3 mt-3"
+              formControlName="downloadLink"
+              placeholder="Download Link"
+            />
 
-
-
-            <ng-multiselect-dropdown #multiSelect [placeholder]="'Select language'" [settings]="settings_ebook"
-              [data]="ebooks_resource_language" formControlName="language" [disabled]="false"
-              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched">
+            <ng-multiselect-dropdown
+              #multiSelect
+              [placeholder]="'Select language'"
+              [settings]="settings_ebook"
+              [data]="ebooks_resource_language"
+              formControlName="language"
+              [disabled]="false"
+              [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
+            >
             </ng-multiselect-dropdown>
-
-
-
+            <input
+              type="text"
+              class="form-control"
+              formControlName="noPages"
+              placeholder="No of pages"
+            />
+            <input
+              type="text"
+              class="form-control"
+              formControlName="publisherName"
+              placeholder="Publisher name"
+            />
             <label for="formFile" class="form-label">Resource</label>
-            <ng-container formArrayName="resourceslink">
-              <div class="row mb-4" *ngFor="
-                  let resourcelink of ebooks.get('resourceslink').controls;
-                  let i = index
-                " [formGroupName]="i">
-                <h1>
-                  {{resourcelink.title}}
-                  {{resourcelink.link}}
-                  {{resourcelink.noPages}}
-                  {{resourcelink.publisherName}}
-                </h1>
-                <div style="display: flex;flex-direction: row;">
-                  <input type="text" class="form-control" [value]="resourcelink.noPages||''"
-                    placeholder="No of pages" />
-                  <input type="text" class="form-control" [value]="resourcelink.publisherName||''"
-                    placeholder="Publisher name" />
-                </div>
-                <input [id]="'ebookresource'+i" class="fileInput" style="display:none;" type="file" placeholder="Browse"
-                  (change)="setfileebook(i, $event)" name="file1" />
-                <label [for]="'ebookresource'+i" class="inputWrapper col-2" style="margin-left: 15px;">
+            <ng-container>
+              <div class="row mb-4" formGroupName="resourceslink">
+                <input
+                class="fileInput col-8"
+                style="display: none"
+                placeholder="Browse"
+                name="file1"
+                (change)="setfileebook($event)"
+                class="fileInput col-10"
+                />
+                <label
+                [for]="'learnAndUpskillresource'"
+                class="inputWrapper col-2"
+                >
                   <span class="appendInpText">Browse</span>
                 </label>
-                <div class="col-8 pl-0" style="padding-left: 0px !important;">
-                  <input type="text" disabled class="form-control" formControlName="resourceName"
-                    [placeholder]="'choose Document'" />
-
+                <div class="col-8 pl-0" style="padding-left: 0px !important">
+                  <input
+                    type="text"
+                    
+                    class="form-control"
+                    formControlName="title"
+                    [placeholder]="'choose Document'"
+                  />
                 </div>
-                <div class="col-2 d-flex   align-items-center">
-                  <img class="deletebtnStyle mb-2 px-0" src="../../../../assets/Deleteicon.svg"
-                    (click)="deleteResourceebook(i)" alt="deleteicon" />
-                  <img class="mb-1 deletebtnStyle px-0" *ngIf="i == getResourceebook(i)" (click)="addresourceebook()"
-                    src="../../../../assets//addbtnfilebutton.svg" alt="addbtnsvg" />
-                </div>
-
               </div>
             </ng-container>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="abortaddFun()">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -279,17 +632,27 @@
       </div>
 
       <!-- Help Line -->
-      <div class="modal-body" *ngIf="this.Mainservice.sidebardata.values == 'Help Line'">
+      <div
+        class="modal-body"
+        *ngIf="this.Mainservice.sidebardata.values == 'Help Line'"
+      >
         <form [formGroup]="helpLine" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
-
-            <textarea class="form-control mb-3" rows="10" cols="30" formControlName="data"
-              placeholder="Help Line message"></textarea>
-
-
+            <textarea
+              class="form-control mb-3"
+              rows="10"
+              cols="30"
+              formControlName="data"
+              placeholder="Help Line message"
+            ></textarea>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="abortaddFun()">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="abortaddFun()"
+            >
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save changes</button>

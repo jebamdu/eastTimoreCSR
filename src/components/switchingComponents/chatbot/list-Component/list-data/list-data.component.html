@@ -42,9 +42,10 @@
 
     </div>
     <h5 class="col-12">{{ data.courseName }}</h5>
+
     <p class="col-12">{{ data.description }}</p>
     <div class="col-12 mb-1">
-      <B>Resource:</B>
+      <B class="mr-2">Resource:</B>
 
       <p *ngFor="let resourceData of data.resourceslink" class="d-inline px-1">
         <a [href]="resourceData.resourcelink" [download]="resourceData.resourceName">{{ resourceData.resourceName+",
@@ -54,10 +55,14 @@
 
 
     <div class="col-12">
-      <div class="d-flex">
-        <B>Course Link :</B>
-        <P class="d-inline px-1">{{ data.courseLink }}</P>
+      <div class="d-flex ">
+        <B class="mr-2 ">Course Link :</B>
+        <p *ngFor="let resourceData of data.courseLink" class="d-inline px-1 ">
+          {{ resourceData.link+", "}}
+        </p>
+        
       </div>
+     
     </div>
 
     <div></div>
@@ -90,23 +95,12 @@
 
     <div></div>
 
-    <div *ngIf="data.resourceslink.length>0" class="col-12 mb-1">
+    <div *ngIf="data.resourceslink" class="col-12 mb-1">
       <B>Resource:</B>
-      <div *ngFor="let res of data.resourceslink" class="d-inline px-1">
+      <div  class="d-inline px-1">
         <div style="display: flex;justify-content: space-between;">
-          <a [href]="res.link" [download]="res.title">{{ res.title+"," }}</a>
-          <span class="">
-            <b>Language:</b>
-            {{ res.language }}
-          </span>
-          <span class="">
-            <b>No of pages:</b>
-            {{ res.noPages }}
-          </span>
-          <span class="">
-            <b>Publisher name:</b>
-            {{ res.publisherName }}
-          </span>
+          <a [href]="data.resourceslink.link" [download]="data.resourceslink?.link">{{ data.resourceslink.title+"," }}</a>
+    
         </div>
       </div>
     </div>

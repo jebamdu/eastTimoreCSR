@@ -47,7 +47,14 @@ export class ListComponentComponent implements OnInit {
     address: new FormControl('', Validators.required),
     rolesAndResponsibility: new FormControl(''),
     basicRequirements: new FormControl('', Validators.required),
+    jobCountry: new FormControl('', Validators.required),
+    lastDatetoApply: new FormControl('', Validators.required),
     sector: new FormControl(this.sector_data_jobs, Validators.required),
+    howToApply: new FormControl('', Validators.required),
+    jobDescriptionPDFLink:this.fb.group({
+      link:new FormControl('', Validators.required),
+      title:new FormControl('', Validators.required),
+    }),
     // trainingFrequency: new FormControl('',Validators.required),
   })
 
@@ -63,6 +70,13 @@ export class ListComponentComponent implements OnInit {
     municipality: new FormControl(this.muncipality_data, Validators.required),
     sector: new FormControl(this.sector_data_trainings, Validators.required),
     frequencyIntervel: new FormControl(2, Validators.required),
+    organizedBy: new FormControl('', Validators.required),
+    mapLink: new FormControl(''),
+    feeRegistration: new FormControl(''),
+    lastDateToApply:new FormControl('', Validators.required),
+  otherInfo: new FormControl('', Validators.required),
+  howToRegister: new FormControl('', Validators.required)
+
   })
 
   resourcearray() {
@@ -71,12 +85,16 @@ export class ListComponentComponent implements OnInit {
       resourceName: new FormControl('', Validators.required)
     })
   }
+  courselinkarray() {
+    return new FormGroup({
+      link: new FormControl('', Validators.required),
+    })
+  }
+
   ebookresourcearray() {
     return new FormGroup({
       link: new FormControl('', Validators.required),
       title: new FormControl('', Validators.required),
-      noPages: new FormControl('', Validators.required),
-      publisherName: new FormControl('', Validators.required)
     })
   }
   addresource() {
@@ -84,22 +102,25 @@ export class ListComponentComponent implements OnInit {
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
     resourcearray.push(this.resourcearray())
   }
-  addresourceebook() {
 
-    let resourcearray = this.ebooks.get('resourceslink') as FormArray
-    resourcearray.push(this.ebookresourcearray())
+  addCourselink() {
+
+    let resourcearray = this.learnAndUpskill.get('courseLink') as FormArray
+    resourcearray.push(this.courselinkarray())
   }
+ 
   getResource(index: any) {
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
     return resourcearray.length - 1
   }
-  getResourceebook(index: any) {
-    let resourcearray = this.ebooks.get('resourceslink') as FormArray
+  getCourseLink(index: any) {
+    let resourcearray = this.learnAndUpskill.get('courseLink') as FormArray
     return resourcearray.length - 1
   }
+
   deleteResource(index: number) {
     let resourcearray = this.learnAndUpskill.get('resourceslink') as FormArray
-    if (index == 0) {
+      if (index == 0 && resourcearray.value.length==1) {
       resourcearray.controls[index].get('resourcelink')?.setValue('')
       resourcearray.controls[index].get('resourceName')?.setValue('')
     } else {
@@ -107,18 +128,18 @@ export class ListComponentComponent implements OnInit {
     }
 
   }
-  deleteResourceebook(index: number) {
-    let resourcearray = this.ebooks.get('resourceslink') as FormArray
-    if (index == 0) {
-      resourcearray.controls[index].get('title')?.setValue('')
+  deleteCourseLink(index: number) {
+    let resourcearray = this.learnAndUpskill.get('courseLink') as FormArray
+    if (index == 0  && resourcearray.value.length==1) {
       resourcearray.controls[index].get('link')?.setValue('')
-      resourcearray.controls[index].get('noPages')?.setValue('')
-      resourcearray.controls[index].get('publisherName')?.setValue('')
+    
     } else {
       resourcearray.removeAt(index)
     }
 
   }
+  
+
   setfile(index: number, event: any) {
     console.log("coming here")
     this.Mainservice.pageloaderMainservice = true
@@ -141,10 +162,10 @@ export class ListComponentComponent implements OnInit {
         this.Mainservice.pageloaderMainservice = false
       });
   }
-  setfileebook(index: number, event: any) {
+  setfileebook( event: any) {
     console.log("coming here")
     this.Mainservice.pageloaderMainservice = true
-    let resourcearray = this.ebooks.get('resourceslink') as FormArray
+    let resourcearray = this.ebooks.get('resourceslink')?.get('link')?.setValue('xyz')
     let selectfile = event.target.files[0];
     const formData = new FormData();
     formData.append('file', selectfile);
@@ -154,11 +175,35 @@ export class ListComponentComponent implements OnInit {
       (response: any) => {
         console.log(response, "response")
         //  let resp= resourcearray.at(index)
+        this.ebooks.get('resourceslink')?.get('link')?.setValue(response.data.Location)
+        this.ebooks.get('resourceslink')?.get('title')?.setValue(response.data.key)
+              this.Mainservice.pageloaderMainservice = false
+      }).catch((error) => {
+        console.error('Error uploading file', error);
+        this.Mainservice.pageloaderMainservice = false
+      });
+  }
+  setfileJobs( event: any) {
+    console.log("coming here")
+    this.Mainservice.pageloaderMainservice = true
+    let selectfile = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', selectfile);
 
-        resourcearray.controls[index].get('link')?.setValue(response.data.Location)
-        resourcearray.controls[index].get('title')?.setValue(response.data.key)
-        resourcearray.controls[index].get('noPages')?.setValue('4')
-        resourcearray.controls[index].get('publisherName')?.setValue('dummy')
+    // Make a POST request to your API endpoint
+    this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(
+      (response: any) => {
+        console.log(response, "response")
+     
+        this.joboffersForm.get('jobDescriptionPDFLink')?.get('link')?.setValue(response.data.Location  )
+        this.joboffersForm.get('jobDescriptionPDFLink')?.get('title')?.setValue(response.data.key  )
+     
+        console.log( this.joboffersForm,"resource")
+   
+       
+        //  let resp= resourcearray.at(index)
+        // resource?.set
+  
         this.Mainservice.pageloaderMainservice = false
       }).catch((error) => {
         console.error('Error uploading file', error);
@@ -169,10 +214,14 @@ export class ListComponentComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     downloadLink: new FormControl(''),
-    // noPages: new FormControl(''),
-    // publisherName: new FormControl(''),
-    resourceslink: this.fb.array([this.ebookresourcearray()]),
+    noPages: new FormControl('', Validators.required),
+    publisherName: new FormControl('', Validators.required),
+    resourceslink:this.fb.group({
+      link:new FormControl('', Validators.required),
+      title:new FormControl('', Validators.required),
+    }),
     language: new FormControl(this.ebooks_resource_language, Validators.required),
+   
     // resourceslink: new FormControl([{data:'https:1234'}], Validators.required),
   })
   learnAndUpskill = new FormGroup({
@@ -180,8 +229,9 @@ export class ListComponentComponent implements OnInit {
     description: new FormControl('', Validators.required),
     // resourceslink: new FormControl([{data:'https:1234'}], Validators.required),
     resourceslink: this.fb.array([this.resourcearray()]),
-    courseLink: new FormControl(''),
+    courseLink:  this.fb.array([this.courselinkarray()]),
     sector: new FormControl(this.sector_data_skills, Validators.required),
+    moduleName:new FormControl('', Validators.required)
   })
 
   helpLine = new FormGroup({
@@ -591,6 +641,7 @@ export class ListComponentComponent implements OnInit {
 
   }
   onEditData(event: any) {
+    console.log("coming here")
     console.log(event, "event update")
     this.editFlag = true;
     this.editDetails = event;
@@ -607,6 +658,13 @@ export class ListComponentComponent implements OnInit {
         basic_requirement: event['data']['basic_requirement'],
         municipality: event['data']['municipality'],
         sector: event['data']['sector'],
+        organizedBy: event['data']['organizedBy'],
+        mapLink: event['data']['mapLink'],
+        feeRegistration: event['data']['feeRegistration'],
+        lastDateToApply:event['data']['lastDateToApply'],
+      otherInfo: event['data']['otherInfo'],
+      howToRegister: event['data']['howToRegister']
+    
       })
       console.log(this.trainingFrom.value, "training form value")
     }
@@ -619,28 +677,49 @@ export class ListComponentComponent implements OnInit {
         basicRequirements: event['data']['basicRequirements'],
         address: event['data']['address'],
         sector: event['data']['sector'],
+        jobCountry: event['data']['jobCountry'],
+        lastDatetoApply: event['data']['lastDatetoApply'],
+        howToApply: event['data']['howToApply'],
+    jobDescriptionPDFLink:{
+      link:event['data']['jobDescriptionPDFLink']['link'],
+      title:event['data']['jobDescriptionPDFLink']['title'],
+    },
       })
     }
 
     else if (event['type'] == 'Learnings - upskill') {
-
+      console.log(event,"values")
+      for (let index = 1; index < event['data']['courseLink'].length; index++) {
+        this.addCourselink() 
+      }
+      for (let index = 1; index < event['data']['resourceslink'].length; index++) {
+        this.addresource() 
+      }
       this.learnAndUpskill.patchValue({
         courseName: event['data']['courseName'],
         description: event['data']['description'],
         resourceslink: event['data']['resourceslink'],
         courseLink: event['data']['courseLink'],
         sector: event['data']['sector'],
+        moduleName:event['data']['moduleName']
       })
+      console.log( this.learnAndUpskill," this.learnAndUpskill")
     }
     else if (event['type'] == 'EBooks') {
-
+      console.log(event,"event")
       this.ebooks.patchValue({
         title: event['data']['title'],
         description: event['data']['description'],
-        resourceslink: event['data']['resourceslink'],
         downloadLink: event['data']['downloadLink'],
         language: event['data']['language'],
+        noPages: event['data']['noPages'],
+        publisherName: event['data']['publisherName'],
+        resourceslink:{
+          link:event['data']['resourceslink']['link'],
+          title:event['data']['resourceslink']['title'],
+        },
       })
+      console.log(this.ebooks,"ebook")
     }
 
 
