@@ -421,9 +421,9 @@
         class="modal-body"
         *ngIf="this.Mainservice.sidebardata.values == 'Learnings - upskill'"
       >
-        <form [formGroup]="learnAndUpskill" 
+        <form [formGroup]="learnAndUpskill" (ngSubmit)="addSubmitForm()"
         >
-        <!-- (ngSubmit)="addSubmitForm()" -->
+        <!--  -->
           <div class="form-group">
             <input
               type="text"
@@ -461,7 +461,7 @@
               placeholder="Module Name"
             />
             <label for="formFile" class="form-label">Resource</label>
-            <ng-container formArrayName="resourceslink">
+            <div formArrayName="resourceslink">
               <div
                 class="row mb-4"
                 *ngFor="
@@ -472,7 +472,7 @@
                 [formGroupName]="i"
               >
                 <input
-                  [id]="'change' + i"
+                  [id]="'learnAndUpskillresource' + i"
                   class="fileInput col-8"
                   style="display: none"
                   type="file"
@@ -487,7 +487,7 @@
                 >
                   <span class="appendInpText">Browse</span>
                 </label>
-                <div class="col-10 pl-0" style="padding-left: 0px !important">
+                <div class="col-8 pl-0" style="padding-left: 0px !important">
                   <input
                     type="text"
                     class="form-control"
@@ -496,27 +496,22 @@
                     [placeholder]="'choose Document'"
                   />
                 </div>
-                <!-- <div class="col-2 d-flex align-items-center">
+                <div class="col-2 d-flex align-items-center">
                   <img
                     class="deletebtnStyle mb-2 px-0"
                     src="../../../../assets/Deleteicon.svg"
                     (click)="deleteResource(i)"
                     alt="deleteicon"
                   />
-                  <img
-                    class="mb-1 deletebtnStyle px-0"
-                    *ngIf="i == getResource(i)"
-                    (click)="addresource()"
-                    src="../../../../assets//addbtnfilebutton.svg"
-                    alt="addbtnsvg"
-                  />
-                </div> -->
+                 
+                </div>
                 <!-- </div> -->
               </div>
-            </ng-container>
+            </div>
 
             <!--  -->
-            <div class="my-3" formArrayName="courseLink">
+            <label for="formFile" class="form-label mt-3">Course link</label>
+            <div class="mb-3 mt-2" formArrayName="courseLink">
               <div
                 class="row px-3 mb-4"
                 *ngFor="
