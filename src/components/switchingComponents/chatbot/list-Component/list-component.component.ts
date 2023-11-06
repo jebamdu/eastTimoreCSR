@@ -552,14 +552,16 @@ export class ListComponentComponent implements OnInit {
       if (this.editFlag) {
         behaviour = 'ModifyTableData'
         formData = this.learnAndUpskill.value
-        if(formData?.resourceslink[0]?.resourceslink == '' || formData?.resourceslink[0]?.resourceslink == null){
+        console.log(formData.resourceslink[0].resourcelink,"formData?.resourceslink[0]?.resourceslink")
+        if(formData.resourceslink[0].resourcelink==''|| formData.resourceslink[0].resourcelink==null){
           formData.resourceslink=[]
         }
+        console.log(formData,"formData")
       }
       else {
         formData = this.learnAndUpskill.value
         this.CourselListData.push(this.learnAndUpskill.value);
-        if(formData?.resourceslink[0]?.resourceslink == '' || formData?.resourceslink[0]?.resourceslink == null){
+        if(formData.resourceslink[0].resourcelink==''|| formData.resourceslink[0].resourcelink==null){
           formData.resourceslink=[]
         }
       }
@@ -675,6 +677,7 @@ export class ListComponentComponent implements OnInit {
     $("#addPopUp").modal('show');
     console.log(this.editDetails)
     if (event['type'] == 'Training') {
+      this.trainingFrom.reset()
       const Lastdate = new Date(event['data']['lastDateToApply']).toISOString().split('T')[0];
        this.trainingFrom.patchValue({
         title: event['data']['title'],
@@ -697,6 +700,8 @@ export class ListComponentComponent implements OnInit {
       console.log(this.trainingFrom.value, "training form value")
     }
     else if (event['type'] == 'Job Offers') {
+      this.joboffersForm.reset()
+      const Lastdate = new Date( event['data']['lastDatetoApply']).toISOString().split('T')[0];
       this.joboffersForm.patchValue({
         title: event['data']['title'],
         description: event['data']['description'],
@@ -706,7 +711,7 @@ export class ListComponentComponent implements OnInit {
         address: event['data']['address'],
         sector: event['data']['sector'],
         jobCountry: event['data']['jobCountry'],
-        lastDatetoApply: event['data']['lastDatetoApply'],
+        lastDatetoApply: Lastdate,
         howToApply: event['data']['howToApply'],
     jobDescriptionPDFLink:{
       link:event['data']['jobDescriptionPDFLink']['link'],
@@ -716,24 +721,41 @@ export class ListComponentComponent implements OnInit {
     }
 
     else if (event['type'] == 'Learnings - upskill') {
+      let resourcelinkvalue=this.learnAndUpskill.get('resourceslink') as FormArray;
+
+      this.learnAndUpskill.get('resourceslink')?.value.forEach((data:any,index:number)=>{
+      
+          resourcelinkvalue.removeAt(resourcelinkvalue.length-1) 
+        
+      })
+      console.log( this.learnAndUpskill.get('resourceslink')?.value," this.learnAndUpskill.get('resourceslink')?.value")
+     
+      let courseLinkValue=this.learnAndUpskill.get('courseLink')as FormArray
+      
+      this.learnAndUpskill.get('courseLink')?.value.forEach((data:any,index:number)=>{
+       
+          courseLinkValue.removeAt(courseLinkValue.length-1) 
+        
+      })
       this.learnAndUpskill.reset()
       console.log(event,"values")
-      for (let index = 1; index < event['data']['courseLink'].length-1; index++) {
+      for (let index = 0; index < event['data']['courseLink'].length; index++) {
         this.addCourselink() 
       }
     
-      for (let index = 1; index < event['data']['resourceslink'].length-1; index++) {
+      for (let index = 0; index < event['data']['resourceslink'].length; index++) {
         this.addresource() 
       }
       
       let resourcelink:any
       if(event['data']['resourceslink'].length==0){
+        this.addresource() 
         console.log("comming here arockia")
          resourcelink=[{resourceName:'', resourcelink:''}]
       }else{
         resourcelink=event['data']['resourceslink']
       }
-      console.log("resource link",resourcelink)
+      
       this.learnAndUpskill.patchValue({
         courseName: event['data']['courseName'],
         description: event['data']['description'],
