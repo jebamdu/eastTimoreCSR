@@ -45,7 +45,7 @@ export class ListComponentComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     linkToApply: new FormControl('', Validators.required),
-    address: new FormControl(''),
+    address: new FormControl('', Validators.required),
     rolesAndResponsibility: new FormControl('', Validators.required),
     basicRequirements: new FormControl(''),
     jobCountry: new FormControl('', Validators.required),
@@ -149,6 +149,7 @@ export class ListComponentComponent implements OnInit {
     let selectfile = event.target.files[0];
     const formData = new FormData();
     formData.append('file', selectfile);
+    formData.append('folderName', 'Learnings');
 
     // Make a POST request to your API endpoint
     this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(
@@ -173,6 +174,7 @@ export class ListComponentComponent implements OnInit {
     let selectfile = event.target.files[0];
     const formData = new FormData();
     formData.append('file', selectfile);
+    formData.append('folderName', 'Ebook');
 
     // Make a POST request to your API endpoint
     this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(
@@ -193,6 +195,7 @@ export class ListComponentComponent implements OnInit {
     let selectfile = event.target.files[0];
     const formData = new FormData();
     formData.append('file', selectfile);
+    formData.append('folderName', 'Jobs');
 
     // Make a POST request to your API endpoint
     this.http.post(`${environment.baseURL}/uploadfiles`, formData).toPromise().then(

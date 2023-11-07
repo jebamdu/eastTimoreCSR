@@ -97,31 +97,34 @@
       >
         <form [formGroup]="trainingFrom" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
+            <lAbel class="mb-2 px-1 ">Title <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
               class="form-control mb-3"
               formControlName="title"
               placeholder="Title"
             />
+            <lAbel class="mb-2 px-1 ">Description <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               class="form-control mb-3"
               formControlName="description"
               placeholder="Description"
             ></textarea>
-            <label for="startdate" class="mb-1"> Start Date </label>
+            <lAbel class="mb-2 px-1 ">Start Date <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="date"
               class="form-control mb-3"
               formControlName="startdate"
               id="startDate"
             />
-            <label for="endDate" class="mb-1"> End Date </label>
+            <lAbel class="mb-2 px-1 ">End Date <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="date"
               class="form-control mb-3"
               formControlName="enddate"
               id="endDate"
             />
+            <lAbel class="mb-2 px-1 ">Address <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               type="text"
               class="form-control mb-3"
@@ -162,7 +165,7 @@
                 >Repeat</label
               >
             </div> -->
-
+            <lAbel class="mb-2 px-1 ">Municipality <P class="text-danger d-inline">*</P></lAbel>
             <ng-multiselect-dropdown
               #multiSelect
               [placeholder]="'Select Municipality'"
@@ -180,13 +183,14 @@
               class="mb-3"
             >
             </ng-multiselect-dropdown>
-
+            <lAbel class="mb-2 mt-3 px-1 ">Basic requirement </lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="basic_requirement"
               placeholder="Basic requirement (Optional)"
             />
+            <lAbel class="mb-2 px-1 ">Sector <P class="text-danger d-inline">*</P></lAbel>
             <ng-multiselect-dropdown
               #multiSelect
               [placeholder]="'Select sector'"
@@ -203,31 +207,35 @@
               (onDeSelectAll)="onDeSelectAll($event)"
             >
             </ng-multiselect-dropdown>
+            <lAbel class="mb-2 mt-3 px-1 ">Registration Link <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="registrationLink"
               placeholder="Registration Link"
             />
+            <lAbel class="mb-2 px-1 ">Organized by <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="organizedBy"
               placeholder="Organized by"
             />
+            <lAbel class="mb-2 px-1 ">Location</lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="mapLink"
               placeholder="Location"
             />
-
+            <lAbel class="mb-2 px-1 ">Fees Registration</lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="feeRegistration"
               placeholder="Fees Registration"
             />
+            <lAbel class="mb-2 px-1 ">How to register</lAbel>
             <textarea
               class="form-control mb-3"
               formControlName="howToRegister"
@@ -235,7 +243,7 @@
             ></textarea>
           </div>
 
-          <label class="mt-3"> Last date to apply</label>
+          <label class="mb-2"> Last date to apply  <P class="text-danger d-inline">*</P></label>
 
           <input
             type="date"
@@ -243,6 +251,7 @@
             formControlName="lastDateToApply"
             placeholder="Fees Registration"
           />
+          <lAbel class="mb-2 px-1 ">Any other info?</lAbel>
           <textarea
             class="form-control mb-3"
             formControlName="otherInfo"
@@ -274,18 +283,20 @@
       >
         <form [formGroup]="joboffersForm" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
+            <lAbel class="mb-1 px-1 ">Title <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
               class="form-control mb-3"
               formControlName="title"
               placeholder="Title"
             />
+            <lAbel class="mb-1 px-1 ">Description <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               class="form-control mb-3"
               formControlName="description"
               placeholder="Description"
             ></textarea>
-
+            <lAbel class="mb-1 px-1 ">Sector <P class="text-danger d-inline">*</P></lAbel>
             <ng-multiselect-dropdown
               #multiSelect
               [placeholder]="'Select sector'"
@@ -302,62 +313,62 @@
               (onDeSelectAll)="onDeSelectAll($event)"
             >
             </ng-multiselect-dropdown>
-
+            <lAbel class="mb-1 mt-3 px-1 ">Link To Apply <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3"
               formControlName="linkToApply"
               placeholder="Link To Apply"
             />
-
+            <lAbel class="mb-1 px-1 ">Country <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3"
               formControlName="jobCountry"
               placeholder="Country"
             />
-            <label for="">Last date to apply: </label>
+            <label class="mb-1 px-1" for="">Last date to apply: <P class="text-danger d-inline">* </P></label>
             <input
               type="date"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="lastDatetoApply"
               placeholder="Last date to apply"
             />
-
+            <lAbel class="mb-1 px-1 ">How to apply <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               type="text"
               class="form-control mb-3"
               formControlName="howToApply"
               placeholder="How to apply"
             ></textarea>
-
+            <lAbel class="mb-1 px-1 ">Roles and Responsibility <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               type="text"
               class="form-control mb-3"
               formControlName="rolesAndResponsibility"
               placeholder="Roles and Responsibility"
             ></textarea>
-
+            <lAbel class="mb-1 px-1 ">Basic requirement  </lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="basicRequirements"
               placeholder="Basic requirement (Optional)"
             />
-
+            <lAbel class="mb-1 px-1 ">Address <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="address"
               placeholder="Address"
             ></textarea>
 
-            <label for="">Job description</label>
+            <lAbel class=" px-1 ">Job description</lAbel>
             <!--  -->
 
             <!--  -->
             <div
-              class="mt-2"
+              class="mt-1"
               style="display: flex; margin-bottom: 30px; flex-direction: row"
               formGroupName="jobDescriptionPDFLink"
             >
@@ -425,18 +436,20 @@
         >
         <!--  -->
           <div class="form-group">
+            <lAbel class="mb-2 px-1 ">Title <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
               class="form-control mb-3"
               formControlName="courseName"
               placeholder="Title"
             />
+            <lAbel class="mb-2 px-1 ">Description <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               class="form-control mb-3"
               formControlName="description"
               placeholder="Description"
             ></textarea>
-
+            <lAbel class="mb-2 px-1 ">Sector <P class="text-danger d-inline">*</P></lAbel>
             <ng-multiselect-dropdown
               #multiSelect
               [placeholder]="'Select sector'"
@@ -453,14 +466,14 @@
               (onDeSelectAll)="onDeSelectAll($event)"
             >
             </ng-multiselect-dropdown>
-
+            <lAbel class="mb-2 px-1 mt-3 ">Module Name <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control my-3"
+              class="form-control mb-3"
               formControlName="moduleName"
               placeholder="Module Name"
             />
-            <label for="formFile" class="form-label">Resource</label>
+            <lAbel class="mb-2 px-1 ">Resource </lAbel>
             <div formArrayName="resourceslink">
               <div
                 class="row mb-4"
@@ -510,8 +523,8 @@
             </div>
 
             <!--  -->
-            <label for="formFile" class="form-label mt-3">Course link</label>
-            <div class="mb-3 mt-2" formArrayName="courseLink">
+            <lAbel class="mb-2 mt-1 px-1 ">Course link </lAbel>
+            <div class="mb-3 " formArrayName="courseLink">
               <div
                 class="row px-3 mb-4"
                 *ngFor="
@@ -575,25 +588,27 @@
       >
         <form [formGroup]="ebooks" (ngSubmit)="addSubmitForm()">
           <div class="form-group">
+            <lAbel class="mb-2 px-1 ">Title <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
               class="form-control mb-3"
               formControlName="title"
               placeholder="Title"
             />
+            <lAbel class="mb-2 px-1 ">Description <P class="text-danger d-inline">*</P></lAbel>
             <textarea
               class="form-control mb-3"
               formControlName="description"
               placeholder="Description"
             ></textarea>
-
+            <lAbel class="mb-2 px-1 ">Download Link <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mb-3 mt-3"
+              class="form-control mb-3 "
               formControlName="downloadLink"
               placeholder="Download Link"
             />
-
+            <lAbel class="mb-2 px-1 ">Language <P class="text-danger d-inline">*</P></lAbel>
             <ng-multiselect-dropdown
               #multiSelect
               [placeholder]="'Select language'"
@@ -604,19 +619,21 @@
               [class.is-invalid]="f?.name?.errors?.required && f?.name?.touched"
             >
             </ng-multiselect-dropdown>
+            <lAbel class="mb-2 px-1 mt-3">No of pages <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control mt-3"
+              class="form-control mb-3"
               formControlName="noPages"
               placeholder="No of pages"
             />
+            <lAbel class="mb-2 px-1 ">Publisher name <P class="text-danger d-inline">*</P></lAbel>
             <input
               type="text"
-              class="form-control my-3"
+              class="form-control mb-3"
               formControlName="publisherName"
               placeholder="Publisher name"
             />
-            <label for="formFile" class="form-label mt-3 mb-2">Resource</label>
+            <lAbel class="mb-2 px-1 ">Resource </lAbel>
             <ng-container class="px-2 mb-3">
               <div class="row px-2 mb-4" formGroupName="resourceslink">
                 <input
