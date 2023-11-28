@@ -1,0 +1,59 @@
+<div class="table-container">
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th  scope="col">S.no</th>
+        <th *ngFor="let row of tableRow" scope="col" ><p>{{row?.rowValue }}</p>
+          <div class="form-check" [formGroup]="filter" *ngIf="row?.filter">
+            <input class="form-check-input" (change)="filteringData(row?.filter,row.key)" [formControlName]="row.key" type="checkbox" value="" id="flexCheckIndeterminate">
+            <label class="form-check-label" for="flexCheckIndeterminate">
+              <!-- Indeterminate checkbox -->
+            </label>
+          </div>
+          <div *ngIf="row?.sorting" class="div">
+          
+          <img class="" *ngIf="this.Mainservice.setSortFilerData?.active!=row?.key" (click)="onSortDatafun(row?.key,true)" src="../../assets/blackarrow.svg" alt="">
+          <img class="" *ngIf="this.Mainservice.setSortFilerData?.active==row?.key && this.Mainservice.setSortFilerData?.status==true" (click)="clearsorfun()" src="../../assets/pinkarrow.svg" alt="">
+          <img class="arrowStyle" *ngIf="this.Mainservice.setSortFilerData?.active !== row?.key "  (click)="onSortDatafun(row?.key,false)" src="../../assets/blackarrow.svg" alt="">
+          <img class="arrowStyle"*ngIf="this.Mainservice.setSortFilerData?.active==row?.key && this.Mainservice.setSortFilerData?.status==false" (click)="clearsorfun()" src="../../assets/pinkarrow.svg" alt=""></div></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let col of tableCol; let ind= index">
+        <td scope="row">{{ind+1}}</td>
+        <td scope="row" *ngFor="let row of tableRow">{{col[row?.key ?row.key:'']}}</td>
+      </tr>
+      <tbody>
+</table>
+</div>
+
+
+<div class="modal" id="exampleModal"  tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" >
+        <h5 class="modal-title">Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"  >
+        <ng-multiselect-dropdown
+        #multiSelect
+        [placeholder]="'Select '+filterArray"
+        [settings]="settings_ebook"
+        [data]="FilterdDataArr[filterArray]"
+        [(ngModel)]=FilterdDataArr[filterKey]
+        [disabled]="false"
+        
+      >
+      </ng-multiselect-dropdown>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="applyFilter()" class="btn btn-primary">Apply</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
