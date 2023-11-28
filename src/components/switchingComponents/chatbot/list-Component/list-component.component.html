@@ -63,13 +63,14 @@
   </div>
 </div>
 
-<app-list-data
+<app-list-data (filterEvent)="filterEventfun($event)"
   [sidebardata]="Mainservice.sidebardata.values"
   [setListData]="searchSring == '' ? Mainservice.setListData : userDataDisplay"
   (onDeleteData)="onDeleteData($event)"
   (onEditData)="onEditData($event)"
+  (onSortData)="onSortData($event)"
 >
-</app-list-data>
+</app-list-data >
 
 <div
   class="modal fade"

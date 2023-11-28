@@ -1,50 +1,95 @@
-
-<app-pageloader *ngIf="pageloadder==true" ></app-pageloader>
+<app-pageloader *ngIf="pageloadder==true"></app-pageloader>
 <app-errorpopup *ngIf="errorPopup==true" (errorPopupFun)="errorPopupClose()"></app-errorpopup>
 <div class="py-4 px-4">
-    <B class="d-inline px-3">Total </B> <P class="d-inline">{{userData.length}}</P>
+  <B class="d-inline px-3">Total </B>
+  <P class="d-inline">{{userData.length}}</P>
 
 </div>
-<div  class=" px-4 py-4 form-group formwidth d-flex flex-row md-form form-sm">
-  <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:13px" width="16" top="10" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-    </svg>
-  <input type="text" placeholder="Search" [(ngModel)]="search_str" (ngModelChange)="searchstring($event)" class="inputsearch mx-3 form-control" />
+<div class=" px-4 py-4 form-group formwidth d-flex flex-row md-form form-sm">
+  <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:13px" width="16" top="10" height="16" fill="currentColor"
+    class="bi bi-search" viewBox="0 0 16 16">
+    <path
+      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+    </path>
+  </svg>
+  <input type="text" placeholder="Search" [(ngModel)]="search_str" (ngModelChange)="searchstring($event)"
+    class="inputsearch mx-3 form-control" />
 </div>
 <div class="px-4 pb-4">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">S.No         
-            </th>
-            <th scope="col">Name</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Last Active</th>
-            <th scope="col">Age</th>
-            <th scope="col">Municipality</th>
-            <th scope="col">Education Qualification</th>
-            <th scope="col">Major subject</th>
-            <th scope="col">Gender</th>
-            <!-- <th scope="col">Option</th> -->
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of userDataDisplay, index as ind">
-            <th scope="row"><P>{{ind+1}}</P></th>
-            <td><B>{{data.name}}</B>
-            <td>{{data.phno}}</td>
-            <td>{{data.lastActive |date }}</td>
-            <!-- <td>{{transormDate(data.lastActive)| date:'dd-MM-yyyy'}}</td> -->
-            <td>{{data.yob}}</td>
-            <td>{{data.municipality}}</td>
-            <td>{{data.eduQualification}}</td>
-            <td>{{data.majorSubject}}</td>
-            <td>{{data.gender}}</td>
-            
-            <!-- <td><img src="../../../../assets/updaeOptionIcon.svg" alt="updateoption"></td> -->
-          </tr>
-        
-         
-        </tbody>
-      </table>
+  <div class="row bgcolorListData px-4 px-4 mt-3 py-2">
+    <div class="col-2 d-flex justify-content-between"> <span class="">Name</span><img
+        *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='name' && !this.Mainservice.setSortFilerData?.status"
+        (click)="onSortData('name')" src="../../../../assets/Sort_arrow.svg" class="sortarraw" alt=""> <img
+        *ngIf="this.Mainservice.setSortFilerData?.active=='name' && this.Mainservice.setSortFilerData?.status"
+        src="../../../../assets/redsort.svg"
+        (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"
+        class="sortarraw" alt=""></div>
+    <div class="col-2 d-flex justify-content-between"><span class="">Age</span><img
+        *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='yob' && !this.Mainservice.setSortFilerData?.status"
+        (click)="onSortData('yob')" src="../../../../assets/Sort_arrow.svg" class="sortarraw" alt=""> <img
+        *ngIf="this.Mainservice.setSortFilerData?.active=='yob' && this.Mainservice.setSortFilerData?.status"
+        src="../../../../assets/redsort.svg"
+        (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"
+        class="sortarraw" alt=""></div>
+    <div class="col-2 d-flex justify-content-between"><span class="">Municipality</span><img
+        *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='municipality' && !this.Mainservice.setSortFilerData?.status"
+        (click)="onSortData('municipality')" src="../../../../assets/Sort_arrow.svg" class="sortarraw" alt=""> <img
+        *ngIf="this.Mainservice.setSortFilerData?.active=='municipality' && this.Mainservice.setSortFilerData?.status"
+        src="../../../../assets/redsort.svg"
+        (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"
+        class="sortarraw" alt=""></div>
+    <div class="col-3 d-flex justify-content-between"><span class="">Education Qualification</span><img
+        *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='eduQualification' && !this.Mainservice.setSortFilerData?.status"
+        (click)="onSortData('eduQualification')" src="../../../../assets/Sort_arrow.svg" class="sortarraw" alt=""> <img
+        *ngIf="this.Mainservice.setSortFilerData?.active=='eduQualification' && this.Mainservice.setSortFilerData?.status"
+        src="../../../../assets/redsort.svg"
+        (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"
+        class="sortarraw" alt=""></div>
+    <div class="col-2 d-flex justify-content-between"><span class="">Gender</span><img
+        *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='gender' && !this.Mainservice.setSortFilerData?.status"
+        (click)="onSortData('gender')" src="../../../../assets/Sort_arrow.svg" class="sortarraw" alt=""> <img
+        *ngIf="this.Mainservice.setSortFilerData?.active=='gender' && this.Mainservice.setSortFilerData?.status"
+        src="../../../../assets/redsort.svg"
+        (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"
+        class="sortarraw" alt=""></div>
   </div>
+  <div class="users">
+    <table class="table table-striped tablewidth">
+      <thead>
+        <tr>
+          <th scope="col">S.No
+          </th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Last Active</th>
+          <th scope="col">Age</th>
+          <th scope="col">Municipality</th>
+          <th scope="col">Education Qualification</th>
+          <th scope="col">Major subject</th>
+          <th scope="col">Gender</th>
+          <!-- <th scope="col">Option</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of userDataDisplay, index as ind">
+          <th scope="row">
+            <P>{{ind+1}}</P>
+          </th>
+          <td><B>{{data.name}}</B>
+          <td>{{data.phno}}</td>
+          <td>{{data.lastActive |date }}</td>
+          <!-- <td>{{transormDate(data.lastActive)| date:'dd-MM-yyyy'}}</td> -->
+          <td>{{data.yob}}</td>
+          <td>{{data.municipality}}</td>
+          <td>{{data.eduQualification}}</td>
+          <td>{{data.majorSubject}}</td>
+          <td>{{data.gender}}</td>
+
+          <!-- <td><img src="../../../../assets/updaeOptionIcon.svg" alt="updateoption"></td> -->
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</div>

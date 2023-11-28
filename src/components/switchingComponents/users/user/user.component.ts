@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { mainservice } from 'src/components/main.service';
 
 
 @Component({
@@ -11,13 +12,14 @@ import { environment } from 'src/environments/environment';
 })
 export class UserComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,public Mainservice:mainservice) { }
   userData:any
   userDataDisplay:any
   errorPopup:boolean=false
   pageloadder:boolean=false;
   search_str:string=''
   ngOnInit(): void {
+    this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
     this.userData=[
     ]
     this.pageloadder=true
@@ -88,6 +90,46 @@ export class UserComponent implements OnInit {
     }
 
 
+  }
+
+  onSortData(sort:any) {
+    let data =[...this.userDataDisplay];
+    const index = data.findIndex((x:any) => x['level'] == 1);
+    // if (sort && sort.direction !== '') {
+      
+    if (sort ) {
+      if (index > -1) {
+        data.splice(index, 1);
+      }
+      this.Mainservice.setSortFilerData.active=sort
+      this.Mainservice.setSortFilerData.status=true
+      data = this.userDataDisplay.sort((a: any, b: any) => {
+        const isAsc = true;
+        switch (sort) {
+          case 'name':
+            return this.compare(a.name, b.name, isAsc);
+          case 'yob':
+            return this.compare(a.yob, b.yob, isAsc);
+          case 'municipality':
+            return this.compare(a.municipality, b.municipality, isAsc);
+          case 'eduQualification':
+            return this.compare(a.eduQualification, b.eduQualification, isAsc);
+          case 'gender':
+            return this.compare(a.gender, b.gender, isAsc);
+          default:
+            return 0;
+        }
+      });
+    
+     
+      this.userDataDisplay = data;
+      this.userData=data;
+    }
+
+  }
+
+  private compare(a:any, b:any, isAsc:any) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
 }

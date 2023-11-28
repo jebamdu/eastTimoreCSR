@@ -39,6 +39,7 @@ export class ListComponentComponent implements OnInit {
   editDetails: any = '';
   EditDatauuid: any
   validationPopup = false
+  
 
 
   joboffersForm = new FormGroup({
@@ -261,6 +262,7 @@ export class ListComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
     this.pageloadder = true
     this.muncipality_data = [
       "Online",
@@ -409,19 +411,20 @@ export class ListComponentComponent implements OnInit {
 
   }
   setListDataRequest() {
-    console.log("coming here...", this.Mainservice.header, this.Mainservice.sidebardata);
-    console.log(this.pageloadder, "must false")
-
     this.pageloadder = true
     let headerVal = ''
+    this.Mainservice.setSortFilerData.active='';
+    this.Mainservice.setSortFilerData.status=false;
     if (this.Mainservice.header == 'chatbot') {
       //makeHttpRequest
       if (this.Mainservice.sidebardata.values == 'Training') {
+        this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
         headerVal = 'Trainings'
         this.setListData = this.TrainingListData;
         this.Mainservice.setListData = this.TrainingListData
       }
       if (this.Mainservice.sidebardata.values == 'Learnings - upskill') {
+        this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
         headerVal = 'Learnings'
         this.setListData = this.CourselListData;
         this.Mainservice.setListData = this.CourselListData
@@ -429,12 +432,14 @@ export class ListComponentComponent implements OnInit {
 
       }
       if (this.Mainservice.sidebardata.values == 'Job Offers') {
+        this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
         headerVal = 'Jobs'
         this.setListData = this.JobOpportunityListData;
         this.Mainservice.setListData = this.JobOpportunityListData
 
       }
       if (this.Mainservice.sidebardata.values == 'EBooks') {
+        this.Mainservice.setSortFilerData={active:'',status:false,filterData: []}
         headerVal = 'EBooks'
         this.setListData = this.EbooksListData;
         this.Mainservice.setListData = this.EbooksListData
@@ -888,6 +893,90 @@ export class ListComponentComponent implements OnInit {
     this.ebooks.get('resourceslink')?.get('link')?.setValue('')
   }
 
+  onSortData(sort:any) {
+    let data =[...this.Mainservice.setListData];
+    const index = data.findIndex((x:any) => x['level'] == 1);
+    // if (sort.active && sort.direction !== '') {
+      console.log(sort.direction,"sortingdirection")
+    if (sort.active ) {
+      if (index > -1) {
+        data.splice(index, 1);
+      }
+      this.Mainservice.setSortFilerData.active=sort.active
+      this.Mainservice.setSortFilerData.status=sort.direction
+      
+    if(this.Mainservice.sidebardata.values == 'EBooks'){
+      data = data.sort((a: any, b: any) => {
+        const isAsc = sort.direction;
+        return this.compare(a[sort.active],a[sort.active],isAsc)
+      });
+    } else if(this.Mainservice.sidebardata.values == 'Learnings - upskill'){
+      console.log("coming at end")
+      data = data.sort((a: any, b: any) => {
+        const isAsc = sort.direction;
+        return this.compare(a[sort.active],b[sort.active],isAsc)
+      });
+    }  else if(this.Mainservice.sidebardata.values == 'Training'){
+      data = data.sort((a: any, b: any) => {
+        const isAsc = sort.direction;
+        return this.compare(a[sort.active],b[sort.active],isAsc)
+      });
+    }  else if(this.Mainservice.sidebardata.values == 'Job Offers'){
+      data = data.sort((a: any, b: any) => {
+        const isAsc = sort.direction;
+        return this.compare(a[sort.active],b[sort.active],isAsc)
+      });
+    }
+    //  else if(this.Mainservice.sidebardata.values == 'Job Offers'){
+    //   data = data.sort((a: any, b: any) => {
+    //     const isAsc = sort.direction;
+    //     // switch (sort.active) {         
+    //     //   case 'jobCountry':            
+    //     //     return this.compare(a.jobCountry, b.jobCountry, isAsc);
+    //     //   case 'title':
+    //     //     return this.compare(a.title, b.title, isAsc);
+    //     //   default:
+    //     //     return 0;
+    //     // }
+    //     return this.compare(a[sort.active],a[sort.active],isAsc)
+    //   });
+    // }
+     
+      this.userDataDisplay = data;
+      this.Mainservice.setListData=data;
+      console.log(this.userDataDisplay,"data.. modified")
+    }
+
+  }
+
+  private compare(a:any, b:any, isAsc:any) {
+    console.log(isAsc,"endvalue ......................")
+    const comparison = a < b ? -1 : 1;
+  return (isAsc ? 1 : -1) * comparison;
+  }
+
+  filterEventfun(event:any){
+    console.log(event,"event")
+    console.log(this.Mainservice.setListData,"this.userDataDisplay arockia")
+   let newsetlist:any=[]
+    for (let key in event.filterTotallData) {
+      if (key.includes('Arr')) {
+        console.log("iterating with Arr")
+        newsetlist=this.Mainservice.setListData.filter((data:any)=>{
+          if((data[key.slice(0,-3)])&&((typeof data[event.filterColumn]  === 'string'))){
+          return data[key.slice(0,-3)].includes(event.filterTotallData[key.slice(0,-3)])} 
+          else if((data[key.slice(0,-3)])&&(Array.isArray(data[event.filterColumn]))){
+            return data
+            data[key.slice(0,-3)].some((value:any) => event.filterTotallData[key.slice(0,-3)].includes(value))
+          }
+        })
+      }else{
+        console.log("iterating noo....")
+      }
+    }
+    
+    console.log(newsetlist,"newsetlist arockia")
+  }
   
 }
 

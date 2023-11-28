@@ -9,6 +9,7 @@ export class mainservice{
    public setListData: any;
    public pageloaderMainservice:boolean=false;
    public errorPopup:boolean=false
+   public setSortFilerData:any
    
 
 

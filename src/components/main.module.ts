@@ -13,6 +13,8 @@ import { ErrorpopupComponent } from './errorpopup/errorpopup.component';
 @NgModule({
   declarations: [
 
+  
+    
   ],
   imports: [
     BrowserModule,

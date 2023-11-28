@@ -21,6 +21,7 @@ import { FlowbuilderTrainingListComponent } from 'src/components/switchingCompon
 import { ReportsComponent } from 'src/components/switchingComponents/users/reports/reports.component';
 import { ErrorpopupComponent } from 'src/components/errorpopup/errorpopup.component';
 import { AuthInterceptorService } from 'src/interseptors/auth-interceptor.service'
+import { TableComponent } from 'src/components/table/table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { AuthInterceptorService } from 'src/interseptors/auth-interceptor.servic
     PageloaderComponent,
     FlowbuilderTrainingListComponent,
     ReportsComponent,
-    ErrorpopupComponent
+    ErrorpopupComponent,
+    TableComponent
     
      ],
   imports: [
