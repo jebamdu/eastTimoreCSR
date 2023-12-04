@@ -5,7 +5,7 @@
         <th  scope="col">S.no</th>
         <th *ngFor="let row of tableRow" scope="col" ><p>{{row?.rowValue }}</p>
           <div class="form-check" [formGroup]="filter" *ngIf="row?.filter">
-            <input class="form-check-input" (change)="filteringData(row?.filter,row.key)" [formControlName]="row.key" type="checkbox" value="" id="flexCheckIndeterminate">
+            <input class="form-check-input " [id]="row.key" (change)="filteringData(row?.filter,row.key)" [formControlName]="row.key" type="checkbox" value="true" >
             <label class="form-check-label" for="flexCheckIndeterminate">
               <!-- Indeterminate checkbox -->
             </label>
@@ -29,12 +29,12 @@
 </div>
 
 
-<div class="modal" id="exampleModal"  tabindex="-1" role="dialog">
+<div class="modal fade" id="exampleModalPopup" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalPopup" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" >
         <h5 class="modal-title">Filter</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" (click)="applyFilterInd()" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -46,6 +46,7 @@
         [data]="FilterdDataArr[filterArray]"
         [(ngModel)]=FilterdDataArr[filterKey]
         [disabled]="false"
+        (onDeSelect)="onDeSelect($event)"
         
       >
       </ng-multiselect-dropdown>
@@ -57,3 +58,4 @@
     </div>
   </div>
 </div>
+

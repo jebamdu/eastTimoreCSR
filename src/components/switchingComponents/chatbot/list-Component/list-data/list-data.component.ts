@@ -35,7 +35,6 @@ export class ListDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("data when click")
   }
   ngOnChanges(changes: SimpleChange) {
     this.sidebardata1 = this.sidebardata;
@@ -46,7 +45,6 @@ export class ListDataComponent implements OnInit {
     if (this.sidebardata1 == 'Configuration') {
       this.http.post(`${environment.baseURL}/Configuration`, {}).toPromise()
         .then((data: any) => {
-          console.log(data, "data")
           this.Mainservice.pageloaderMainservice = false
           data.forEach((elementData: any) => {
             if (elementData.key == 'showAdvertisement') {
@@ -58,17 +56,14 @@ export class ListDataComponent implements OnInit {
             } else if (elementData.key == 'advertisementMessage') {
               this.advertisementMessage = elementData.data
               this.advertisementMessageRaw = elementData.data
-              console.log(elementData.data)
             }
             else if (elementData.key == 'mainMenu') {
               this.mainMenu = elementData.data
               this.mainMenuRaw = elementData.data
-              console.log(elementData.data)
             }
             else if (elementData.key == 'beforeRegistration') {
               this.beforeRegistration = elementData.data
               this.beforeRegistrationRaw = elementData.data
-              console.log(elementData.data)
             }
           })
 
@@ -381,7 +376,6 @@ export class ListDataComponent implements OnInit {
   }
   }
   onEdit(type: any, data: any, index: number) {
-    console.log(index, "index")
     this.onEditData.emit({ type: type, data: data, index: index })
   }
 
@@ -401,11 +395,9 @@ export class ListDataComponent implements OnInit {
       passingdata = { mainMenu: this.mainMenu }
     }
     else if (inputData == 'beforeRegistration') {
-      console.log("coming here", this.beforeRegistration)
       passingdata = { beforeRegistration: this.beforeRegistration }
     }
     this.http.post(`${environment.baseURL}/Configuration`, passingdata).toPromise().then(async (data: any) => {
-      console.log(data, "data")
       this.http.post(environment.systemConfigUpdationURL, {}).toPromise().then((res) => {
         this.Mainservice.pageloaderMainservice = false
 
@@ -450,12 +442,47 @@ export class ListDataComponent implements OnInit {
   }
 
   onSortDatafun(event:any){
-    console.log(event,"from listata screen")
     this.onSortData.emit(event)
   }
 
   filterEventfun(event:any){
-    this.filterEvent.emit(event)
-  }
- 
+      let mainserviceResult:any={...this.Mainservice.filter.value}
+      let newResults:any=[]
+      
+      for (let key in mainserviceResult){     
+        if((mainserviceResult as any)[key]){
+         
+          if(newResults.length==0){
+            newResults= this.Mainservice.setListData.filter((data:any)=>{
+
+              if((data[key])&&((typeof data[key] === 'string')) && event.filterTotallData[key+"Arr"].length>0){
+              return event.filterTotallData[key+"Arr"].includes(data[key]) }
+              else if((data[key])&&(Array.isArray(data[key])) && event.filterTotallData[key+"Arr"].length>0){
+                console.log("column newRes 0 array",data[key].some((value:any) => event.filterTotallData[key+"Arr"].includes(value)))
+                return  data[key].some((value:any) => event.filterTotallData[key+"Arr"].includes(value))
+              }
+            })
+          }
+          else{
+            newResults=newResults.filter((data:any)=>{
+              // return event.filterValue.includes(data[key][0])
+              if((data[key])&&((typeof data[key] === 'string')) && event.filterTotallData[key+"Arr"].length>0){
+                console.log("column newRes multi string",event.filterValue)
+              return event.filterTotallData[key+"Arr"].includes(data[key]) }
+              else if((data[key])&&(Array.isArray(data[key]) && event.filterTotallData[key+"Arr"].length>0)){
+                console.log("column newRes multi array",event.filterValue)
+                return data[key].some((value:any) => event.filterTotallData[key+"Arr"].includes(value))
+              }
+            })
+          }
+
+        }
+        
+      }
+this.tableCol=newResults      
+    if(!mainserviceResult['jobCountry'] && !mainserviceResult['moduleName'] && !mainserviceResult['sector'] && !mainserviceResult['publisherName'] && !mainserviceResult['language'] && !mainserviceResult['organizedBy'] && !mainserviceResult['municipality']){
+        this.tableCol= this.Mainservice.setListData
+      } 
+
+    }
 }

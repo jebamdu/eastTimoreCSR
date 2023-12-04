@@ -13,6 +13,8 @@ export class TableComponent implements OnInit {
 @Output() onSortData:any =new EventEmitter
 @Output() filterEvent:any =new EventEmitter
 filterKey:any=''
+filterIndiactor:boolean= false
+filter:any
 filterArray:any=''
 settings_ebook = {
   singleSelection: false,
@@ -48,77 +50,66 @@ FilterdDataArr:any={
   jobCountry:[],
   jobCountryArr:[],
 }
-filter = new FormGroup({
-  //ebooks
-  publisherName: new FormControl(false, Validators.required), 
-  language: new FormControl(false, Validators.required),
-  organizedBy: new FormControl(false, Validators.required),
-  municipality: new FormControl(false, Validators.required),
-  sector: new FormControl(false, Validators.required),
-  moduleName: new FormControl(false, Validators.required),
-  jobCountry: new FormControl(false, Validators.required),
 
-  //training
-
-})
 Mainservice:any
   constructor(public mainservice:mainservice) { 
     this.Mainservice = mainservice
+    this.filter=this.Mainservice.filter
+
   }
 
   
   ngOnInit(): void {
-
+    this.FilterdDataArr={
+      publisherName:[],
+    publisherNameArr:[], 
+    language:[],
+    languageArr:[],
+    organizedBy:[],
+    organizedByArr:[],
+    municipality:[],
+    municipalityArr:[],
+    sector:[],
+    sectorArr:[],
+    moduleName:[],
+    moduleNameArr:[],
+    jobCountry:[],
+    jobCountryArr:[],
+    }
   }
   clearsorfun(){
-    console.log("clear fun..")
     this.Mainservice.setSortFilerData.active=''; this.Mainservice.setSortFilerData.status=false
   }
   onSortDatafun(field:string,direction:boolean){
-    console.log("comng here",this.tableRow)
     this.onSortData.emit({active:field,direction:direction})
   }
+
   filteringData(filteredKey:any,colunName:any){
-    console.log(filteredKey,"filteredKey")
-    console.log(this.filter.value,"filterdata")
+    let check =<HTMLInputElement>(document.getElementById(colunName))
+      check.checked=true 
+    $('#exampleModalPopup').modal('show')
+    this.filterIndiactor=true
     if(this.filter.value){
       this.filterKey=colunName+'Arr'
       this.filterArray=colunName
-      console.log(
-        "coming here",colunName
-      )
-      $('#exampleModal').modal('show')
-    }else{
-      console.log("else stateent")
+     }else{
     }
+  }
+  applyFilterInd(){
+    $('#exampleModalPopup').modal('hide')
   }
   removeusingSet(arr:any) {
     let outputArray = Array.from(new Set(arr))
     return outputArray
 }
-
+ngOnDestroy(){
+  this.FilterdDataArr={}  
+}
 ngOnChanges(changes: SimpleChange) {
-  //Arr=['values']
-  this.FilterdDataArr={
-    publisherName:[],
-  publisherNameArr:[], 
-  language:[],
-  languageArr:[],
-  organizedBy:[],
-  organizedByArr:[],
-  municipality:[],
-  municipalityArr:[],
-  sector:[],
-  sectorArr:[],
-  moduleName:[],
-  moduleNameArr:[],
-  jobCountry:[],
-  jobCountryArr:[],
-  }
   this.tableRow.forEach((element:any) => {
    
     if(element.filter){
-      this.tableCol.forEach((value:any) => {
+      this.Mainservice.setListData.forEach((value:any) => {
         const keys = Object.keys(value);
         if (value['sector'] && value['sector'].length>0){
           value['sector']?.forEach((sectorData:any) => {
@@ -160,13 +151,35 @@ ngOnChanges(changes: SimpleChange) {
    this.FilterdDataArr[prop]=this.removeusingSet(this.FilterdDataArr[prop])
   }  
 }
-
-applyFilter(){
+closeFilter(){
+this.filterIndiactor=false
+}
+applyFilter(){  
+  for (let key in this.tableCol[0]){
+    let check =<HTMLInputElement>(document.getElementById(key))
+    let index=this.tableRow.findIndex((keyvval:any)=>(keyvval.key==key))
+    if(this.FilterdDataArr[key+"Arr"] && this.FilterdDataArr[key+"Arr"].length>0 && index >0){
+     check.checked=true
+     this.filter.controls[key].setValue(true)    
+    }else if(this.FilterdDataArr[key+"Arr"]  && this.FilterdDataArr[key+"Arr"].length==0 && index >0 && this.tableRow[index].filter){
+        check.checked=false
+        this.filter.controls[key].setValue(false)    
+    }
+  }
+  $('#exampleModalPopup').modal('hide')
   this.filterEvent.emit({
-    filterValue:this.FilterdDataArr[this.filterKey],
-    filterColumn: this.filterKey.slice(0,-3),
+    filterValue:this.FilterdDataArr[this.filterKey], //['xyz','yyy']
+    filterColumn: this.filterKey.slice(0,-3), //launngugae
     filterTotallData:this.FilterdDataArr
   })
-  console.log(this.FilterdDataArr[this.filterKey],"filtered data arockia")
+  this.filterIndiactor=false
+}
+public onDeSelect(item: any) {
+  this.filterEvent.emit({
+    filterValue:this.FilterdDataArr[this.filterKey], //['xyz','yyy']
+    filterColumn: this.filterKey.slice(0,-3), //launngugae
+    filterTotallData:this.FilterdDataArr,
+    deselect:true
+  })
 }
 }

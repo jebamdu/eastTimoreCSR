@@ -168,6 +168,12 @@ export class ListComponentComponent implements OnInit {
         this.Mainservice.pageloaderMainservice = false
       });
   }
+  resetFileInput(data:any) {
+      const fileInput = document.getElementById(data) as HTMLInputElement | null;
+    if (fileInput) {
+          fileInput.value = '';
+    }
+  }
   setfileebook( event: any) {
     console.log("coming here")
     this.Mainservice.pageloaderMainservice = true
@@ -956,28 +962,7 @@ export class ListComponentComponent implements OnInit {
   }
 
   filterEventfun(event:any){
-    console.log(event,"event")
-    console.log(this.Mainservice.setListData,"this.userDataDisplay arockia")
-   let newsetlist:any=[]
-    for (let key in event.filterTotallData) {
-      if (key.includes('Arr')) {
-        console.log("iterating with Arr")
-        newsetlist=this.Mainservice.setListData.filter((data:any)=>{
-          if((data[key.slice(0,-3)])&&((typeof data[event.filterColumn]  === 'string'))){
-          return data[key.slice(0,-3)].includes(event.filterTotallData[key.slice(0,-3)])} 
-          else if((data[key.slice(0,-3)])&&(Array.isArray(data[event.filterColumn]))){
-            return data
-            data[key.slice(0,-3)].some((value:any) => event.filterTotallData[key.slice(0,-3)].includes(value))
-          }
-        })
-      }else{
-        console.log("iterating noo....")
-      }
-    }
-    
-    console.log(newsetlist,"newsetlist arockia")
   }
-  
 }
 
 export function dateValidator(control: AbstractControl): ValidationErrors | null {

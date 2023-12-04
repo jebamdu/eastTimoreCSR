@@ -384,6 +384,7 @@
                 class="fileInput col-10"
               />
               <label
+              (click)="resetFileInput('learnAndUpskillresource')"
                 [for]="'learnAndUpskillresource'"
                 class="inputWrapper col-2"
               >
@@ -496,6 +497,7 @@
                 />
                 <label
                   [for]="'learnAndUpskillresource' + i"
+                  (click)="resetFileInput('learnAndUpskillresource' + i)"
                   class="inputWrapper col-2"
                   style="margin-left: 15px"
                 >
@@ -647,8 +649,8 @@
                   (change)="setfileebook($event)"
                   class="fileInput col-10"
                 />
-                <label for="EbooksResource" class="inputWrapper col-2">
-                  <span class="appendInpText">Browse</span>
+                <label for="EbooksResource" (click)="resetFileInput('EbooksResource')"  class="inputWrapper col-2">
+                  <span  class="appendInpText">Browse</span>
                 </label>
                 <div class="col-8 pl-0" style="padding-left: 0px !important">
                   <input
