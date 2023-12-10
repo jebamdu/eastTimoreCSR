@@ -30,6 +30,8 @@ export class ListDataComponent implements OnInit {
   advertisementMessageRaw: undefined | string
   tableCol:any
   tableRow:any
+  public searchSring: any = ''
+  public updatedtableCol: any = []
   constructor(public Mainservice: mainservice, private http: HttpClient) {
 
   }
@@ -37,8 +39,10 @@ export class ListDataComponent implements OnInit {
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChange) {
+    console.log(this.updatedtableCol.length,"lengt...",this.searchSring,"search check.." )
     this.sidebardata1 = this.sidebardata;
     this.setListData1 = this.setListData;
+    console.log(this.setListData,"arockia this.setListData")
     this.tableCol=this.setListData
     
     console.log("printing ",this.setListData)
@@ -114,13 +118,15 @@ export class ListDataComponent implements OnInit {
           "key": "startdate",
           "sorting": true,
           "filter": false,
-          "rowValue": "Start date"
+          "rowValue": "Start date",
+          "date": true
       },
       {
           "key": "enddate",
           "sorting": true,
           "filter": false,
-          "rowValue": "End date"
+          "rowValue": "End date",
+          "date": true
       },
       {
           "key": "address",
@@ -138,13 +144,15 @@ export class ListDataComponent implements OnInit {
           "key": "sector",
           "sorting": true,
           "filter": true,
-          "rowValue": "Sector"
+          "rowValue": "Sector",
+          "array": true
       },
       {
           "key": "municipality",
           "sorting": true,
           "filter": true,
-          "rowValue": "Municipality"
+          "rowValue": "Municipality",
+          "array": true
       },
       {
           "key": "organizedBy",
@@ -175,7 +183,8 @@ export class ListDataComponent implements OnInit {
           "key": "lastDateToApply",
           "sorting": false,
           "filter": false,
-          "rowValue": "Last date to apply"
+          "rowValue": "Last date to apply",
+          "date": true
       },
       {
           "key": "otherInfo",
@@ -204,13 +213,15 @@ export class ListDataComponent implements OnInit {
           "key": "sector",
           "sorting": true,
           "filter": true,
-          "rowValue": "Sector"
+          "rowValue": "Sector",
+          "array": true
       },
       {
           "key": "courseLink",
           "sorting": false,
           "filter": false,
-          "rowValue": "Course Link "
+          "rowValue": "Course Link ",
+          "courseLink": true
       },
       {
           "key": "description",
@@ -228,7 +239,9 @@ export class ListDataComponent implements OnInit {
           "key": "resourceslink",
           "sorting": false,
           "filter": false,
-          "rowValue": "Resource"
+          "rowValue": "Resource",
+          "resourceLink": true
+          
       }
   ] }
   else if(this.sidebardata1 == 'Job Offers'){
@@ -256,7 +269,8 @@ export class ListDataComponent implements OnInit {
           "key": "sector",
           "sorting": true,
           "filter": true,
-          "rowValue": "Sector"
+          "rowValue": "Sector",
+          "array": true
       },
       {
           "key": "description",
@@ -283,10 +297,11 @@ export class ListDataComponent implements OnInit {
           "rowValue": "Country"
       },
       {
-          "key": "lastDatetoApply",
+          "key": "lastDateToApply",
           "sorting": true,
           "filter": false,
-          "rowValue": "Last date to apply"
+          "rowValue": "Last date to apply",
+          "date": true
       },
       {
           "key": "howToApply",
@@ -298,7 +313,8 @@ export class ListDataComponent implements OnInit {
           "key": "jobDescriptionPDFLink",
           "sorting": false,
           "filter": false,
-          "rowValue": "Resource"
+          "rowValue": "Resource",
+          "link": true
       },
       {
           "key": "address",
@@ -368,14 +384,18 @@ export class ListDataComponent implements OnInit {
           "key": "resourceslink",
           "sorting": false,
           "filter": false,
-          "rowValue": "Resource"
+          "rowValue": "Resource",
+          "link": true
       }
   ]
     
     
   }
   }
-  onEdit(type: any, data: any, index: number) {
+  onEdit(event:any) {
+    this.onEditData.emit({ type: event.type, data: event.data, index: event.index })
+  }
+  onEditHelpData(type:any,data:any,index:any){
     this.onEditData.emit({ type: type, data: data, index: index })
   }
 
@@ -418,10 +438,10 @@ export class ListDataComponent implements OnInit {
   }
 
 
-  onDelete(type: any, index: number) {
+  onDelete(event:any) {
     $('#exampleModal').modal('show')
     this.deleteBoolean = true
-    this.deletedata = { type: type, index: index }
+    this.deletedata = { type: event.type, index: event.index }
   }
 
   deleteFunCall() {
@@ -484,5 +504,36 @@ this.tableCol=newResults
         this.tableCol= this.Mainservice.setListData
       } 
 
+    }
+    changeEventCall(event: any) {
+
+
+      event = event.toLowerCase()
+      if (event != '') {
+        let tempArray: any[] = []
+        this.tableCol.forEach((elementData: any) => {
+          let index = false
+          Object.values(elementData).some((item: any) => {
+            if (item) {
+              if (item.toString().toLowerCase().indexOf(event) > -1) {
+                return (index = true)
+              }
+              else { return }
+            } else {
+              return
+            }
+          })
+          if (index) {
+            tempArray.push(elementData)
+          }
+        });
+        this.updatedtableCol = [...tempArray]
+
+      } else {
+        this.updatedtableCol = [...this.tableCol]
+      }
+  
+  
+  
     }
 }

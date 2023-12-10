@@ -12,6 +12,8 @@ export class TableComponent implements OnInit {
 @Input() tableCol: any
 @Output() onSortData:any =new EventEmitter
 @Output() filterEvent:any =new EventEmitter
+@Output() onDeleteData:any =new EventEmitter
+@Output() onEditData:any =new EventEmitter
 filterKey:any=''
 filterIndiactor:boolean= false
 filter:any
@@ -106,6 +108,8 @@ ngOnDestroy(){
   this.FilterdDataArr={}  
 }
 ngOnChanges(changes: SimpleChange) {
+  console.log(this.tableRow,"tableRow arockia..")
+  console.log(this.tableCol,"this.tableCol arockia..!")
   this.tableRow.forEach((element:any) => {
    
     if(element.filter){
@@ -151,6 +155,27 @@ ngOnChanges(changes: SimpleChange) {
    this.FilterdDataArr[prop]=this.removeusingSet(this.FilterdDataArr[prop])
   }  
 }
+funForToolTip(iterabledatas:any,header:any){
+  let iterables=''
+  
+  if(header=='simpleArray'){
+    for (const data in iterabledatas){
+      iterables=iterables+iterabledatas[data]+", "
+    }
+  }
+  else if(header=='link'){
+    for (const data in iterabledatas){
+      iterables=iterables+iterabledatas[data]['link']+", "
+    }
+  }
+  else if(header=='Reslink'){
+    for (const data in iterabledatas){
+      iterables=iterables+iterabledatas[data]['resourceName']+", "
+    }
+  }
+ 
+return iterables
+}
 closeFilter(){
 this.filterIndiactor=false
 }
@@ -181,5 +206,15 @@ public onDeSelect(item: any) {
     filterTotallData:this.FilterdDataArr,
     deselect:true
   })
+}
+onEdit(type: any, data: any, index: number) {
+  this.onEditData.emit({ type: type, data: data, index: index })
+  console.log({ type: type, data: data, index: index })
+  
+}
+
+onDelete(type: any, index: number) {
+  this.onDeleteData.emit({ type: type, index: index })
+console.log( { type: type, index: index })
 }
 }

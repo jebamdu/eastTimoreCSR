@@ -27,7 +27,7 @@ export class ReportsComponent implements OnInit,OnDestroy {
     endDate:new FormControl(this.today,Validators.required)
   })
 
-  bagroundcolor= ['yellow', 'aqua', 'pink', 'lightgreen', 'lightblue', 'gold','#cc65fe','#36a2eb']
+  bagroundcolor= ['yellow', 'aqua', 'pink', 'lightgreen', 'lightblue', 'gold','#cc65fe','#36a2eb','#B8BBBE','#4CB140','#519DE9','#004B95','#EC7A08','#009596','#A2D9D9','#A30000','#6A6E73']
   datasetValue:any={}
   chartOptions:any
   ngOnInit(): void {

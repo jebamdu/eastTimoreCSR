@@ -6,5 +6,43 @@
 .arrowStyle{
     transform: rotate(180deg);
 }
+.form-check {
+    display: inline-block !important;
+    padding-left: 2rem !important;
+
+}
+.table>:not(caption)>*>* {
+    padding: 0.5rem 1rem !important;
+}
+
+// tbody>tr>td{
+//     max-height: 4em; /* Adjust as needed */
+//   overflow: hidden;
+// }
+
+/* Apply the CSS to limit the number of lines */
+.limited-lines {
+    /* Limit to 3 lines, adjust as needed */
+    max-height: 3 * (3em); /* 1.2em is a typical line height, adjust if needed */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Display ... for overflowed text */
+    /* You might also need the following for multiline text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+  }
+  
+
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
 
   

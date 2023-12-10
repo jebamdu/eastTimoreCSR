@@ -2,10 +2,27 @@
 <div class="loading" *ngIf="this.Mainservice.pageloaderMainservice==true">;
 
 </div>
-
+<div class="form-group d-flex flex-row md-form form-sm">
+  <!-- <i
+  class="fa fa-search py-3"
+  style="
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.523);
+    display: inline;
+    width: 30px;
+  "
+></i> -->
+<!-- <input
+  type="text"
+  placeholder="Search"
+  (ngModelChange)="changeEventCall($event)"
+  [(ngModel)]="searchSring"
+  class="inputsearch form-control"
+/> -->
+</div>
 <div *ngIf="sidebardata1 == 'Training'" class="px-4">
-  <app-table [tableCol]="this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
-  <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
+  <app-table [tableCol]="((updatedtableCol.length==0) && (searchSring != ''))? updatedtableCol : this.tableCol" (filterEvent)="filterEventfun($event)" (onDeleteData)="onDelete($event)"  (onEditData)="onEdit($event)" (onSortData)="onSortDatafun($event)" [tableRow]=" this.tableRow"></app-table>
+  <!-- <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
     <div class="col-2 d-flex justify-content-between"> <span class="">Title</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='title' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('title')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='title' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
     <div class="col-2 d-flex justify-content-between"><span class="">Organized By</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='organizedBy' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('organizedBy')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='organizedBy' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
   </div>
@@ -82,16 +99,15 @@
       <B>Other information : </B>
       <P  class="d-inline px-1">{{ trainingData.otherInfo?trainingData.otherInfo:'Nil' }}</P>
     </div>
-  </div>
+  </div> -->
 </div>
 <div *ngIf="sidebardata1 == 'Learnings - upskill'" class="px-4">
-  <app-table [tableCol]="this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
-  <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
+  <app-table (onDeleteData)="onDelete($event)"  (onEditData)="onEdit($event)" [tableCol]="((updatedtableCol.length==0) && (searchSring != '')) ?  updatedtableCol : this.tableCol  " (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
+  <!-- <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
     <div class="col-2 d-flex justify-content-between"> <span class="">Course Name</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='courseName' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('courseName')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='courseName' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
-    <!-- <div class="col-2 d-flex justify-content-between"><span class="">Sector</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='sector' && !this.Mainservice.setSortFilerData?.status"  src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='language' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" class="sortarraw" alt=""></div> -->
     <div class="col-2 d-flex justify-content-between"><span class="">Module</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='Module' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('moduleName')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='moduleName' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>   
-  </div>
-  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
+  </div> -->
+  <!-- <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
       <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
           class=" " alt="updateicon">
@@ -142,138 +158,132 @@
     </div>
 
     <div></div>
-  </div>
+  </div> -->
 </div>
 
 <div *ngIf="sidebardata1 == 'EBooks'" class="px-4">
-  <app-table [tableCol]="this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
+  <app-table (onDeleteData)="onDelete($event)"  (onEditData)="onEdit($event)" [tableCol]="((updatedtableCol.length==0) && (searchSring != ''))? updatedtableCol : this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
  
-  <div class="row bgcolorListData px-4 px-4 mt-3 py-2">
-    <div class="col-2 d-flex justify-content-between"> <span class="">Title</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='title' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('title')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='title' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
-    <div class="col-2 d-flex justify-content-between"><span class="">Language</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='language' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('language')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='language' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
-    <div class="col-3 d-flex justify-content-between"><span class="">Publisher Name</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='publisherName' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('publisherName')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='publisherName' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>   
-  </div>
-  <div class="bgcolorListData px-4 my-4 py-4 row" *ngFor="let data of setListData1">
-    <!-- [{id:1,uuid:'uasd-asdas-dad',title:'Tourism',description:'desc tour',downloadLink:'http://example.com/download',resourceslink:['http://example.com/download1','http://example.com/download2'],language:'Tetum',noPages:50,publisherName:'new publisher'}] -->
-    <div class="d-flex justify-content-end">
-      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
-          class=" " alt="updateicon">
-      </span>
-      <span (click)="onDelete(sidebardata1, data.uuid)">
-        <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete ">
-      </span>
-
-    </div>
-    <h5 class="col-12 mb-2">{{ data.title }}</h5>
-    <p class="col-12 mb-2">{{ data.description }}</p>
-    <p class="col-12 mb-2"><b>Language: </b>{{ data.language?.[0] }}</p>
-    
-    <div class="col-12 mb-2">
-      <div class="d-flex">
-        <B>Download Link :</B>
-        <a [href]="data.downloadLink" target="_blank">{{ data.downloadLink }}</a>
-      </div>
-    </div>
-
-    <div class="col-4 mb-2">
-        <B>No of page :</B>
-        <p  class="d-inline px-1">{{data.noPages}}</p>
-    </div>
-
-    <div class="col-8 mb-2">
-      <B>Publisher Name :</B>
-      <p  class="d-inline px-1">{{data.publisherName}}</p>
-  </div>
-
-    <div></div>
-
-    <div *ngIf="data.resourceslink" class="col-12 mb-1">
-      <B>Resource:</B>
+   <!-- <div class="row bgcolorListData px-4 px-4 mt-3 py-2">
+     <div class="col-2 d-flex justify-content-between"> <span class="">Title</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='title' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('title')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='title' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
+     <div class="col-2 d-flex justify-content-between"><span class="">Language</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='language' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('language')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='language' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
+     <div class="col-3 d-flex justify-content-between"><span class="">Publisher Name</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='publisherName' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('publisherName')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='publisherName' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>   
+   </div> -->
+   <!-- <div class="bgcolorListData px-4 my-4 py-4 row" *ngFor="let data of setListData1">
+     [{id:1,uuid:'uasd-asdas-dad',title:'Tourism',description:'desc tour',downloadLink:'http:example.com/download',resourceslink:['http://example.com/download1','http://example.com/download2'],language:'Tetum',noPages:50,publisherName:'new publisher'}]
      
-        <P class="d-inline px-1">
-          <a [href]="data.resourceslink.link" [download]="data.resourceslink?.link">{{ data.resourceslink.title+"," }}</a>
-        </P>
+     <div class="d-flex justify-content-end">
+       <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)"> <img src="../../../../../assets/updateIcon.svg"
+           class=" " alt="updateicon">
+       </span>
+       <span (click)="onDelete(sidebardata1, data.uuid)">
+         <img src="../../../../../assets/Deleteicon.svg" class=" " alt="Delete ">
+       </span>
+
+     </div>
+    
+     <h5 class="col-12 mb-2">{{ data.title }}</h5>
+     <p class="col-12 mb-2">{{ data.description }}</p>
+     <p class="col-12 mb-2"><b>Language: </b>{{ data.language?.[0] }}</p>
+    
+     <div class="col-12 mb-2">
+       <div class="d-flex">
+         <B>Download Link :</B>
+         <a [href]="data.downloadLink" target="_blank">{{ data.downloadLink }}</a>
+       </div>
+     </div>
+
+     <div class="col-4 mb-2">
+         <B>No of page :</B>
+         <p  class="d-inline px-1">{{data.noPages}}</p>
+     </div>
+
+     <div class="col-8 mb-2">
+       <B>Publisher Name :</B>
+       <p  class="d-inline px-1">{{data.publisherName}}</p>
+   </div>
+
+     <div></div>
+
+     <div *ngIf="data.resourceslink" class="col-12 mb-1">
+       <B>Resource:</B>
+     
+         <P class="d-inline px-1">
+           <a [href]="data.resourceslink.link" [download]="data.resourceslink?.link">{{ data.resourceslink.title+"," }}</a>
+         </P>
         
     
-    </div>
-  </div>
+     </div>
+   </div> -->
 </div>
 
 
 <div *ngIf="sidebardata1 == 'Job Offers'" class="px-4">
-  <app-table [tableCol]="this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
-  <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
-    <div class="col-2 d-flex justify-content-between"> <span class="">Title</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='title' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('title')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='title' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
-    <div class="col-2 d-flex justify-content-between"><span class="">Country</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='jobCountry' && !this.Mainservice.setSortFilerData?.status"  (click)="onSortDatafun('jobCountry')"  src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='jobCountry' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div> 
+  <app-table  (onDeleteData)="onDelete($event)"  (onEditData)="onEdit($event)"[tableCol]="((updatedtableCol.length==0) && (searchSring != ''))? updatedtableCol : this.tableCol" (filterEvent)="filterEventfun($event)" (onSortData)="onSortDatafun($event)" [tableRow]="this.tableRow"></app-table>
+   <!-- <div class="row bgcolorListData px-4 mt-3 mb-2 py-2">
+     <div class="col-2 d-flex justify-content-between"> <span class="">Title</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='title' && !this.Mainservice.setSortFilerData?.status" (click)="onSortDatafun('title')" src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img *ngIf="this.Mainservice.setSortFilerData?.active=='title' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div>
+     <div class="col-2 d-flex justify-content-between"><span class="">Country</span><img *ngIf="this.Mainservice.setSortFilerData?.active==''||this.Mainservice.setSortFilerData?.active=='jobCountry' && !this.Mainservice.setSortFilerData?.status"  (click)="onSortDatafun('jobCountry')"  src="../../../../../assets/Sort_arrow.svg"  class="sortarraw" alt=""> <img  *ngIf="this.Mainservice.setSortFilerData?.active=='jobCountry' && this.Mainservice.setSortFilerData?.status" src="../../../../../assets/redsort.svg" (click)="this.Mainservice.setSortFilerData.active='';this.Mainservice.setSortFilerData.status=false"  class="sortarraw" alt=""></div> 
     
-  </div>
-  <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
-    <div class="d-flex justify-content-end">
-      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.uuid)"><img src="../../../../../assets/updateIcon.svg"
-          class=" " alt="updateicon">
-      </span>
-      <span data-toggle="modal" data-target="#exampleModal" (click)="onDelete(sidebardata1, data.uuid)">
-        <img src="../../../../../assets/Deleteicon.svg" alt="Delete ">
-      </span>
+   </div>
+   <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
+   
+     <h5 class="col-12 mb-2">{{ data.title }}</h5>
+     <p class="col-12 mb-2">{{ data.description }}</p>
+     <div class="col-12 mb-2">
+       <B>Roles and Responsibility:</B>
+       <P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
+     </div>
 
-    </div>
-    <h5 class="col-12 mb-2">{{ data.title }}</h5>
-    <p class="col-12 mb-2">{{ data.description }}</p>
-    <div class="col-12 mb-2">
-      <B>Roles and Responsibility:</B>
-      <P class="d-inline px-1">{{ data.rolesAndResponsibility }}</P>
-    </div>
+     <div class="col-12 mb-2">
+       <B>Basic Requirements:</B>
+       <P class="d-inline px-1">{{ data.basicRequirements }}</P>
+     </div>
 
-    <div class="col-12 mb-2">
-      <B>Basic Requirements:</B>
-      <P class="d-inline px-1">{{ data.basicRequirements }}</P>
-    </div>
+     <div class="col-12 mb-2">
+       <div class="d-flex">
+         <B>Address :</B>
+         <P class="d-inline px-1">{{ data.address }}</P>
+       </div>
+     </div>
 
-    <div class="col-12 mb-2">
-      <div class="d-flex">
-        <B>Address :</B>
-        <P class="d-inline px-1">{{ data.address }}</P>
-      </div>
-    </div>
+     <div class="col-12 mb-2">
+       <B>Link to apply :</B>
+       <P class="d-inline px-1">{{ data.linkToApply }}</P>
+     </div>
 
-    <div class="col-12 mb-2">
-      <B>Link to apply :</B>
-      <P class="d-inline px-1">{{ data.linkToApply }}</P>
-    </div>
+     <div class="col-4 mb-2">
+       <B>Country :</B>
+       <P class="d-inline px-1">{{ data.jobCountry }}</P>
+     </div>
 
-    <div class="col-4 mb-2">
-      <B>Country :</B>
-      <P class="d-inline px-1">{{ data.jobCountry }}</P>
-    </div>
-
-    <div class="col-4 mb-2">
-      <B>Last date to apply :</B>
-      <P class="d-inline px-1">{{ data.lastDatetoApply|date }}</P>
-    </div>
+     <div class="col-4 mb-2">
+       <B>Last date to apply :</B>
+       <P class="d-inline px-1">{{ data.lastDatetoApply|date }}</P>
+     </div>
 
    
-      <div class="mb-2 col-4">
-        <B>sector : </B>
-        <P *ngFor="let sector of data.sector" class="d-inline px-1">{{ sector+"," }}</P>
-      </div>
+       <div class="mb-2 col-4">
+         <B>sector : </B>
+         <P *ngFor="let sector of data.sector" class="d-inline px-1">{{ sector+"," }}</P>
+       </div>
     
-      <div class="col-4 mb-2">
-        <B>How to apply :</B>
-        <P class="d-inline px-1">{{ data.howToApply }}</P>
-      </div>
+       <div class="col-4 mb-2">
+         <B>How to apply :</B>
+         <P class="d-inline px-1">{{ data.howToApply }}</P>
+       </div>
 
-      <div class="col-12 mb-2">
-        <B>Resource :</B>
-        <a [href]="data.jobDescriptionPDFLink?.link" [download]="data.jobDescriptionPDFLink?.link" class="d-inline px-1">{{ data.jobDescriptionPDFLink?.title }}</a>
-      </div>
-    <div></div>
-  </div>
+       <div class="col-12 mb-2">
+         <B>Resource :</B>
+         <a [href]="data.jobDescriptionPDFLink?.link" [download]="data.jobDescriptionPDFLink?.link" class="d-inline px-1">{{ data.jobDescriptionPDFLink?.title }}</a>
+       </div>
+     <div></div>
+   </div> -->
 </div>
 
 <div *ngIf="sidebardata1 == 'Help Line'" class="px-4">
   <div class="row bgcolorListData px-2 my-4 py-4" *ngFor="let data of setListData1">
     <div class="d-flex justify-content-end">
-      <span class="mr-3" (click)="onEdit(sidebardata1, data, data.id)">
+      <span class="mr-3" (click)="onEditHelpData(sidebardata1, data, data.id)">
         <img src="../../../../../assets/updateIcon.svg" alt="updateicon">
       </span>
 
