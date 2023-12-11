@@ -52,7 +52,7 @@ FilterdDataArr:any={
   jobCountry:[],
   jobCountryArr:[],
 }
-
+toggleData:string=''
 Mainservice:any
   constructor(public mainservice:mainservice) { 
     this.Mainservice = mainservice
@@ -216,5 +216,8 @@ onEdit(type: any, data: any, index: number) {
 onDelete(type: any, index: number) {
   this.onDeleteData.emit({ type: type, index: index })
 console.log( { type: type, index: index })
+}
+togglefun(){
+  $('#ToggleModalPopup').modal('show')
 }
 }

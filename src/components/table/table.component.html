@@ -45,28 +45,28 @@
         <td scope="row"  *ngFor="let row of tableRow">
           <div  class="limited-lines">
             <!-- {{col[row?.key ?row.key:'']|json}} -->
-            <div   data-toggle="tooltip" data-placement="bottom" title="{{col[row?.key ?row.key:'']}}"  *ngIf="!row.link && !row.array && !row.date && !row.resourceLink && !row.courseLink">
+            <div (click)="toggleData=col[row?.key ?row.key:''];togglefun()" data-toggle="tooltip" data-placement="bottom" title="{{col[row?.key ?row.key:'']}}"  *ngIf="!row.link && !row.array && !row.date && !row.resourceLink && !row.courseLink">
               {{col[row?.key ?row.key:'']}}
             </div>
-            <ng-container *ngIf="row.link">
+            <ng-container (click)="toggleData=col[row?.key ?row.key:''].title;togglefun()" *ngIf="row.link">
               <ng-container *ngIf="col[row?.key ?row.key:'']&&!col[row?.key ?row.key:''].link">-</ng-container>
               <div   data-toggle="tooltip" data-placement="bottom" title="{{col[row?.key ?row.key:'']}}" *ngIf="col[row?.key ?row.key:''] && col[row?.key ?row.key:''].link"  data-toggle="tooltip" data-placement="bottom" title="{{col[row?.key ?row.key:''].title}}">
                 <a target="_blank" *ngIf="col[row?.key ?row.key:''] && col[row?.key ?row.key:''].link" [href]="col[row?.key ?row.key:''] ? (col[row?.key ?row.key:''].link) : ''">{{col[row?.key ?row.key:''] ? (col[row?.key ?row.key:''].title ? (col[row?.key ?row.key:''].title) : '-') : ''}}</a>
               </div>
              
             </ng-container>
-            <div   data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'simpleArray')}}" *ngIf="row.array">
+            <div (click)="toggleData=funForToolTip(col[row?.key ],'simpleArray');togglefun()"  data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'simpleArray')}}" *ngIf="row.array">
               <span *ngFor="let item of col[row?.key ]">{{item + ', '}}</span>
             </div>
             <ng-container *ngIf="row.date">
               {{col[row?.key ?row.key:'']  ? (col[row?.key ?row.key:''] | date: 'dd-MM-yyyy') : '-' }}
             </ng-container>
-            <div *ngIf="row.resourceLink"    data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'Reslink')}}">
+            <div *ngIf="row.resourceLink" (click)="toggleData=funForToolTip(col[row?.key ],'Reslink');togglefun()"   data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'Reslink')}}">
               <a *ngFor="let item of col[row?.key ]" target="_blank" [href]="item ? (item.resourcelink) : ''">{{item ? (item.resourceName ? ((item.resourceName))+"," : '-') : ''}}</a>
       
               
             </div>
-            <div *ngIf="row.courseLink"   data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'link')}}">
+            <div (click)="toggleData=funForToolTip(col[row?.key ],'link');togglefun()" *ngIf="row.courseLink"   data-toggle="tooltip" data-placement="bottom" title="{{funForToolTip(col[row?.key ],'link')}}">
               <span *ngFor="let item of col[row?.key ]">{{item ? (item.link ? ((item.link))+"," : '-') : ''}}</span>
       
               
@@ -103,6 +103,27 @@
       </div>
       <div class="modal-footer">
         <button type="button" (click)="applyFilter()" class="btn btn-primary">Apply</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="ToggleModalPopup" tabindex="-1" role="dialog" aria-labelledby="ToggleModalPopupLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+      
+      </div>
+      <div class="modal-body">
+        <P>
+          {{toggleData}}
+        </P>
+        
+      </div>
+      <div class="modal-footer">
        
       </div>
     </div>
